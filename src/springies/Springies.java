@@ -1,8 +1,11 @@
 package springies;
 
+import java.util.ArrayList;
+
+import jboxGlue.Mass;
 import jboxGlue.PhysicalObject;
-import jboxGlue.PhysicalObjectCircle;
 import jboxGlue.PhysicalObjectRect;
+import jboxGlue.Spring;
 import jboxGlue.WorldManager;
 import jgame.JGColor;
 import jgame.JGObject;
@@ -48,36 +51,12 @@ public class Springies extends JGEngine
 		// remember to set all directions (eg forces, velocities) in world coords
 		WorldManager.initWorld( this );
 		WorldManager.getWorld().setGravity( new Vec2( 0.0f, 0.1f ) );
-		
-		// add a bouncy ball
-		// NOTE: you could make this into a separate class, but I'm lazy
-		PhysicalObject ball = new PhysicalObjectCircle( "ball", 1, JGColor.blue, 10, 5 )
-		{
-			@Override
-			public void hit( JGObject other )
-			{
-				// we hit something! bounce off it!
-				Vec2 velocity = myBody.getLinearVelocity();
-				
-				// is it a tall wall?
-				final double DAMPING_FACTOR = 0.8;
-				boolean isSide = other.getBBox().height > other.getBBox().width;
-				if( isSide )
-				{
-					velocity.x *= -DAMPING_FACTOR;
-				}
-				else
-				{
-					velocity.y *= -DAMPING_FACTOR;
-				}
-				
-				// apply the change
-				myBody.setLinearVelocity( velocity );
-			}
-		};
-		ball.setPos( displayWidth()/2, displayHeight()/2 );
-		ball.setForce( 8000, -10000 );
-		
+
+		ArrayList<Mass> Masses = new ArrayList<Mass>();
+		Masses.add(new Mass(displayWidth()/2, displayHeight()/2, 8000, -10000, 5));
+		Masses.add(new Mass(displayWidth()/2, displayHeight()/2, -5000, 10000, 5));
+		new Spring(Masses.get(0), Masses.get(1));
+
 		// add walls to bounce off of
 		// NOTE: immovable objects must have no mass
 		final double WALL_MARGIN = 10;
