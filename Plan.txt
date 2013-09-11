@@ -1,17 +1,31 @@
 Plan
 
-1. Make classes for Spring and Mass objects. Both Spring and Mass should extend 
-the Physical Object class.
+Overview
+	Make classes for Spring and Mass objects. Both Spring and Mass should extend 
+	the Physical Object class.
 
-2. The constructor for Spring should allow for two Mass objects, one for each end
-of the spring. It should also have parameters that allow for the k value (springiness)
-and the length of the spring.
+Spring
+	The constructor for Spring should allow for two Mass objects, one for each end
+	of the spring. It should also have parameters that allow for the k value (springiness)
+	and the length of the spring.
 
-3. The Mass class must take in starting coordinates, and forces in the x and y direction
-as its parameters.
+Mass
+	The Mass class must take in starting coordinates, and forces in the x and y direction
+	as its parameters.
 
-3. The XML reader class will read in an XML file, then it will create all of the mass
-objects specified by the XML file under the "nodes" tag. It will then connect the nodes
-together by reading in thr springs under the "links" tag, associating the two masses specified.
-By doing this with every spring listed under the "links" tag, the masses and springs will become
-interconnected to form objects as specified by the XML file.
+Muscles
+	Extends class Spring. Are springs that expand and contract, sinusoidal 
+	(affected by spring stiffness).
+
+Friction
+	Affects speed of object movement
+
+Vicosity
+	Extends class Friction, essentially adds friction to the playing field,
+
+XML
+	The XML reader class will read in an XML file, then it will create all of the mass
+	objects specified by the XML file under the "nodes" tag. It will then connect the nodes
+	together by reading in thr springs under the "links" tag, associating the two masses specified.
+	By doing this with every spring listed under the "links" tag, the masses and springs will become
+	interconnected to form objects as specified by the XML file.
