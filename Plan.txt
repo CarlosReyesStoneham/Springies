@@ -1,8 +1,8 @@
 Plan
 
 Overview
-	Make classes for Spring and Mass objects. Both Spring and Mass should extend 
-	the Physical Object class.
+	Make classes for Spring, Mass, anad Muscle objects. Both Spring and Mass should extend 
+	the Physical Object class. Muscle extends Spring.
 
 Spring
 	The constructor for Spring should allow for two Mass objects, one for each end
@@ -10,7 +10,7 @@ Spring
 	and the length of the spring.
 
 Mass
-	The Mass class must take in starting coordinates, and forces in the x and y direction
+	The Mass class must take in starting coordinates, forces in the x and y direction, and mass
 	as its parameters.
 
 Muscles
@@ -29,3 +29,5 @@ XML
 	together by reading in thr springs under the "links" tag, associating the two masses specified.
 	By doing this with every spring listed under the "links" tag, the masses and springs will become
 	interconnected to form objects as specified by the XML file.
+User Control
+	The user should be able to control various aspects of the world and create new objects.
