@@ -5,7 +5,7 @@ import jgame.JGObject;
 
 public class MovableMass extends Mass {
 	
-	public static final int DEFAULT_MASS = 5;
+	private static final int DEFAULT_MASS = 5;
 	// default velocity 0?
 	public MovableMass(int x, int y) {
 		this(x, y, 0, 0, DEFAULT_MASS);
