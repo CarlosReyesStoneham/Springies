@@ -4,7 +4,13 @@ import org.jbox2d.common.Vec2;
 import jgame.JGObject;
 
 public class MovableMass extends Mass {
-
+	
+	public static final int DEFAULT_MASS = 5;
+	// default velocity 0?
+	public MovableMass(int x, int y) {
+		this(x, y, 0, 0, DEFAULT_MASS);
+	}
+	
 	public MovableMass(int x, int y, int xForce, int yForce, int mass) {
 		super(x, y, mass);
 		myBody.m_type = 1;

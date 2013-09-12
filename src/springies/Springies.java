@@ -3,6 +3,7 @@ package springies;
 import java.util.ArrayList;
 import jboxGlue.Mass;
 import jboxGlue.MovableMass;
+import jboxGlue.Muscle;
 import jboxGlue.PhysicalObject;
 import jboxGlue.Spring;
 import jboxGlue.Wall;
@@ -13,6 +14,7 @@ import org.jbox2d.common.Vec2;
 
 @SuppressWarnings("serial")
 public class Springies extends JGEngine {
+	
 	public Springies() {
 		// set the window size
 		int height = 480;
@@ -57,7 +59,7 @@ public class Springies extends JGEngine {
 				displayHeight() / 2, 8000, -10000, 5));
 		Masses.add(new MovableMass(displayWidth() / 2, displayHeight() / 2,
 				-5000, 10000, 5));
-		new Spring(Masses.get(0), Masses.get(1), 300, .005);
+		new Muscle(Masses.get(0), Masses.get(1), 300, .005, 2);
 		new Mass(displayWidth() / 2 - 100, displayHeight() / 2, 1);
 
 		// add walls to bounce off of

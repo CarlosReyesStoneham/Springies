@@ -4,11 +4,17 @@ import org.jbox2d.common.Vec2;
 import jgame.JGColor;
 
 public class Spring extends PhysicalObject {
+	private static final int DEFAULT_K = 1;
+	
 	Mass myFirst;
 	Mass mySecond;
 	double myLength;
 	double myK;
 
+	public Spring(Mass first, Mass second) {
+		this(first, second, getLength(first, second), DEFAULT_K);
+	}
+	
 	public Spring(Mass first, Mass second, double length, double k) {
 		super("Spring", 3, JGColor.white);
 		myLength = length;
@@ -40,5 +46,13 @@ public class Spring extends PhysicalObject {
 	private static double getLength(Mass one, Mass two) {
 		return Math.sqrt(Math.pow(one.x - two.x, 2)
 				+ Math.pow(one.y - two.x, 2));
+	}
+	
+	protected double getLength(){
+		return myLength;
+	}
+	
+	protected void setLength(double newLength){
+		myLength = newLength;
 	}
 }

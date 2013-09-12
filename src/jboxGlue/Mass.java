@@ -8,7 +8,7 @@ public class Mass extends PhysicalObject {
 	public static final int RADIUS = 10;
 
 	ArrayList<Spring> mySprings = new ArrayList<Spring>();
-
+	
 	public Mass(int x, int y, int mass) {
 		super("Mass", 1, JGColor.blue);
 		init(mass);
