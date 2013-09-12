@@ -96,9 +96,9 @@ public class Springies extends JGEngine {
 		moveObjects();
 		checkCollision(2, 1);
 		
-		for(Mass m : massList){
+	/*	for(Mass m : massList){
 			
-		}
+		}*/
 	}
 
 	@Override
