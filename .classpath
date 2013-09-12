@@ -2,7 +2,11 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="lib" path="lib/jgame-jbox2d.jar" sourcepath="lib/jbox2d-src.zip"/>
+	<classpathentry kind="lib" path="lib/jgame-jbox2d.jar" sourcepath="lib/jbox2d-src.zip">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/C:/Users/Leevi/Downloads/jbox2d-2.2.1.1/jbox2d-library/target/apidocs/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="lib" path="lib/jgame-jre.jar" sourcepath="lib/jgame-src.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
