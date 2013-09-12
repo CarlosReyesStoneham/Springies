@@ -86,6 +86,7 @@ public class Springies extends JGEngine {
 		
 		XMLReader reader = new XMLReader();
 		reader.getMass();
+		reader.getSpring();
 	}
 
 	@Override

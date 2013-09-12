@@ -15,7 +15,7 @@ import jboxGlue.Spring;
 public class XMLReader {
 
 	public ArrayList<MovableMass> myMassList = new ArrayList<MovableMass>();
-	ArrayList<Spring> mySpringList = new ArrayList<Spring>();
+	public ArrayList<Spring> mySpringList = new ArrayList<Spring>();
 
 	
 	public Document docIn() {
@@ -34,7 +34,6 @@ public class XMLReader {
 	}
 
 	public ArrayList<MovableMass> getMass() {
-
 		Document doc = docIn();
 		NodeList nodes = doc.getElementsByTagName("mass");
 		for (int i = 0; i < nodes.getLength(); i++) {
@@ -45,7 +44,8 @@ public class XMLReader {
 				// Node node = nodeMap.item(j);
 				Node node2 = nodeMap.item(j + 1);
 				Node node3 = nodeMap.item(j + 2);
-
+				System.out.println(node2);
+				System.out.println(node3);
 				// String massid = node.getNodeValue();
 				int x = Integer.parseInt(node2.getNodeValue());
 				int y = Integer.parseInt(node3.getNodeValue());
@@ -54,28 +54,27 @@ public class XMLReader {
 				myMassList.add(mass);
 			}
 		}
-//		for(MovableMass m : myMassList){
-//			System.out.println(m);
-//		}
 
 		return myMassList;
 	}
 
-	public ArrayList<Spring> getSpring(Document doc, ArrayList<MovableMass> massList) {
+	public ArrayList<Spring> getSpring() {
+		Document doc = docIn();
 		NodeList nodes = doc.getElementsByTagName("spring");
 		for (int i = 0; i < nodes.getLength(); i++) {
-
 			Node massItem = nodes.item(i);
 			NamedNodeMap nodeMap = massItem.getAttributes();
-			for (int j = 0; j <= nodeMap.getLength(); j += 3) {
+			for (int j = 0; j <= nodeMap.getLength()-4; j += 4) {
 				Node node = nodeMap.item(j);
 				Node node2 = nodeMap.item(j + 1);
+				
 				int m1 = Integer.parseInt(node.getNodeValue().substring(1));
 				int m2 = Integer.parseInt(node2.getNodeValue().substring(1));
 
-				MovableMass mass1 = massList.get(m1);
-				MovableMass mass2 = massList.get(m2);
-
+				MovableMass mass1 = myMassList.get(m1-1);
+				MovableMass mass2 = myMassList.get(m2-1);
+				System.out.println(m1);
+				System.out.println(m2);
 				Spring spring = new Spring(mass1, mass2);
 				mySpringList.add(spring);
 			}
