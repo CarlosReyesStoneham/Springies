@@ -53,13 +53,13 @@ public class Springies extends JGEngine {
 		// need to get force from velocity. I think it involves taking the
 		// square root
 
-		ArrayList<Mass> Masses = new ArrayList<Mass>();
+		ArrayList<Mass> massList = new ArrayList<Mass>();
 
-		Masses.add(new MovableMass(displayWidth() / 2 + 100,
+		massList.add(new MovableMass(displayWidth() / 2 + 100,
 				displayHeight() / 2, 8000, -10000, 5));
-		Masses.add(new MovableMass(displayWidth() / 2, displayHeight() / 2,
+		massList.add(new MovableMass(displayWidth() / 2, displayHeight() / 2,
 				-5000, 10000, 5));
-		new Muscle(Masses.get(0), Masses.get(1), 300, .005, 2);
+		new Muscle(massList.get(0), massList.get(1), 300, .005, 2);
 		new Mass(displayWidth() / 2 - 100, displayHeight() / 2, 1);
 
 		// add walls to bounce off of
@@ -90,6 +90,10 @@ public class Springies extends JGEngine {
 		WorldManager.getWorld().step(1f, 1);
 		moveObjects();
 		checkCollision(2, 1);
+		
+		for(Mass m : massList){
+			
+		}
 	}
 
 	@Override
