@@ -44,8 +44,6 @@ public class XMLReader {
 				// Node node = nodeMap.item(j);
 				Node node2 = nodeMap.item(j + 1);
 				Node node3 = nodeMap.item(j + 2);
-				System.out.println(node2);
-				System.out.println(node3);
 				// String massid = node.getNodeValue();
 				int x = Integer.parseInt(node2.getNodeValue());
 				int y = Integer.parseInt(node3.getNodeValue());
@@ -73,8 +71,6 @@ public class XMLReader {
 
 				MovableMass mass1 = myMassList.get(m1-1);
 				MovableMass mass2 = myMassList.get(m2-1);
-				System.out.println(m1);
-				System.out.println(m2);
 				Spring spring = new Spring(mass1, mass2);
 				mySpringList.add(spring);
 			}

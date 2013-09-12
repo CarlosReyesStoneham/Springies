@@ -50,8 +50,13 @@ public class Springies extends JGEngine {
 		// remember to set all directions (eg forces, velocities) in world
 		// coords
 		WorldManager.initWorld(this);
-		WorldManager.getWorld().setGravity(new Vec2(0.0f, 0.1f));
-
+		
+		//Sets the gravity
+		//WorldManager.getWorld().setGravity(new Vec2(0.0f, 0.1f));
+//		Controls a = new Controls(this, 0.0f, 0.0f);
+//		WorldManager.getWorld().setGravity(new Vec2(a.xGravity, a.yGravity));
+//		System.out.println(a.xGravity);
+		
 		// need to get force from velocity. I think it involves taking the
 		// square root
 
@@ -89,9 +94,17 @@ public class Springies extends JGEngine {
 		reader.getMass();
 		reader.getSpring();
 	}
+	
+	Controls gravControl = new Controls(this, 0.0f, 0.0f);
 
 	@Override
 	public void doFrame() {
+		
+		WorldManager.getWorld().setGravity(new Vec2(gravControl.xGravity, gravControl.yGravity));
+		gravControl.changeGravity();
+		System.out.println(gravControl.xGravity);
+		System.out.println(gravControl.yGravity);
+		
 		// update game objects
 		WorldManager.getWorld().step(1f, 1);
 		moveObjects();
