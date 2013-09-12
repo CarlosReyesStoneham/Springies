@@ -1,10 +1,10 @@
 package jboxGlue;
 
 public class Muscle extends Spring {
-	double myOriginalLength;
-	double myAmplitude;
-	int period = 60;
-	int count = 0;
+	private double myOriginalLength;
+	private double myAmplitude;
+	private int period = 60;
+	private int count = 0;
 	
 	public Muscle(Mass first, Mass second, double amplitude) {
 		super(first, second);
