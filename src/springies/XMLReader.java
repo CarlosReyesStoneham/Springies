@@ -14,7 +14,7 @@ import jboxGlue.Spring;
 
 public class XMLReader {
 
-	ArrayList<MovableMass> myMassList = new ArrayList<MovableMass>();
+	public ArrayList<MovableMass> myMassList = new ArrayList<MovableMass>();
 	ArrayList<Spring> mySpringList = new ArrayList<Spring>();
 
 	
@@ -41,7 +41,7 @@ public class XMLReader {
 
 			Node massItem = nodes.item(i);
 			NamedNodeMap nodeMap = massItem.getAttributes();
-			for (int j = 1; j <= nodeMap.getLength(); j += 3) {
+			for (int j = 0; j < nodeMap.getLength(); j += 3) {
 				// Node node = nodeMap.item(j);
 				Node node2 = nodeMap.item(j + 1);
 				Node node3 = nodeMap.item(j + 2);
@@ -54,7 +54,9 @@ public class XMLReader {
 				myMassList.add(mass);
 			}
 		}
-		System.out.println(myMassList);
+//		for(MovableMass m : myMassList){
+//			System.out.println(m);
+//		}
 
 		return myMassList;
 	}
@@ -65,7 +67,7 @@ public class XMLReader {
 
 			Node massItem = nodes.item(i);
 			NamedNodeMap nodeMap = massItem.getAttributes();
-			for (int j = 1; j <= nodeMap.getLength(); j += 3) {
+			for (int j = 0; j <= nodeMap.getLength(); j += 3) {
 				Node node = nodeMap.item(j);
 				Node node2 = nodeMap.item(j + 1);
 				int m1 = Integer.parseInt(node.getNodeValue().substring(1));
