@@ -16,14 +16,30 @@ public class MovableMass extends Mass {
 		myBody.m_type = 1;
 		this.setForce(xForce, yForce);
 	}
+	
+	public void applyForce(Vec2 force){
+		myBody.applyForce(force, myBody.getLocalCenter());
+	}
 
 	@Override
 	public void move() {
 		Vec2 position = myBody.getPosition();
-		x = position.x;
 		y = position.y;
+		x = position.x;
+		System.out.println("X: " + x + "Y: " + y);
 		myRotation = -myBody.getAngle();
-
+		
+		if(x > pfwidth-20)
+			x = pfwidth-40;
+		else if(x < 20)
+			x = 40;
+		
+		if(y > pfheight-20)
+			y = pfheight-40;
+		else if(y < 20)
+			y = 40;
+		
+		System.out.println("New | X: " + x + " Y: " + y);
 		for (Spring s : mySprings) {
 			Vec2 force = s.getForce(x, y);
 			myBody.applyForce(force, myBody.getLocalCenter());

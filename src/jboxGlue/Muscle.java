@@ -24,5 +24,4 @@ public class Muscle extends Spring {
 		Math.cos(count*2*Math.PI/period);
 		count++;
 	}
-
 }

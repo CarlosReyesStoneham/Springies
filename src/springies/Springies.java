@@ -15,10 +15,23 @@ import springies.XMLReader;
 
 @SuppressWarnings("serial")
 public class Springies extends JGEngine {
-	
+
+	ArrayList<MovableMass> massList = new ArrayList<MovableMass>();
+
+	// we should probably make an environment class if we have time. Also TODO:
+	// change a lot of these to floats so I don't need to keep changing the type
+	// when creating Vec2s
+	double gravDir;
+	double gravMag;
+	double viscosity;
+	double cmMag;
+	double cmExp;
+	double[] wallMag = new double[4];
+	double[] wallExp = new double[4];
+
 	public Springies() {
 		// set the window size
-		//int height = 480; //original size
+		// int height = 480; //original size
 		int height = 600;
 		double aspect = 16.0 / 9.0;
 		initEngine((int) (height * aspect), height);
@@ -50,24 +63,22 @@ public class Springies extends JGEngine {
 		// remember to set all directions (eg forces, velocities) in world
 		// coords
 		WorldManager.initWorld(this);
-		
-		//Sets the gravity
-		//WorldManager.getWorld().setGravity(new Vec2(0.0f, 0.1f));
-//		Controls a = new Controls(this, 0.0f, 0.0f);
-//		WorldManager.getWorld().setGravity(new Vec2(a.xGravity, a.yGravity));
-//		System.out.println(a.xGravity);
-		
+
+		// Sets the gravity
+		// WorldManager.getWorld().setGravity(new Vec2(0.0f, 0.1f));
+		// Controls a = new Controls(this, 0.0f, 0.0f);
+		// WorldManager.getWorld().setGravity(new Vec2(a.xGravity, a.yGravity));
+		// System.out.println(a.xGravity);
+
 		// need to get force from velocity. I think it involves taking the
 		// square root
 
-		ArrayList<Mass> massList = new ArrayList<Mass>();
-
-		massList.add(new MovableMass(displayWidth() / 2 + 100,
-				displayHeight() / 2, 8000, -10000, 5));
-		massList.add(new MovableMass(displayWidth() / 2, displayHeight() / 2,
-				-5000, 10000, 5));
-		new Muscle(massList.get(0), massList.get(1), 300, .005, 2);
-		new Mass(displayWidth() / 2 - 100, displayHeight() / 2, 1);
+		// massList.add(new MovableMass(displayWidth() / 2 + 100,
+		// displayHeight() / 2, 8000, -10000, 5));
+		// massList.add(new MovableMass(displayWidth() / 2, displayHeight() / 2,
+		// -5000, 10000, 5));
+		// new Muscle(massList.get(0), massList.get(1), 300, .005, 2);
+		// new Mass(displayWidth() / 2 - 100, displayHeight() / 2, 1);
 
 		// add walls to bounce off of
 		// NOTE: immovable objects must have no mass
@@ -77,42 +88,92 @@ public class Springies extends JGEngine {
 				+ WALL_THICKNESS;
 		final double WALL_HEIGHT = displayHeight() - WALL_MARGIN * 2
 				+ WALL_THICKNESS;
-		PhysicalObject wall = new Wall("wall", 2, JGColor.green,
-				WALL_WIDTH, WALL_THICKNESS);
-		wall.setPos(displayWidth() / 2, WALL_MARGIN);
-		wall = new Wall("wall", 2, JGColor.green, WALL_WIDTH,
+		PhysicalObject wall = new Wall("wall", 2, JGColor.green, WALL_WIDTH,
 				WALL_THICKNESS);
+		wall.setPos(displayWidth() / 2, WALL_MARGIN);
+		wall = new Wall("wall", 2, JGColor.green, WALL_WIDTH, WALL_THICKNESS);
 		wall.setPos(displayWidth() / 2, displayHeight() - WALL_MARGIN);
-		wall = new Wall("wall", 2, JGColor.green, WALL_THICKNESS,
-				WALL_HEIGHT);
+		wall = new Wall("wall", 2, JGColor.green, WALL_THICKNESS, WALL_HEIGHT);
 		wall.setPos(WALL_MARGIN, displayHeight() / 2);
-		wall = new Wall("wall", 2, JGColor.green, WALL_THICKNESS,
-				WALL_HEIGHT);
+		wall = new Wall("wall", 2, JGColor.green, WALL_THICKNESS, WALL_HEIGHT);
 		wall.setPos(displayWidth() - WALL_MARGIN, displayHeight() / 2);
-		
+
 		XMLReader reader = new XMLReader();
-		reader.getMass();
+		massList = reader.getMass();
 		reader.getSpring();
+
+		// this is what the XML environment.xml file reader needs to return
+		gravDir = 90;
+		gravMag = 20;
+		viscosity = 0.8;
+		cmMag = 100;
+		cmExp = 2.0;
+		wallMag[0] = 40;
+		wallMag[1] = 50;
+		wallMag[2] = 180;
+		wallMag[3] = 10;
+		wallExp[0] = 1.5;
+		wallExp[1] = 2.0;
+		wallExp[2] = 1.0;
+		wallExp[3] = 0.0;
+
+		// TODO: Check, if there is no environment.xml file, set default values
+		/*
+		 * gravDir = 0; gravMag = 20; // .........?! viscosity = 1; cmMag = 0;
+		 * cmExp = 0; wallMag = new double[4]; // I think these initialize all
+		 * the values to 0; wallExp = new double[4];
+		 */
 	}
-	
+
 	Controls gravControl = new Controls(this, 0.0f, 0.0f);
 
 	@Override
 	public void doFrame() {
+		// set gravity... I'm going to assume that 0 is normal and that it goes
+		// clockwise
 		
-		WorldManager.getWorld().setGravity(new Vec2(gravControl.xGravity, gravControl.yGravity));
-		gravControl.changeGravity();
-		System.out.println(gravControl.xGravity);
-		System.out.println(gravControl.yGravity);
+		// multiplying by gravMag makes gravity waaaaay too strong... um, not
+		// sure what the magnitude of gravity is even supposed to MEAN anyways.
+		// Physically nonsensical.
+		WorldManager.getWorld().setGravity(
+				new Vec2((float) (Math.cos(90)), (float) (Math.sin(gravDir))));
+
+		// gravControl.changeGravity();
 		
 		// update game objects
 		WorldManager.getWorld().step(1f, 1);
 		moveObjects();
 		checkCollision(2, 1);
-		
-	/*	for(Mass m : massList){
-			
-		}*/
+
+		for (MovableMass m : massList) {
+			// walls repel
+			for (int i = 0; i < 4; i++) {
+				// 0 is top wall, 1 is right etc.
+				m.applyForce(new Vec2(0, (float) (wallMag[0] / Math.pow(m.y,
+						wallExp[0]))));
+				m.applyForce(new Vec2((float) (wallMag[1] / Math.pow(-pfWidth()
+						- m.x, wallExp[1])), 0));
+				m.applyForce(new Vec2(0, (float) (wallMag[2] / Math.pow(
+						-pfHeight() - m.y, wallExp[2]))));
+				m.applyForce(new Vec2((float) (wallMag[3] / Math.pow(m.x,
+						wallExp[3])), 0));
+			}
+
+			// viscosity - resistive force on masses proportional to their
+			// velocity
+			m.yspeed = m.yspeed * viscosity;
+			m.xspeed = m.xspeed * viscosity;
+
+			// center of mass... uh? there has to be an easy jbox way to
+			// implement this. Also, this doesn't make any sense in the physics
+			// sense.
+			/*
+			 * for(MovableMass otherMass : massList){ Vec2 cmForce = new
+			 * Vec2((float) (cmMag * Math.pow(m.x - otherMass.x,cmExp)), (float)
+			 * ( cmMag * Math.pow(m.y - otherMass.y,cmExp)));
+			 * otherMass.applyForce(cmForce); }
+			 */
+		}
 	}
 
 	@Override

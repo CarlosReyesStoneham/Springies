@@ -15,6 +15,10 @@ public class Spring extends PhysicalObject {
 		this(first, second, getLength(first, second), DEFAULT_K);
 	}
 	
+	public Spring(Mass first, Mass second, double length){
+		this(first, second, length, DEFAULT_K);
+	}
+	
 	public Spring(Mass first, Mass second, double length, double k) {
 		super("Spring", 3, JGColor.white);
 		myLength = length;

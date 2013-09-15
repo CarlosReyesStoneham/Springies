@@ -21,17 +21,6 @@ public class Wall extends PhysicalObject {
 		init(width, height, mass);
 	}
 
-/*	public PhysicalObjectRect(String id, int collisionId, String gfxname,
-			double width, double height) {
-		this(id, collisionId, gfxname, width, height, 0);
-	}
-
-	public PhysicalObjectRect(String id, int collisionId, String gfxname,
-			double width, double height, double mass) {
-		super(id, collisionId, gfxname);
-		init(width, height, mass);
-	}*/
-
 	public void init(double width, double height, double mass) {
 		// save arguments
 		myWidth = width;

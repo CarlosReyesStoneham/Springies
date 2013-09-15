@@ -21,7 +21,6 @@ public class Controls{
 		}
 		if(game.getKey(JGEngine.KeyLeft)){
 			xGravity -= 0.02;
-
 		}
 		if(game.getKey(JGEngine.KeyRight)){
 			xGravity += 0.02;
