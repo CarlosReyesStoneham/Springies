@@ -68,11 +68,14 @@ public class XMLReader {
 					myMassList.add(mass);
 				}
 				else if(len == 5){
+					xForce = Integer.parseInt(nodeList.get(3).getNodeValue());
 					yForce = Integer.parseInt(nodeList.get(4).getNodeValue());
 					mass = new MovableMass(x, y, xForce, yForce, m);
 					myMassList.add(mass);
 				}
 				else if(len ==6){
+					xForce = Integer.parseInt(nodeList.get(3).getNodeValue());
+					yForce = Integer.parseInt(nodeList.get(4).getNodeValue());
 					m = 0;
 					mass = new MovableMass(x, y, xForce, yForce, m);
 					myMassList.add(mass);
@@ -90,17 +93,42 @@ public class XMLReader {
 		for (int i = 0; i < nodes.getLength(); i++) {
 			Node massItem = nodes.item(i);
 			NamedNodeMap nodeMap = massItem.getAttributes();
+			
+			ArrayList<Node> nodeList = new ArrayList<Node>();
+			int len = nodeMap.getLength();
 			for (int j = 0; j <= nodeMap.getLength()-4; j += 4) {
-				Node node = nodeMap.item(j);
-				Node node2 = nodeMap.item(j + 1);
-				
-				int m1 = Integer.parseInt(node.getNodeValue().substring(1));
-				int m2 = Integer.parseInt(node2.getNodeValue().substring(1));
 
+				for(int k=0; k <len; k++){
+					Node node = nodeMap.item(j + k);
+					nodeList.add(node);
+					System.out.println(nodeList.get(k));
+				}
+				
+				int m1 = Integer.parseInt(nodeList.get(0).getNodeValue().substring(1));
+				int m2 = Integer.parseInt(nodeList.get(1).getNodeValue().substring(1));
 				MovableMass mass1 = myMassList.get(m1-1);
 				MovableMass mass2 = myMassList.get(m2-1);
-				Spring spring = new Spring(mass1, mass2);
-				mySpringList.add(spring);
+				double restLength = 0;
+				double k = 0;
+				
+				
+				Spring spring;
+				if(len == 3){
+					spring = new Spring(mass1, mass2);
+					mySpringList.add(spring);
+
+				}
+				else if(len == 4){
+					restLength = Double.parseDouble(nodeList.get(2).getNodeValue());
+					spring = new Spring(mass1, mass2, restLength);
+					mySpringList.add(spring);
+				}
+				else if(len == 5){
+					restLength = Double.parseDouble(nodeList.get(2).getNodeValue());
+					k = Double.parseDouble(nodeList.get(3).getNodeValue());
+					spring = new Spring(mass1, mass2, restLength, k);
+					mySpringList.add(spring);
+				}
 			}
 		}
 		return mySpringList;
