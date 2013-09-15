@@ -40,16 +40,44 @@ public class XMLReader {
 
 			Node massItem = nodes.item(i);
 			NamedNodeMap nodeMap = massItem.getAttributes();
-			for (int j = 0; j < nodeMap.getLength(); j += 3) {
-				// Node node = nodeMap.item(j);
-				Node node2 = nodeMap.item(j + 1);
-				Node node3 = nodeMap.item(j + 2);
-				// String massid = node.getNodeValue();
-				int x = Integer.parseInt(node2.getNodeValue());
-				int y = Integer.parseInt(node3.getNodeValue());
+			
+			ArrayList<Node> nodeList = new ArrayList<Node>();
+			int len = nodeMap.getLength();
+			for (int j = 0; j < nodeMap.getLength(); j += len) {
+				
+				for(int k=0; k <len; k++){
+					Node node = nodeMap.item(j + k);
+					nodeList.add(node);
+					System.out.println(nodeList.get(k));
+				}
+				
+				int x = Integer.parseInt(nodeList.get(1).getNodeValue());
+				int y = Integer.parseInt(nodeList.get(2).getNodeValue());
+				int xForce = 0; //Integer.parseInt(nodeList.get(3).getNodeValue());
+				int yForce = 0; //Integer.parseInt(nodeList.get(4).getNodeValue());
+				int m = 0; //Integer.parseInt(nodeList.get(5).getNodeValue());
+				MovableMass mass;
+				if(len == 3){
+					mass = new MovableMass(x, y);
+					myMassList.add(mass);
 
-				MovableMass mass = new MovableMass(x, y);
-				myMassList.add(mass);
+				}
+				else if(len == 4){
+					xForce = Integer.parseInt(nodeList.get(3).getNodeValue());
+					mass = new MovableMass(x, y, xForce, yForce, m);
+					myMassList.add(mass);
+				}
+				else if(len == 5){
+					yForce = Integer.parseInt(nodeList.get(4).getNodeValue());
+					mass = new MovableMass(x, y, xForce, yForce, m);
+					myMassList.add(mass);
+				}
+				else if(len ==6){
+					m = 0;
+					mass = new MovableMass(x, y, xForce, yForce, m);
+					myMassList.add(mass);
+
+				}
 			}
 		}
 
