@@ -44,43 +44,38 @@ public class XMLReader {
 			ArrayList<Node> nodeList = new ArrayList<Node>();
 			int len = nodeMap.getLength();
 			for (int j = 0; j < nodeMap.getLength(); j += len) {
+				float x = 0; float y = 0; double xForce = 0; double yForce = 0; int m = 0;
 				
 				for(int k=0; k <len; k++){
-					Node node = nodeMap.item(j + k);
-					nodeList.add(node);
-					System.out.println(nodeList.get(k));
+					String name = nodeMap.item(j+k).getNodeName();
+					if(name.equals("x")){
+						x = Float.parseFloat(nodeMap.item(j+k).getNodeValue().toString());
+					}
+					if(name.equals("y")){
+						y = Float.parseFloat(nodeMap.item(j+k).getNodeValue().toString());
+					}
+					if(name.equals("vx")){
+						xForce = Double.parseDouble(nodeMap.item(j+k).getNodeValue().toString());
+					}
+					if(name.equals("vy")){
+						yForce = Double.parseDouble(nodeMap.item(j+k).getNodeValue().toString());
+					}
+					if(name.equals("mass")){
+						m = Integer.parseInt(nodeMap.item(j+k).getNodeValue().toString());
+					}
 				}
 				
-				int x = Integer.parseInt(nodeList.get(1).getNodeValue());
-				int y = Integer.parseInt(nodeList.get(2).getNodeValue());
-				int xForce = 0; //Integer.parseInt(nodeList.get(3).getNodeValue());
-				int yForce = 0; //Integer.parseInt(nodeList.get(4).getNodeValue());
-				int m = 0; //Integer.parseInt(nodeList.get(5).getNodeValue());
 				MovableMass mass;
 				if(len == 3){
 					mass = new MovableMass(x, y);
 					myMassList.add(mass);
 
 				}
-				else if(len == 4){
-					xForce = Integer.parseInt(nodeList.get(3).getNodeValue());
+				else{
 					mass = new MovableMass(x, y, xForce, yForce, m);
 					myMassList.add(mass);
 				}
-				else if(len == 5){
-					xForce = Integer.parseInt(nodeList.get(3).getNodeValue());
-					yForce = Integer.parseInt(nodeList.get(4).getNodeValue());
-					mass = new MovableMass(x, y, xForce, yForce, m);
-					myMassList.add(mass);
-				}
-				else if(len ==6){
-					xForce = Integer.parseInt(nodeList.get(3).getNodeValue());
-					yForce = Integer.parseInt(nodeList.get(4).getNodeValue());
-					m = 0;
-					mass = new MovableMass(x, y, xForce, yForce, m);
-					myMassList.add(mass);
-
-				}
+				
 			}
 		}
 
@@ -94,39 +89,45 @@ public class XMLReader {
 			Node massItem = nodes.item(i);
 			NamedNodeMap nodeMap = massItem.getAttributes();
 			
-			ArrayList<Node> nodeList = new ArrayList<Node>();
 			int len = nodeMap.getLength();
-			for (int j = 0; j <= nodeMap.getLength()-4; j += 4) {
-
+			System.out.println(len);
+			for (int j = 0; j <= nodeMap.getLength()-len; j += len) {
+				String a = ""; String b = ""; double rest = 0; double constant = 0;
+				
 				for(int k=0; k <len; k++){
-					Node node = nodeMap.item(j + k);
-					nodeList.add(node);
-					System.out.println(nodeList.get(k));
+					String name = nodeMap.item(j+k).getNodeName();
+					if(name.equals("a")){
+						a = (nodeMap.item(j+k).getNodeValue().toString());
+					}
+					if(name.equals("b")){
+						b = (nodeMap.item(j+k).getNodeValue().toString());
+					}
+					if(name.equals("restlength")){
+						rest = Double.parseDouble(nodeMap.item(j+k).getNodeValue().toString());
+					}
+					if(name.equals("constant")){
+						constant = Double.parseDouble(nodeMap.item(j+k).getNodeValue().toString());
+					}
 				}
 				
-				int m1 = Integer.parseInt(nodeList.get(0).getNodeValue().substring(1));
-				int m2 = Integer.parseInt(nodeList.get(1).getNodeValue().substring(1));
+				int m1 = Integer.parseInt(a.substring(1));
+				int m2 = Integer.parseInt(b.substring(1));
 				MovableMass mass1 = myMassList.get(m1-1);
 				MovableMass mass2 = myMassList.get(m2-1);
-				double restLength = 0;
-				double k = 0;
-				
-				
 				Spring spring;
-				if(len == 3){
+				
+				if(len == 2){
 					spring = new Spring(mass1, mass2);
 					mySpringList.add(spring);
 
 				}
-				else if(len == 4){
-					restLength = Double.parseDouble(nodeList.get(2).getNodeValue());
-					spring = new Spring(mass1, mass2, restLength);
+				else if(len == 3) {
+					spring = new Spring(mass1, mass2, rest);
 					mySpringList.add(spring);
 				}
-				else if(len == 5){
-					restLength = Double.parseDouble(nodeList.get(2).getNodeValue());
-					k = Double.parseDouble(nodeList.get(3).getNodeValue());
-					spring = new Spring(mass1, mass2, restLength, k);
+				else{
+					System.out.println(rest);
+					spring = new Spring(mass1, mass2, rest, constant);
 					mySpringList.add(spring);
 				}
 			}

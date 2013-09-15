@@ -7,11 +7,11 @@ public class MovableMass extends Mass {
 	
 	private static final int DEFAULT_MASS = 5;
 	// default velocity 0?
-	public MovableMass(int x, int y) {
+	public MovableMass(float x, float y) {
 		this(x, y, 0, 0, DEFAULT_MASS);
 	}
 	
-	public MovableMass(int x, int y, int xForce, int yForce, int mass) {
+	public MovableMass(float x, float y, double xForce, double yForce, int mass) {
 		super(x, y, mass);
 		myBody.m_type = 1;
 		this.setForce(xForce, yForce);
@@ -26,7 +26,7 @@ public class MovableMass extends Mass {
 		Vec2 position = myBody.getPosition();
 		y = position.y;
 		x = position.x;
-		System.out.println("X: " + x + "Y: " + y);
+		//System.out.println("X: " + x + "Y: " + y);
 		myRotation = -myBody.getAngle();
 		
 		if(x > pfwidth-20)
@@ -39,7 +39,7 @@ public class MovableMass extends Mass {
 		else if(y < 20)
 			y = 40;
 		
-		System.out.println("New | X: " + x + " Y: " + y);
+		//System.out.println("New | X: " + x + " Y: " + y);
 		for (Spring s : mySprings) {
 			Vec2 force = s.getForce(x, y);
 			myBody.applyForce(force, myBody.getLocalCenter());

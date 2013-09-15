@@ -9,7 +9,7 @@ public class Mass extends PhysicalObject {
 
 	protected ArrayList<Spring> mySprings = new ArrayList<Spring>();
 	
-	public Mass(int x, int y, int mass) {
+	public Mass(float x, float y, int mass) {
 		super("Mass", 1, JGColor.blue);
 		init(mass);
 		this.setPos(x, y);
