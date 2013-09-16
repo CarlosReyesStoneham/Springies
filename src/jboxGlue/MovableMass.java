@@ -17,6 +17,7 @@ public class MovableMass extends Mass {
 		this.setForce(xForce, yForce);
 	}
 	
+	@Override
 	public void applyForce(Vec2 force){
 		myBody.applyForce(force, myBody.getLocalCenter());
 	}
@@ -28,6 +29,11 @@ public class MovableMass extends Mass {
 	public void move() {
 		super.move();
 		/*
+		Vec2 position = myBody.getPosition();
+		y = position.y;
+		x = position.x;
+		myRotation = -myBody.getAngle();
+			
 		//If hits top
 		if(flag == 1) {
 			myBody.m_linearVelocity = (new Vec2(0,2));

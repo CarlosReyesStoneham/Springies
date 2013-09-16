@@ -1,5 +1,6 @@
 package springies;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -18,7 +19,7 @@ import springies.XMLReader;
 @SuppressWarnings("serial")
 public class Springies extends JGEngine {
 
-	HashMap<String, MovableMass> massList = new HashMap<String, MovableMass>();
+	HashMap<String, Mass> massList = new HashMap<String, Mass>();
 
 	// we should probably make an environment class if we have time. Also TODO:
 	// change a lot of these to floats so I don't need to keep changing the type
@@ -100,35 +101,31 @@ public class Springies extends JGEngine {
 		wall = new Wall("wall", 2, JGColor.green, WALL_THICKNESS, WALL_HEIGHT);
 		wall.setPos(displayWidth() - WALL_MARGIN, displayHeight() / 2);
 
-		XMLReader reader = new XMLReader("src/springies/daintywalker.xml");
+		XMLReader reader = new XMLReader("src/springies/jello.xml");
 		massList = reader.makeMasses();
-	//	massList = reader.getMass();
 		reader.makeSprings();
-
-		// this is what the XML environment.xml file reader needs to return
-		gravDir = 90;
-		gravMag = 20;
-		viscosity = 0.8;
-		cmMag = 100;
-		cmExp = 2.0;
-		wallMag[0] = 40;
-		wallMag[1] = 50;
-		wallMag[2] = 180;
-		wallMag[3] = 10;
-		wallExp[0] = 1.5;
-		wallExp[1] = 2.0;
-		wallExp[2] = 1.0;
-		wallExp[3] = 0.0;
-		
-		dbgShowBoundingBox(true);
-
-		
-		// TODO: Check, if there is no environment.xml file, set default values
-		/*
-		 * gravDir = 0; gravMag = 20; // .........?! viscosity = 1; cmMag = 0;
-		 * cmExp = 0; wallMag = new double[4]; // I think these initialize all
-		 * the values to 0; wallExp = new double[4];
-		 */
+	//	reader.makeMuscles();
+		File f = new File("src/springies/environment.xml");
+		if(f.exists()){
+			XMLReader env = new XMLReader("src/springies/environment.xml");
+			
+			gravDir = env.readGravity()[0];
+			gravMag = env.readGravity()[1];
+			viscosity = env.readViscosity();
+			cmMag = env.readcm()[0];
+			cmExp = env.readcm()[1];
+			wallMag = env.readWallMag();
+			wallExp = env.readWallExp();	
+		}
+		else{
+			gravDir = 0;
+			gravMag = 20;
+			viscosity = 1;
+			cmMag = 0;
+			cmExp = 0;
+			wallMag = new double[4];
+			wallExp = new double[4];
+		}
 	}
 
 	Controls gravControl = new Controls(this, 0.0f, 0.0f);
@@ -152,8 +149,8 @@ public class Springies extends JGEngine {
 		moveObjects();
 		checkCollision(2, 1);
 
-		/*
-		for (MovableMass m : massList.values()) {
+		
+		for (Mass m : massList.values()) {
 			// walls repel
 			for (int i = 0; i < 4; i++) {
 				// 0 is top wall, 1 is right etc.
@@ -182,7 +179,7 @@ public class Springies extends JGEngine {
 			 * ( cmMag * Math.pow(m.y - otherMass.y,cmExp)));
 			 * otherMass.applyForce(cmForce); }
 			 */
-		//}
+		}
 	
 	}
 

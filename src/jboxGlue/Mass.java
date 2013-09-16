@@ -2,6 +2,8 @@ package jboxGlue;
 
 import java.util.ArrayList;
 import org.jbox2d.collision.CircleDef;
+import org.jbox2d.common.Vec2;
+
 import jgame.JGColor;
 
 public class Mass extends PhysicalObject {
@@ -18,6 +20,10 @@ public class Mass extends PhysicalObject {
 
 	public void addSpring(Spring newSpring) {
 		mySprings.add(newSpring);
+	}
+	
+	public void applyForce(Vec2 force){
+		
 	}
 
 	protected void init(double mass) {
