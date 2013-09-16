@@ -1,6 +1,7 @@
 package springies;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import jboxGlue.Mass;
@@ -127,10 +128,7 @@ public class Springies extends JGEngine {
 			// velocity
 			m.yspeed = m.yspeed * viscosity;
 			m.xspeed = m.xspeed * viscosity;
-
-			// center of mass... uh? there has to be an easy jbox way to
-			// implement this. Also, this doesn't make any sense in the physics
-			// sense.
+			
 			/*
 			 * for(MovableMass otherMass : massList){ Vec2 cmForce = new
 			 * Vec2((float) (cmMag * Math.pow(m.x - otherMass.x,cmExp)), (float)
@@ -138,6 +136,24 @@ public class Springies extends JGEngine {
 			 * otherMass.applyForce(cmForce); }
 			 */
 		}
+	}
+	
+	public void centerOfMass() {
+		float topX = 0;
+		float topY = 0;
+		float totalMass = 500;
+		for(Mass m : massList.values()){
+			topX += (float) (m.getMyMass()*m.x);
+			System.out.println(topX);
+			topY += (float) (m.getMyMass()*m.y);
+		}
+		
+		float xCoord = (float) (topX/totalMass);
+		float yCoord = (float) (topY/totalMass);
+		new Mass(xCoord, yCoord, 1);
+		System.out.println(xCoord);
+		System.out.println(yCoord);
+		System.out.println(totalMass);
 	}
 
 	@Override

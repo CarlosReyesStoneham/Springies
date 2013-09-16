@@ -10,16 +10,21 @@ public class Mass extends PhysicalObject {
 	private static final int RADIUS = 10;
 
 	protected ArrayList<Spring> mySprings = new ArrayList<Spring>();
-	
+	private float mass;
 	public Mass(float x, float y, float mass) {
 		super("Mass", 1, JGColor.blue);
 		init(mass);
 		this.setPos(pfwidth-10-x, pfheight-10-y);
 		myBody.m_type = 0;
+		this.mass = mass;
 	}
 
 	public void addSpring(Spring newSpring) {
 		mySprings.add(newSpring);
+	}
+	
+	public float getMyMass() {
+		return this.mass;
 	}
 	
 	public void applyForce(Vec2 force){}
