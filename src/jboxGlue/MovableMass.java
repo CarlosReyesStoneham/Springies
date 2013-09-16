@@ -15,13 +15,13 @@ public class MovableMass extends Mass {
 		this.setForce(xForce, yForce);
 	}
 	
+	@Override
 	public void applyForce(Vec2 force){
 		myBody.applyForce(force, myBody.getLocalCenter());
 	}
 
 	@Override
 	public void move() {
-		System.out.println(myBody.getPosition());
 		Vec2 position = myBody.getPosition();
 		y = position.y;
 		x = position.x;
@@ -73,9 +73,6 @@ public class MovableMass extends Mass {
 		//If hits right
 		if (and(other.colid, 2) && myBody.getPosition().x > pfwidth-100) {
 			flag = 4;
-		}
-		else {
-			System.out.println("NOPE");
 		}
 	}
 }
