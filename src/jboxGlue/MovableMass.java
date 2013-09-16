@@ -36,13 +36,13 @@ public class MovableMass extends Mass {
 			
 		//If hits top or bottom
 		if(flag == 1) {
-			//myBody.m_linearVelocity = (new Vec2(myBody.getPosition().x, -myBody.getPosition().y));
-			myBody.m_linearVelocity = (new Vec2(0,2));
+			myBody.m_linearVelocity = (new Vec2(myBody.m_linearVelocity.x, -myBody.m_linearVelocity.y));
+			//myBody.m_linearVelocity = (new Vec2(0f, -0.1f));
 		}
 		//If hits left or right
 		if(flag == 2) {
-			myBody.m_linearVelocity = (new Vec2(2,0));
-			//myBody.m_linearVelocity = (new Vec2(-myBody.getPosition().x, myBody.getPosition().y));
+			//myBody.m_linearVelocity = (new Vec2(2,0));
+			myBody.m_linearVelocity = (new Vec2(-myBody.m_linearVelocity.x, myBody.m_linearVelocity.y));
 		}
 		
 		//System.out.println("New | X: " + x + " Y: " + y);
@@ -50,8 +50,7 @@ public class MovableMass extends Mass {
 			Vec2 force = s.getForce(x, y);
 			this.setForce(force.x, force.y);
 		}
-		
-		}	
+	}	
 	
 	int flag = 0;
 	@Override

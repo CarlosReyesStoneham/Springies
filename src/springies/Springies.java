@@ -74,7 +74,7 @@ public class Springies extends JGEngine {
 		wall = new Wall("wall", 2, JGColor.green, WALL_THICKNESS, WALL_HEIGHT);
 		wall.setPos(displayWidth() - WALL_MARGIN, displayHeight() / 2);
 
-		XMLReader reader = new XMLReader("src/springies/ball.xml");
+		XMLReader reader = new XMLReader("src/springies/daintywalker.xml");
 		massList = reader.makeMasses();
 		reader.makeSprings();
 		reader.makeMuscles();
