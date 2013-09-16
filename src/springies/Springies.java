@@ -21,7 +21,7 @@ public class Springies extends JGEngine {
 
 	HashMap<String, Mass> massList = new HashMap<String, Mass>();
 
-	// we should probably make an environment class if we have time. Also TODO:
+	// TODO: We should make an environment
 	// change a lot of these to floats so I don't need to keep changing the type
 	// when creating Vec2s
 	double gravDir;
@@ -34,7 +34,6 @@ public class Springies extends JGEngine {
 
 	public Springies() {
 		// set the window size
-		// int height = 480; //original size
 		int height = 600;
 		double aspect = 16.0 / 9.0;
 		initEngine((int) (height * aspect), height);
@@ -42,7 +41,6 @@ public class Springies extends JGEngine {
 
 	@Override
 	public void initCanvas() {
-		// I have no idea what tiles do...
 		setCanvasSettings(1, // width of the canvas in tiles
 				1, // height of the canvas in tiles
 				displayWidth(), // width of one tile
@@ -57,40 +55,15 @@ public class Springies extends JGEngine {
 	public void initGame() {
 		setFrameRate(60, 2);
 
-		// init the world
-		// One thing to keep straight: The world coordinates have y pointing
-		// down
-		// the game coordinates have y pointing up
-		// so gravity is along the positive y axis in world coords to point down
-		// in game coords
-		// remember to set all directions (eg forces, velocities) in world
-		// coords
 		WorldManager.initWorld(this);
 
-		// Sets the gravity
-		// WorldManager.getWorld().setGravity(new Vec2(0.0f, 0.1f));
-		// Controls a = new Controls(this, 0.0f, 0.0f);
-		// WorldManager.getWorld().setGravity(new Vec2(a.xGravity, a.yGravity));
-		// System.out.println(a.xGravity);
-
-		// need to get force from velocity. I think it involves taking the
-		// square root
-
-		// massList.add(new MovableMass(displayWidth() / 2 + 100,
-		// displayHeight() / 2, 8000, -10000, 5));
-		// massList.add(new MovableMass(displayWidth() / 2, displayHeight() / 2,
-		// -5000, 10000, 5));
-		// new Muscle(massList.get(0), massList.get(1), 300, .005, 2);
-		// new Mass(displayWidth() / 2 - 100, displayHeight() / 2, 1);
-
-		// add walls to bounce off of
-		// NOTE: immovable objects must have no mass
 		final double WALL_MARGIN = 10;
 		final double WALL_THICKNESS = 10;
 		final double WALL_WIDTH = displayWidth() - WALL_MARGIN * 2
 				+ WALL_THICKNESS;
 		final double WALL_HEIGHT = displayHeight() - WALL_MARGIN * 2
 				+ WALL_THICKNESS;
+		
 		PhysicalObject wall = new Wall("wall", 2, JGColor.green, WALL_WIDTH,
 				WALL_THICKNESS);
 		wall.setPos(displayWidth() / 2, WALL_MARGIN);
@@ -128,17 +101,11 @@ public class Springies extends JGEngine {
 		}
 	}
 
-	Controls gravControl = new Controls(this, 0.0f, 0.0f);
-
 	@Override
 	public void doFrame() {
 		// set gravity... I'm going to assume that 0 is normal and that it goes
 		// clockwise
-		
-		// multiplying by gravMag makes gravity waaaaay too strong... um, not
-		// sure what the magnitude of gravity is even supposed to MEAN anyways.
-		// Physically nonsensical.
-		
+			
 		WorldManager.getWorld().setGravity(new Vec2((float) (gravMag * Math.cos(90)), (float) (gravMag * Math.sin(gravDir))));
 		
 		// update game objects
@@ -146,7 +113,6 @@ public class Springies extends JGEngine {
 		moveObjects();
 		checkCollision(2, 1);
 
-		
 		for (Mass m : massList.values()) {
 			// walls repel
 			for (int i = 0; i < 4; i++) {
@@ -161,7 +127,6 @@ public class Springies extends JGEngine {
 						wallExp[3])), 0));
 			}
 			
-
 			// viscosity - resistive force on masses proportional to their
 			// velocity
 			m.yspeed = m.yspeed * viscosity;
@@ -177,7 +142,6 @@ public class Springies extends JGEngine {
 			 * otherMass.applyForce(cmForce); }
 			 */
 		}
-	
 	}
 
 	@Override

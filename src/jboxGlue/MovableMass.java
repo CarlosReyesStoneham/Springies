@@ -54,22 +54,15 @@ public class MovableMass extends Mass {
 		
 		//System.out.println("New | X: " + x + " Y: " + y);
 		for (Spring s : mySprings) {
-			//s.addSpringForce();
 			Vec2 force = s.getForce(x, y);
-			//applyForce(force);
 			this.setForce(force.x, force.y);
-//			s.getForce(x, y);
-		}
-		
+		}	
 	}
+	
 	int flag = 0;
 	@Override
 	public void hit(JGObject other) {
 		// we hit something! bounce off it!
-		//Vec2 velocity = myBody.getLinearVelocity();
-
-		// is it a tall wall?
-		//final double DAMPING_FACTOR = 0.8;
 		
 		//if hits top
 		if (and(other.colid, 2) && myBody.getPosition().y < 25) {
