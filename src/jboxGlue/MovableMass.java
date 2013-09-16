@@ -1,6 +1,8 @@
 package jboxGlue;
 
 import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.BodyDef;
+
 import jgame.JGObject;
 
 public class MovableMass extends Mass {
@@ -19,9 +21,14 @@ public class MovableMass extends Mass {
 	public void applyForce(Vec2 force){
 		myBody.applyForce(force, myBody.getLocalCenter());
 	}
+	public void applyForce(Vec2 force, Vec2 force2){
+		myBody.applyForce(force, force2);
+	}
 
 	@Override
 	public void move() {
+		super.move();
+		/*
 		Vec2 position = myBody.getPosition();
 		y = position.y;
 		x = position.x;
@@ -43,11 +50,18 @@ public class MovableMass extends Mass {
 		if(flag == 4) {
 			myBody.m_linearVelocity = (new Vec2(-2, 0));
 		}
+		*/
+		
 		//System.out.println("New | X: " + x + " Y: " + y);
 		for (Spring s : mySprings) {
+			System.out.println("Spring " + s.colid);
+			//s.addSpringForce();
 			Vec2 force = s.getForce(x, y);
-			myBody.applyForce(force, myBody.getLocalCenter());
+			//applyForce(force);
+			this.setForce(force.x, force.y);
+//			s.getForce(x, y);
 		}
+		
 	}
 	int flag = 0;
 	@Override
@@ -59,19 +73,19 @@ public class MovableMass extends Mass {
 		//final double DAMPING_FACTOR = 0.8;
 		
 		//if hits top
-		if (and(other.colid, 2) && myBody.getPosition().y < 100) {
+		if (and(other.colid, 2) && myBody.getPosition().y < 25) {
 			flag = 1;
 		}
-		//if hits bottom
-		if (and(other.colid, 2) && myBody.getPosition().y > pfheight-100) {
+		//if hits bottom   
+		if (and(other.colid, 2) && myBody.getPosition().y > pfheight-25) {
 			flag = 2;
 		}
 		//if hits left
-		if (and(other.colid, 2) && myBody.getPosition().x < 100) {
+		if (and(other.colid, 2) && myBody.getPosition().x < 25) {
 			flag = 3;
 		}
 		//If hits right
-		if (and(other.colid, 2) && myBody.getPosition().x > pfwidth-100) {
+		if (and(other.colid, 2) && myBody.getPosition().x > pfwidth-25) {
 			flag = 4;
 		}
 	}

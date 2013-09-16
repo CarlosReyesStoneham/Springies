@@ -105,7 +105,6 @@ public class Springies extends JGEngine {
 		massList = reader.makeMasses();
 		reader.makeSprings();
 	//	reader.makeMuscles();
-		// this is what the XML environment.xml file reader needs to return
 		File f = new File("src/springies/environment.xml");
 		if(f.exists()){
 			XMLReader env = new XMLReader("src/springies/environment.xml");
@@ -139,16 +138,18 @@ public class Springies extends JGEngine {
 		// multiplying by gravMag makes gravity waaaaay too strong... um, not
 		// sure what the magnitude of gravity is even supposed to MEAN anyways.
 		// Physically nonsensical.
-		WorldManager.getWorld().setGravity(
+		
+		WorldManager.getWorld().setGravity(new Vec2(0,0));/*
 				new Vec2((float) (Math.cos(90)), (float) (Math.sin(gravDir))));
-
-		// gravControl.changeGravity();
+		*/
+		//gravControl.changeGravity();
 		
 		// update game objects
 		WorldManager.getWorld().step(1f, 1);
 		moveObjects();
 		checkCollision(2, 1);
 
+		
 		for (Mass m : massList.values()) {
 			// walls repel
 			for (int i = 0; i < 4; i++) {
@@ -162,6 +163,7 @@ public class Springies extends JGEngine {
 				m.applyForce(new Vec2((float) (wallMag[3] / Math.pow(m.x,
 						wallExp[3])), 0));
 			}
+			
 
 			// viscosity - resistive force on masses proportional to their
 			// velocity
@@ -178,6 +180,7 @@ public class Springies extends JGEngine {
 			 * otherMass.applyForce(cmForce); }
 			 */
 		}
+	
 	}
 
 	@Override

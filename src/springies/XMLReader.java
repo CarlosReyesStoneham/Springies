@@ -52,7 +52,7 @@ public class XMLReader {
 		for (int i = 0; i < nodes.getLength(); i++) {
 			vx = 0;
 			vy = 0;
-			mass = 0;
+			mass = 5f;
 			Node massItem = nodes.item(i);
 			NamedNodeMap nodeMap = massItem.getAttributes();
 			
