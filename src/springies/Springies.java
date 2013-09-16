@@ -1,7 +1,6 @@
 package springies;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import jboxGlue.Mass;
@@ -151,9 +150,6 @@ public class Springies extends JGEngine {
 		float xCoord = (float) (topX/totalMass);
 		float yCoord = (float) (topY/totalMass);
 		new Mass(xCoord, yCoord, 1);
-		System.out.println(xCoord);
-		System.out.println(yCoord);
-		System.out.println(totalMass);
 	}
 
 	@Override
