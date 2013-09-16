@@ -1,6 +1,8 @@
 package springies;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import jboxGlue.Mass;
 import jboxGlue.MovableMass;
 import jboxGlue.Muscle;
@@ -16,7 +18,7 @@ import springies.XMLReader;
 @SuppressWarnings("serial")
 public class Springies extends JGEngine {
 
-	ArrayList<MovableMass> massList = new ArrayList<MovableMass>();
+	HashMap<String, MovableMass> massList = new HashMap<String, MovableMass>();
 
 	// we should probably make an environment class if we have time. Also TODO:
 	// change a lot of these to floats so I don't need to keep changing the type
@@ -99,8 +101,9 @@ public class Springies extends JGEngine {
 		wall.setPos(displayWidth() - WALL_MARGIN, displayHeight() / 2);
 
 		XMLReader reader = new XMLReader();
-		massList = reader.getMass();
-		reader.getSpring();
+		massList = reader.makeMasses();
+	//	massList = reader.getMass();
+		reader.makeSprings();
 
 		// this is what the XML environment.xml file reader needs to return
 		gravDir = 90;
@@ -146,7 +149,7 @@ public class Springies extends JGEngine {
 		moveObjects();
 		checkCollision(2, 1);
 
-		for (MovableMass m : massList) {
+		for (MovableMass m : massList.values()) {
 			// walls repel
 			for (int i = 0; i < 4; i++) {
 				// 0 is top wall, 1 is right etc.

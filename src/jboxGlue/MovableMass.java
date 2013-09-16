@@ -5,13 +5,11 @@ import jgame.JGObject;
 
 public class MovableMass extends Mass {
 	
-	private static final int DEFAULT_MASS = 5;
-	// default velocity 0?
-	public MovableMass(float x, float y) {
-		this(x, y, 0, 0, DEFAULT_MASS);
+	public MovableMass(float x, float y, float mass) {
+		this(x, y, 0, 0, mass);
 	}
 	
-	public MovableMass(float x, float y, double xForce, double yForce, int mass) {
+	public MovableMass(float x, float y, double xForce, double yForce, float mass) {
 		super(x, y, mass);
 		myBody.m_type = 1;
 		this.setForce(xForce, yForce);
@@ -26,7 +24,6 @@ public class MovableMass extends Mass {
 		Vec2 position = myBody.getPosition();
 		y = position.y;
 		x = position.x;
-		//System.out.println("X: " + x + "Y: " + y);
 		myRotation = -myBody.getAngle();
 		
 		if(x > pfwidth-20)

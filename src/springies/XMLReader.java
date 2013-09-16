@@ -8,6 +8,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import jboxGlue.Mass;
 import jboxGlue.MovableMass;
@@ -15,12 +16,12 @@ import jboxGlue.Spring;
 
 public class XMLReader {
 
-	public ArrayList<MovableMass> myMassList = new ArrayList<MovableMass>();
 	public ArrayList<Spring> mySpringList = new ArrayList<Spring>();
-
+	HashMap<String, MovableMass> myMassMap = new HashMap<String, MovableMass>();
+	
 	
 	public Document docIn() {
-		File file = new File("src/springies/daintywalker.xml");
+		File file = new File("src/springies/ball.xml");
 
 		try {
 			DocumentBuilder builder = DocumentBuilderFactory.newInstance()
@@ -34,55 +35,75 @@ public class XMLReader {
 		}
 	}
 
-	public ArrayList<MovableMass> getMass() {
+	public HashMap<String, MovableMass> makeMasses(){
+		float x;
+		float y;
+		float mass;
+		double vx;
+		double vy;
+		
 		Document doc = docIn();
 		NodeList nodes = doc.getElementsByTagName("mass");
 		for (int i = 0; i < nodes.getLength(); i++) {
-
+			vx = 0;
+			vy = 0;
+			mass = 0;
 			Node massItem = nodes.item(i);
 			NamedNodeMap nodeMap = massItem.getAttributes();
 			
-			int len = nodeMap.getLength();
-			for (int j = 0; j < nodeMap.getLength(); j += len) {
-				float x = 0; float y = 0; double xForce = 0; double yForce = 0; int m = 0;
-				
-				for(int k=0; k <len; k++){
-					String name = nodeMap.item(j+k).getNodeName();
-					if(name.equals("x")){
-						x = Float.parseFloat(nodeMap.item(j+k).getNodeValue().toString());
-					}
-					if(name.equals("y")){
-						y = Float.parseFloat(nodeMap.item(j+k).getNodeValue().toString());
-					}
-					if(name.equals("vx")){
-						xForce = Double.parseDouble(nodeMap.item(j+k).getNodeValue().toString());
-					}
-					if(name.equals("vy")){
-						yForce = Double.parseDouble(nodeMap.item(j+k).getNodeValue().toString());
-					}
-					if(name.equals("mass")){
-						m = Integer.parseInt(nodeMap.item(j+k).getNodeValue().toString());
-					}
-				}
-				MovableMass mass;
-				if(len == 3){
-					mass = new MovableMass(x, y);
-					myMassList.add(mass);
+			x = Float.parseFloat(nodeMap.getNamedItem("x").getNodeValue());
+			y = Float.parseFloat(nodeMap.getNamedItem("y").getNodeValue());
+			try{mass = Float.parseFloat(nodeMap.getNamedItem("mass").getNodeValue());}
+			catch(Exception e){}
 
-				}
-				else{
-					mass = new MovableMass(x, y, xForce, yForce, m);
-					myMassList.add(mass);
-					//System.out.println(mass.x);
-				}
-				
+			try{vx = Double.parseDouble(nodeMap.getNamedItem("vx").getNodeValue());}
+			catch(Exception e){}
+			
+			try{vy = Double.parseDouble(nodeMap.getNamedItem("vy").getNodeValue());}
+			catch(Exception e){}
+			
+			int id = Integer.parseInt(nodeMap.getNamedItem("id").getNodeValue().substring(1));
+			
+			myMassMap.put(nodeMap.getNamedItem("id").getNodeValue(), new MovableMass(x, y, vx, vy, mass));
+		}
+		return myMassMap;
+	}
+	
+	public void makeSprings(){
+		MovableMass one;
+		MovableMass two;
+		float restLength;
+		float constant;
+		
+		Document doc = docIn();
+		NodeList nodes = doc.getElementsByTagName("spring");
+		for (int i = 0; i < nodes.getLength(); i++) {
+			restLength = -1;
+			constant = 1;
+					
+			Node springItem = nodes.item(i);
+			NamedNodeMap nodeMap = springItem.getAttributes();
+			
+			one = myMassMap.get(nodeMap.getNamedItem("a").getNodeValue());
+			two = myMassMap.get(nodeMap.getNamedItem("b").getNodeValue());
+		
+			try{restLength = Float.parseFloat(nodeMap.getNamedItem("restlength").getNodeValue());}
+			catch(Exception e){}
+
+			try{constant = Float.parseFloat(nodeMap.getNamedItem("constant").getNodeValue());}
+			catch(Exception e){}
+			
+			if(restLength == -1){
+				new Spring(one, two, constant);
+			}
+			else{
+				new Spring(one, two, restLength, constant);
 			}
 		}
-
-		return myMassList;
 	}
-
-	public ArrayList<Spring> getSpring() {
+	
+	/*public ArrayList<Spring> getSpring() {
+		
 		Document doc = docIn();
 		NodeList nodes = doc.getElementsByTagName("spring");
 		for (int i = 0; i < nodes.getLength(); i++) {
@@ -134,4 +155,4 @@ public class XMLReader {
 		}
 		return mySpringList;
 	}
-}
+*/}
