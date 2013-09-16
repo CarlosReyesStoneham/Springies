@@ -17,10 +17,13 @@ public class XMLReader {
 
 	public ArrayList<MovableMass> myMassList = new ArrayList<MovableMass>();
 	public ArrayList<Spring> mySpringList = new ArrayList<Spring>();
-
+	private String xmlFile;
+	public XMLReader(String xmlFile){
+		this.xmlFile= xmlFile;
+	}
 	
 	public Document docIn() {
-		File file = new File("src/springies/daintywalker.xml");
+		File file = new File(xmlFile);
 
 		try {
 			DocumentBuilder builder = DocumentBuilderFactory.newInstance()
