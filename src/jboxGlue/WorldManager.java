@@ -34,5 +34,6 @@ public class WorldManager
 		);
 		Vec2 gravity = new Vec2( 0.0f, 0.0f );
 		ourWorld = new World( worldBounds, gravity, true );
+		ourWorld.setGravity(null);
 	}
 }

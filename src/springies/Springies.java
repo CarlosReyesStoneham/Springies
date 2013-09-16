@@ -119,6 +119,8 @@ public class Springies extends JGEngine {
 		wallExp[1] = 2.0;
 		wallExp[2] = 1.0;
 		wallExp[3] = 0.0;
+		
+		dbgShowBoundingBox(true);
 
 		
 		// TODO: Check, if there is no environment.xml file, set default values
@@ -139,16 +141,18 @@ public class Springies extends JGEngine {
 		// multiplying by gravMag makes gravity waaaaay too strong... um, not
 		// sure what the magnitude of gravity is even supposed to MEAN anyways.
 		// Physically nonsensical.
-		WorldManager.getWorld().setGravity(
+		
+		WorldManager.getWorld().setGravity(new Vec2(0,0));/*
 				new Vec2((float) (Math.cos(90)), (float) (Math.sin(gravDir))));
-
-		// gravControl.changeGravity();
+		*/
+		//gravControl.changeGravity();
 		
 		// update game objects
 		WorldManager.getWorld().step(1f, 1);
 		moveObjects();
 		checkCollision(2, 1);
 
+		/*
 		for (MovableMass m : massList.values()) {
 			// walls repel
 			for (int i = 0; i < 4; i++) {
@@ -162,6 +166,7 @@ public class Springies extends JGEngine {
 				m.applyForce(new Vec2((float) (wallMag[3] / Math.pow(m.x,
 						wallExp[3])), 0));
 			}
+			
 
 			// viscosity - resistive force on masses proportional to their
 			// velocity
@@ -177,7 +182,8 @@ public class Springies extends JGEngine {
 			 * ( cmMag * Math.pow(m.y - otherMass.y,cmExp)));
 			 * otherMass.applyForce(cmForce); }
 			 */
-		}
+		//}
+	
 	}
 
 	@Override
