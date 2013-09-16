@@ -83,7 +83,7 @@ public class Springies extends JGEngine {
 			XMLReader env = new XMLReader("src/springies/environment.xml");
 			
 			gravDir = env.readGravity()[0];
-			gravMag = env.readGravity()[1] * .0000001;
+			gravMag = env.readGravity()[1] * .00001; //Adjusting gravity
 			viscosity = env.readViscosity();
 			cmMag = env.readcm()[0];
 			cmExp = env.readcm()[1];

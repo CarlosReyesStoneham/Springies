@@ -33,19 +33,7 @@ public class MovableMass extends Mass {
 		y = position.y;
 		x = position.x;
 		myRotation = -myBody.getAngle();
-			
-		//If hits top or bottom
-		if(flag == 1) {
-			myBody.m_linearVelocity = (new Vec2(myBody.m_linearVelocity.x, -myBody.m_linearVelocity.y));
-			//myBody.m_linearVelocity = (new Vec2(0f, -0.1f));
-		}
-		//If hits left or right
-		if(flag == 2) {
-			//myBody.m_linearVelocity = (new Vec2(2,0));
-			myBody.m_linearVelocity = (new Vec2(-myBody.m_linearVelocity.x, myBody.m_linearVelocity.y));
-		}
 		
-		//System.out.println("New | X: " + x + " Y: " + y);
 		for (Spring s : mySprings) {
 			Vec2 force = s.getForce(x, y);
 			this.setForce(force.x, force.y);
@@ -54,16 +42,14 @@ public class MovableMass extends Mass {
 	
 	int flag = 0;
 	@Override
-	public void hit(JGObject other) {
-		// we hit something! bounce off it!
-		
+	public void hit(JGObject other) {		
 		//if hits top or bottom
 		if (and(other.colid, 2) && (myBody.getPosition().y < 25 || myBody.getPosition().y > pfheight-25)) {
-			flag = 1;
+			myBody.m_linearVelocity = (new Vec2(myBody.m_linearVelocity.x, -myBody.m_linearVelocity.y));
 		}
 		//if hits left or right
 		if (and(other.colid, 2) && (myBody.getPosition().x < 25 || myBody.getPosition().x > pfwidth-25)) {
-			flag = 3;
+			myBody.m_linearVelocity = (new Vec2(-myBody.m_linearVelocity.x, myBody.m_linearVelocity.y));
 		}
 
 	}
