@@ -9,6 +9,7 @@ import org.w3c.dom.NodeList;
 import java.io.*;
 import java.util.ArrayList;
 
+import jboxGlue.Mass;
 import jboxGlue.MovableMass;
 import jboxGlue.Spring;
 
@@ -19,7 +20,7 @@ public class XMLReader {
 
 	
 	public Document docIn() {
-		File file = new File("src/springies/ball.xml");
+		File file = new File("src/springies/daintywalker.xml");
 
 		try {
 			DocumentBuilder builder = DocumentBuilderFactory.newInstance()
@@ -41,7 +42,6 @@ public class XMLReader {
 			Node massItem = nodes.item(i);
 			NamedNodeMap nodeMap = massItem.getAttributes();
 			
-			ArrayList<Node> nodeList = new ArrayList<Node>();
 			int len = nodeMap.getLength();
 			for (int j = 0; j < nodeMap.getLength(); j += len) {
 				float x = 0; float y = 0; double xForce = 0; double yForce = 0; int m = 0;
@@ -64,7 +64,6 @@ public class XMLReader {
 						m = Integer.parseInt(nodeMap.item(j+k).getNodeValue().toString());
 					}
 				}
-				
 				MovableMass mass;
 				if(len == 3){
 					mass = new MovableMass(x, y);
@@ -74,6 +73,7 @@ public class XMLReader {
 				else{
 					mass = new MovableMass(x, y, xForce, yForce, m);
 					myMassList.add(mass);
+					//System.out.println(mass.x);
 				}
 				
 			}
@@ -90,7 +90,7 @@ public class XMLReader {
 			NamedNodeMap nodeMap = massItem.getAttributes();
 			
 			int len = nodeMap.getLength();
-			System.out.println(len);
+			//System.out.println(len);
 			for (int j = 0; j <= nodeMap.getLength()-len; j += len) {
 				String a = ""; String b = ""; double rest = 0; double constant = 0;
 				
@@ -109,11 +109,11 @@ public class XMLReader {
 						constant = Double.parseDouble(nodeMap.item(j+k).getNodeValue().toString());
 					}
 				}
-				
+
 				int m1 = Integer.parseInt(a.substring(1));
 				int m2 = Integer.parseInt(b.substring(1));
-				MovableMass mass1 = myMassList.get(m1-1);
-				MovableMass mass2 = myMassList.get(m2-1);
+				MovableMass mass1 = myMassList.get(m1);
+				MovableMass mass2 = myMassList.get(m2);
 				Spring spring;
 				
 				if(len == 2){
