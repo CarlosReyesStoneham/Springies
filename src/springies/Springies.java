@@ -117,6 +117,7 @@ public class Springies extends JGEngine {
 		wallExp[2] = 1.0;
 		wallExp[3] = 0.0;
 
+		
 		// TODO: Check, if there is no environment.xml file, set default values
 		/*
 		 * gravDir = 0; gravMag = 20; // .........?! viscosity = 1; cmMag = 0;
