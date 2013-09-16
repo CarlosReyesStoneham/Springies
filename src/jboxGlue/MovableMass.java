@@ -28,37 +28,27 @@ public class MovableMass extends Mass {
 	@Override
 	public void move() {
 		super.move();
-		/*
+		
 		Vec2 position = myBody.getPosition();
 		y = position.y;
 		x = position.x;
 		myRotation = -myBody.getAngle();
 			
-		//If hits top
+		//If hits top or bottom
 		if(flag == 1) {
+			//myBody.m_linearVelocity = (new Vec2(myBody.getPosition().x, -myBody.getPosition().y));
 			myBody.m_linearVelocity = (new Vec2(0,2));
 		}
-		//If hits bottom
+		//If hits left or right
 		if(flag == 2) {
-			myBody.m_linearVelocity = (new Vec2(0, -2));
+			myBody.m_linearVelocity = (new Vec2(2,0));
+			//myBody.m_linearVelocity = (new Vec2(-myBody.getPosition().x, myBody.getPosition().y));
 		}
-		//If hits left
-		if(flag == 3) {
-			myBody.m_linearVelocity = (new Vec2(2, 0));
-		}
-		//If hits right
-		if(flag == 4) {
-			myBody.m_linearVelocity = (new Vec2(-2, 0));
-		}
-		*/
 		
 		//System.out.println("New | X: " + x + " Y: " + y);
 		for (Spring s : mySprings) {
-			//s.addSpringForce();
 			Vec2 force = s.getForce(x, y);
-			//applyForce(force);
 			this.setForce(force.x, force.y);
-//			s.getForce(x, y);
 		}
 		
 	}
@@ -71,21 +61,14 @@ public class MovableMass extends Mass {
 		// is it a tall wall?
 		//final double DAMPING_FACTOR = 0.8;
 		
-		//if hits top
-		if (and(other.colid, 2) && myBody.getPosition().y < 25) {
+		//if hits top or bottom
+		if (and(other.colid, 2) && (myBody.getPosition().y < 25 || myBody.getPosition().y > pfheight-25)) {
 			flag = 1;
 		}
-		//if hits bottom   
-		if (and(other.colid, 2) && myBody.getPosition().y > pfheight-25) {
-			flag = 2;
-		}
-		//if hits left
-		if (and(other.colid, 2) && myBody.getPosition().x < 25) {
+		//if hits left or right
+		if (and(other.colid, 2) && (myBody.getPosition().x < 25 || myBody.getPosition().x > pfwidth-25)) {
 			flag = 3;
 		}
-		//If hits right
-		if (and(other.colid, 2) && myBody.getPosition().x > pfwidth-25) {
-			flag = 4;
-		}
+
 	}
 }
