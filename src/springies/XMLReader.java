@@ -114,7 +114,6 @@ public class XMLReader {
 				new Spring(one, two, restLength, constant);
 			}
 		}
-	//	new Spring(myMassMap.get("m1"), myMassMap.get("m13"), 29.0, 0.005);
 	}
 	
 	public void makeMuscles(){
@@ -196,7 +195,7 @@ public class XMLReader {
 		for (int i = 0; i < nodes.getLength(); i++) {
 			Node massItem = nodes.item(i);
 			NamedNodeMap nodeMap = massItem.getAttributes();
-			ret[i] = Double.parseDouble(nodeMap.getNamedItem("magnitude").getNodeValue());
+			ret[i] = Double.parseDouble(nodeMap.getNamedItem("magnitude").getNodeValue())*.0001;
 		}
 		return ret;
 	}
@@ -212,59 +211,5 @@ public class XMLReader {
 			ret[i] = Double.parseDouble(nodeMap.getNamedItem("exponent").getNodeValue());
 		}
 		return ret;
-	}
-	
-	/*public ArrayList<Spring> getSpring() {
-		
-		Document doc = docIn();
-		NodeList nodes = doc.getElementsByTagName("spring");
-		for (int i = 0; i < nodes.getLength(); i++) {
-			Node massItem = nodes.item(i);
-			NamedNodeMap nodeMap = massItem.getAttributes();
-			
-			int len = nodeMap.getLength();
-			//System.out.println(len);
-			for (int j = 0; j <= nodeMap.getLength()-len; j += len) {
-				String a = ""; String b = ""; double rest = 0; double constant = 0;
-				
-				for(int k=0; k <len; k++){
-					String name = nodeMap.item(j+k).getNodeName();
-					if(name.equals("a")){
-						a = (nodeMap.item(j+k).getNodeValue().toString());
-					}
-					if(name.equals("b")){
-						b = (nodeMap.item(j+k).getNodeValue().toString());
-					}
-					if(name.equals("restlength")){
-						rest = Double.parseDouble(nodeMap.item(j+k).getNodeValue().toString());
-					}
-					if(name.equals("constant")){
-						constant = Double.parseDouble(nodeMap.item(j+k).getNodeValue().toString());
-					}
-				}
-
-				int m1 = Integer.parseInt(a.substring(1));
-				int m2 = Integer.parseInt(b.substring(1));
-				MovableMass mass1 = myMassList.get(m1);
-				MovableMass mass2 = myMassList.get(m2);
-				Spring spring;
-				
-				if(len == 2){
-					spring = new Spring(mass1, mass2);
-					mySpringList.add(spring);
-
-				}
-				else if(len == 3) {
-					spring = new Spring(mass1, mass2, rest);
-					mySpringList.add(spring);
-				}
-				else{
-					System.out.println(rest);
-					spring = new Spring(mass1, mass2, rest, constant);
-					mySpringList.add(spring);
-				}
-			}
-		}
-		return mySpringList;
-	}
-*/}
+	}	
+}

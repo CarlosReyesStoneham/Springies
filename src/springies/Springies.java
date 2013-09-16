@@ -101,16 +101,16 @@ public class Springies extends JGEngine {
 		wall = new Wall("wall", 2, JGColor.green, WALL_THICKNESS, WALL_HEIGHT);
 		wall.setPos(displayWidth() - WALL_MARGIN, displayHeight() / 2);
 
-		XMLReader reader = new XMLReader("src/springies/ball.xml");
+		XMLReader reader = new XMLReader("src/springies/daintywalker.xml");
 		massList = reader.makeMasses();
 		reader.makeSprings();
-	//	reader.makeMuscles();
+		reader.makeMuscles();
 		File f = new File("src/springies/environment.xml");
 		if(f.exists()){
 			XMLReader env = new XMLReader("src/springies/environment.xml");
 			
 			gravDir = env.readGravity()[0];
-			gravMag = env.readGravity()[1];
+			gravMag = env.readGravity()[1] * .0000001;
 			viscosity = env.readViscosity();
 			cmMag = env.readcm()[0];
 			cmExp = env.readcm()[1];
@@ -119,7 +119,7 @@ public class Springies extends JGEngine {
 		}
 		else{
 			gravDir = 0;
-			gravMag = 20;
+			gravMag = 0;
 			viscosity = 1;
 			cmMag = 0;
 			cmExp = 0;
@@ -139,10 +139,7 @@ public class Springies extends JGEngine {
 		// sure what the magnitude of gravity is even supposed to MEAN anyways.
 		// Physically nonsensical.
 		
-		WorldManager.getWorld().setGravity(new Vec2(0,0));/*
-				new Vec2((float) (Math.cos(90)), (float) (Math.sin(gravDir))));
-		*/
-		//gravControl.changeGravity();
+		WorldManager.getWorld().setGravity(new Vec2((float) (gravMag * Math.cos(90)), (float) (gravMag * Math.sin(gravDir))));
 		
 		// update game objects
 		WorldManager.getWorld().step(1f, 1);
@@ -160,7 +157,7 @@ public class Springies extends JGEngine {
 						- m.x, wallExp[1])), 0));
 				m.applyForce(new Vec2(0, (float) (wallMag[2] / Math.pow(
 						-pfHeight() - m.y, wallExp[2]))));
-				m.applyForce(new Vec2((float) (wallMag[3] / Math.pow(m.x,
+				m.applyForce(new Vec2( (float) (wallMag[3] / Math.pow(m.x,
 						wallExp[3])), 0));
 			}
 			

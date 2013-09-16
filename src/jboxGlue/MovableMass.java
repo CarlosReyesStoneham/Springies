@@ -54,7 +54,6 @@ public class MovableMass extends Mass {
 		
 		//System.out.println("New | X: " + x + " Y: " + y);
 		for (Spring s : mySprings) {
-			System.out.println("Spring " + s.colid);
 			//s.addSpringForce();
 			Vec2 force = s.getForce(x, y);
 			//applyForce(force);
