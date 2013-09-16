@@ -3,6 +3,7 @@ package springies;
 import jgame.platform.JGEngine;
 
 public class Controls{
+	private final static double gravAdjust = 0.02;
 	Springies game;
 	float xGravity;
 	float yGravity;
@@ -14,16 +15,16 @@ public class Controls{
 	
 	public void changeGravity(){
 		if(game.getKey(JGEngine.KeyUp)){
-			yGravity += 0.02;
+			yGravity += gravAdjust;
 		}
 		if(game.getKey(JGEngine.KeyDown)){
-			yGravity -= 0.02;
+			yGravity -= gravAdjust;
 		}
 		if(game.getKey(JGEngine.KeyLeft)){
-			xGravity -= 0.02;
+			xGravity -= gravAdjust;
 		}
 		if(game.getKey(JGEngine.KeyRight)){
-			xGravity += 0.02;
+			xGravity += gravAdjust;
 		}
 	}
 }

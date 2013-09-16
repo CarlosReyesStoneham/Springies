@@ -3,7 +3,7 @@ package jboxGlue;
 public class Muscle extends Spring {
 	private double myOriginalLength;
 	private double myAmplitude;
-	private int period = 60;
+	private final static int period = 60;
 	private int count = 0;
 	
 	public Muscle(Mass first, Mass second, double amplitude) {

@@ -16,7 +16,7 @@ import jboxGlue.Muscle;
 import jboxGlue.Spring;
 
 public class XMLReader {
-
+	private final static int WALLMAG =4;
 	public ArrayList<Spring> mySpringList = new ArrayList<Spring>();
 	HashMap<String, Mass> myMassMap = new HashMap<String, Mass>();
 	
@@ -190,7 +190,7 @@ public class XMLReader {
 	public double[] readWallMag(){
 		Document doc = docIn();
 		NodeList nodes = doc.getElementsByTagName("wall");
-		double ret[] = new double[4];
+		double ret[] = new double[WALLMAG];
 		
 		for (int i = 0; i < nodes.getLength(); i++) {
 			Node massItem = nodes.item(i);

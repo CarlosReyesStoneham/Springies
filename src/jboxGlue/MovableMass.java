@@ -1,11 +1,11 @@
 package jboxGlue;
 
 import org.jbox2d.common.Vec2;
-import org.jbox2d.dynamics.BodyDef;
 
 import jgame.JGObject;
 
 public class MovableMass extends Mass {
+	private final static int MARGIN = 25;
 	
 	public MovableMass(float x, float y, float mass) {
 		this(x, y, 0, 0, mass);
@@ -34,21 +34,21 @@ public class MovableMass extends Mass {
 		x = position.x;
 		myRotation = -myBody.getAngle();
 		
+		//Applying the spring force
 		for (Spring s : mySprings) {
 			Vec2 force = s.getForce(x, y);
 			this.setForce(force.x, force.y);
 		}
 	}	
 	
-	int flag = 0;
 	@Override
 	public void hit(JGObject other) {		
 		//if hits top or bottom
-		if (and(other.colid, 2) && (myBody.getPosition().y < 25 || myBody.getPosition().y > pfheight-25)) {
+		if (and(other.colid, 2) && (myBody.getPosition().y < MARGIN || myBody.getPosition().y > pfheight-MARGIN)) {
 			myBody.m_linearVelocity = (new Vec2(myBody.m_linearVelocity.x, -myBody.m_linearVelocity.y));
 		}
 		//if hits left or right
-		if (and(other.colid, 2) && (myBody.getPosition().x < 25 || myBody.getPosition().x > pfwidth-25)) {
+		if (and(other.colid, 2) && (myBody.getPosition().x < MARGIN || myBody.getPosition().x > pfwidth-MARGIN)) {
 			myBody.m_linearVelocity = (new Vec2(-myBody.m_linearVelocity.x, myBody.m_linearVelocity.y));
 		}
 

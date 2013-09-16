@@ -1,14 +1,10 @@
 package springies;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import jboxGlue.Mass;
-import jboxGlue.MovableMass;
-import jboxGlue.Muscle;
 import jboxGlue.PhysicalObject;
-import jboxGlue.Spring;
 import jboxGlue.Wall;
 import jboxGlue.WorldManager;
 import jgame.JGColor;

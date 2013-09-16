@@ -22,9 +22,7 @@ public class Mass extends PhysicalObject {
 		mySprings.add(newSpring);
 	}
 	
-	public void applyForce(Vec2 force){
-		
-	}
+	public void applyForce(Vec2 force){}
 
 	protected void init(double mass) {
 		CircleDef shape = new CircleDef();
