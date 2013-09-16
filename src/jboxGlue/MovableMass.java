@@ -51,15 +51,12 @@ public class MovableMass extends Mass {
 			this.setForce(force.x, force.y);
 		}
 		
-	}
+		}	
+	
 	int flag = 0;
 	@Override
 	public void hit(JGObject other) {
 		// we hit something! bounce off it!
-		//Vec2 velocity = myBody.getLinearVelocity();
-
-		// is it a tall wall?
-		//final double DAMPING_FACTOR = 0.8;
 		
 		//if hits top or bottom
 		if (and(other.colid, 2) && (myBody.getPosition().y < 25 || myBody.getPosition().y > pfheight-25)) {

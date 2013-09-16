@@ -25,19 +25,6 @@ public abstract class PhysicalObject extends JGObject {
 		init();
 	}
 
-	/*protected PhysicalObject(String name, int collisionId, String gfxname) {
-		super(name, true, 0, 0, collisionId, gfxname);
-
-		if (gfxname == null) {
-			throw new IllegalArgumentException("gfxname cannot be null!");
-		}
-
-		myColor = null;
-		myHasImage = true;
-
-		init();
-	}*/
-
 	protected void init() {
 		// init defaults... leaving this here now just in case
 		myEngine = eng;
