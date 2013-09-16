@@ -21,43 +21,61 @@ public class MovableMass extends Mass {
 
 	@Override
 	public void move() {
+		System.out.println(myBody.getPosition());
 		Vec2 position = myBody.getPosition();
 		y = position.y;
 		x = position.x;
 		myRotation = -myBody.getAngle();
-		
-		if(x > pfwidth-20)
-			x = pfwidth-40;
-		else if(x < 20)
-			x = 40;
-		
-		if(y > pfheight-20)
-			y = pfheight-40;
-		else if(y < 20)
-			y = 40;
-		
+			
+		//If hits top
+		if(flag == 1) {
+			myBody.m_linearVelocity = (new Vec2(0,2));
+		}
+		//If hits bottom
+		if(flag == 2) {
+			myBody.m_linearVelocity = (new Vec2(0, -2));
+		}
+		//If hits left
+		if(flag == 3) {
+			myBody.m_linearVelocity = (new Vec2(2, 0));
+		}
+		//If hits right
+		if(flag == 4) {
+			myBody.m_linearVelocity = (new Vec2(-2, 0));
+		}
 		//System.out.println("New | X: " + x + " Y: " + y);
 		for (Spring s : mySprings) {
 			Vec2 force = s.getForce(x, y);
 			myBody.applyForce(force, myBody.getLocalCenter());
 		}
 	}
-
+	int flag = 0;
 	@Override
 	public void hit(JGObject other) {
 		// we hit something! bounce off it!
-		Vec2 velocity = myBody.getLinearVelocity();
+		//Vec2 velocity = myBody.getLinearVelocity();
 
 		// is it a tall wall?
-		final double DAMPING_FACTOR = 0.8;
-		boolean isSide = other.getBBox().height > other.getBBox().width;
-		if (isSide) {
-			velocity.x *= -DAMPING_FACTOR;
-		} else {
-			velocity.y *= -DAMPING_FACTOR;
+		//final double DAMPING_FACTOR = 0.8;
+		
+		//if hits top
+		if (and(other.colid, 2) && myBody.getPosition().y < 100) {
+			flag = 1;
 		}
-
-		// apply the change
-		myBody.setLinearVelocity(velocity);
+		//if hits bottom
+		if (and(other.colid, 2) && myBody.getPosition().y > pfheight-100) {
+			flag = 2;
+		}
+		//if hits left
+		if (and(other.colid, 2) && myBody.getPosition().x < 100) {
+			flag = 3;
+		}
+		//If hits right
+		if (and(other.colid, 2) && myBody.getPosition().x > pfwidth-100) {
+			flag = 4;
+		}
+		else {
+			System.out.println("NOPE");
+		}
 	}
 }

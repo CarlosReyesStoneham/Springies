@@ -19,9 +19,13 @@ public class XMLReader {
 	public ArrayList<Spring> mySpringList = new ArrayList<Spring>();
 	HashMap<String, MovableMass> myMassMap = new HashMap<String, MovableMass>();
 	
+	private String xmlFile;
+	public XMLReader(String xmlFile){
+		this.xmlFile= xmlFile;
+	}
 	
 	public Document docIn() {
-		File file = new File("src/springies/ball.xml");
+		File file = new File(xmlFile);
 
 		try {
 			DocumentBuilder builder = DocumentBuilderFactory.newInstance()
