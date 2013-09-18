@@ -1,4 +1,4 @@
-springies
+Springies
 =========
 Authors: Leeviana Gray and Carlos Reyes
 Date started: 9/11/2013
@@ -24,4 +24,4 @@ Please set the path to the environment variables XML file and the desired object
 in the Springies.java class. Please run the program from Main.
 
 Known Bugs: There is currently a bug with the repulsion method, the center of mass is not being put
-in the right place, additionally, the center of mass neither repels nor attracts anything.
+in the right place, additionally, the center of mass neither repels nor attracts anything. 
