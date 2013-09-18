@@ -17,7 +17,6 @@ import jboxGlue.Spring;
 
 public class XMLReader {
 	private final static int WALLMAG =4;
-	public ArrayList<Spring> mySpringList = new ArrayList<Spring>();
 	HashMap<String, Mass> myMassMap = new HashMap<String, Mass>();
 	
 	private String xmlFile;
@@ -40,6 +39,8 @@ public class XMLReader {
 		}
 	}
 
+	// really we don't need to return the whole hashmap, because right now the springs are in the same function
+	// maybe we'll split them up later so I'll leave it like this.
 	public HashMap<String, Mass> makeMasses(){
 		float x;
 		float y;
@@ -83,11 +84,12 @@ public class XMLReader {
 		return myMassMap;
 	}
 	
-	public void makeSprings(){
+	public ArrayList<Spring> makeSprings(){
 		Mass one;
 		Mass two;
 		double restLength;
 		double constant;
+		ArrayList<Spring> springs = new ArrayList<Spring>();
 		
 		Document doc = docIn();
 		NodeList nodes = doc.getElementsByTagName("spring");
@@ -108,20 +110,22 @@ public class XMLReader {
 			catch(Exception e){}
 			
 			if(restLength == -1){
-				new Spring(one, two, constant);
+				springs.add(new Spring(one, two, constant));
 			}
 			else{
-				new Spring(one, two, restLength, constant);
+				springs.add(new Spring(one, two, restLength, constant));
 			}
 		}
+		return springs;
 	}
 	
-	public void makeMuscles(){
+	public ArrayList<Spring> makeMuscles(){
 		Mass one;
 		Mass two;
 		double restLength;
 		double constant;
 		double amplitude;
+		ArrayList<Spring> muscles = new ArrayList<Spring>();
 		
 		Document doc = docIn();
 		NodeList nodes = doc.getElementsByTagName("muscle");
@@ -144,12 +148,13 @@ public class XMLReader {
 			catch(Exception e){}
 			
 			if(restLength == -1){
-				new Muscle(one, two, amplitude);
+				muscles.add(new Muscle(one, two, amplitude));
 			}
 			else{
-				new Muscle(one, two, restLength, constant, amplitude);
+				muscles.add(new Muscle(one, two, restLength, constant, amplitude));
 			}
 		}
+		return muscles;
 	}
 	
 	public double[] readGravity(){

@@ -1,5 +1,7 @@
 package jboxGlue;
 
+import org.jbox2d.collision.CircleDef;
+import org.jbox2d.collision.PolygonDef;
 import org.jbox2d.common.Vec2;
 import jgame.JGColor;
 
@@ -27,8 +29,10 @@ public class Spring extends PhysicalObject {
 		mySecond = second;
 		first.addSpring(this);
 		second.addSpring(this);
+		
+		this.createBody(new PolygonDef());
 	}
-
+	
 	@Override
 	public void paintShape() {
 		myEngine.setColor(myColor);

@@ -1,9 +1,14 @@
 package springies;
 
+import java.awt.FileDialog;
+import java.awt.Frame;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import jboxGlue.Mass;
+import jboxGlue.MovableMass;
+import jboxGlue.Spring;
 import jboxGlue.PhysicalObject;
 import jboxGlue.Wall;
 import jboxGlue.WorldManager;
@@ -15,7 +20,11 @@ import springies.XMLReader;
 @SuppressWarnings("serial")
 public class Springies extends JGEngine {
 
-	HashMap<String, Mass> massList = new HashMap<String, Mass>();
+	// Array of massLists
+	ArrayList<HashMap<String, Mass>> massMaps = new ArrayList<HashMap<String, Mass>>();
+
+	// Array of Springs... only used for clearing :\
+	ArrayList<ArrayList<Spring>> springArrays = new ArrayList<ArrayList<Spring>>();
 
 	// TODO: We should make an environment
 	// change a lot of these to floats so I don't need to keep changing the type
@@ -59,7 +68,7 @@ public class Springies extends JGEngine {
 				+ WALL_THICKNESS;
 		final double WALL_HEIGHT = displayHeight() - WALL_MARGIN * 2
 				+ WALL_THICKNESS;
-		
+
 		PhysicalObject wall = new Wall("wall", 2, JGColor.green, WALL_WIDTH,
 				WALL_THICKNESS);
 		wall.setPos(displayWidth() / 2, WALL_MARGIN);
@@ -70,23 +79,20 @@ public class Springies extends JGEngine {
 		wall = new Wall("wall", 2, JGColor.green, WALL_THICKNESS, WALL_HEIGHT);
 		wall.setPos(displayWidth() - WALL_MARGIN, displayHeight() / 2);
 
-		XMLReader reader = new XMLReader("src/springies/daintywalker.xml");
-		massList = reader.makeMasses();
-		reader.makeSprings();
-		reader.makeMuscles();
+		makeAssembly();
+
 		File f = new File("src/springies/environment.xml");
-		if(f.exists()){
+		if (f.exists()) {
 			XMLReader env = new XMLReader("src/springies/environment.xml");
-			
+
 			gravDir = env.readGravity()[0];
-			gravMag = env.readGravity()[1] * .00001; //Adjusting gravity
+			gravMag = env.readGravity()[1] * .00001; // Adjusting gravity
 			viscosity = env.readViscosity();
 			cmMag = env.readcm()[0];
 			cmExp = env.readcm()[1];
 			wallMag = env.readWallMag();
-			wallExp = env.readWallExp();	
-		}
-		else{
+			wallExp = env.readWallExp();
+		} else {
 			gravDir = 0;
 			gravMag = 0;
 			viscosity = 1;
@@ -99,62 +105,105 @@ public class Springies extends JGEngine {
 
 	@Override
 	public void doFrame() {
+		checkUserInput();
 		// set gravity... I'm going to assume that 0 is normal and that it goes
 		// clockwise
-			
-		WorldManager.getWorld().setGravity(new Vec2((float) (gravMag * Math.cos(90)), (float) (gravMag * Math.sin(gravDir))));
-		
+
+		WorldManager.getWorld().setGravity(
+				new Vec2((float) (gravMag * Math.cos(90)),
+						(float) (gravMag * Math.sin(gravDir))));
+
 		// update game objects
 		WorldManager.getWorld().step(1f, 1);
 		moveObjects();
 		checkCollision(2, 1);
 
-		for (Mass m : massList.values()) {
-			// walls repel
-			for (int i = 0; i < 4; i++) {
-				// 0 is top wall, 1 is right etc.
-				m.applyForce(new Vec2(0, (float) (wallMag[0] / Math.pow(m.y,
-						wallExp[0]))));
-				m.applyForce(new Vec2((float) (wallMag[1] / Math.pow(-pfWidth()
-						- m.x, wallExp[1])), 0));
-				m.applyForce(new Vec2(0, (float) (wallMag[2] / Math.pow(
-						-pfHeight() - m.y, wallExp[2]))));
-				m.applyForce(new Vec2( (float) (wallMag[3] / Math.pow(m.x,
-						wallExp[3])), 0));
+		for (HashMap<String, Mass> massList : massMaps) {
+			for (Mass m : massList.values()) {
+				// walls repel
+				for (int i = 0; i < 4; i++) {
+					// 0 is top wall, 1 is right etc.
+					m.applyForce(new Vec2(0, (float) (wallMag[0] / Math.pow(
+							m.y, wallExp[0]))));
+					m.applyForce(new Vec2((float) (wallMag[1] / Math.pow(
+							-pfWidth() - m.x, wallExp[1])), 0));
+					m.applyForce(new Vec2(0, (float) (wallMag[2] / Math.pow(
+							-pfHeight() - m.y, wallExp[2]))));
+					m.applyForce(new Vec2((float) (wallMag[3] / Math.pow(m.x,
+							wallExp[3])), 0));
+				}
+
+				// viscosity - resistive force on masses proportional to their
+				// velocity
+				m.yspeed = m.yspeed * viscosity;
+				m.xspeed = m.xspeed * viscosity;
+
+				/*
+				 * for(MovableMass otherMass : massList){ Vec2 cmForce = new
+				 * Vec2((float) (cmMag * Math.pow(m.x - otherMass.x,cmExp)),
+				 * (float) ( cmMag * Math.pow(m.y - otherMass.y,cmExp)));
+				 * otherMass.applyForce(cmForce); }
+				 */
 			}
-			
-			// viscosity - resistive force on masses proportional to their
-			// velocity
-			m.yspeed = m.yspeed * viscosity;
-			m.xspeed = m.xspeed * viscosity;
-			
-			/*
-			 * for(MovableMass otherMass : massList){ Vec2 cmForce = new
-			 * Vec2((float) (cmMag * Math.pow(m.x - otherMass.x,cmExp)), (float)
-			 * ( cmMag * Math.pow(m.y - otherMass.y,cmExp)));
-			 * otherMass.applyForce(cmForce); }
-			 */
 		}
 	}
-	
+
+	private void checkUserInput() {
+		if (getKey('N')) {
+			clearKey('N');
+			makeAssembly();
+		}
+		if (getKey('C')) {
+			// removeObjects doesn't work for some reason (use debugger to find
+			// out later?)
+			clearKey('C');
+
+			for (ArrayList<Spring> springArray : springArrays) {
+				for (Spring s : springArray) {
+					s.remove();
+				}
+			}
+			
+			for (HashMap<String, Mass> massList : massMaps) {
+				for (Mass m : massList.values()) {
+					m.remove();
+				}
+			}
+
+			massMaps.clear();
+			springArrays.clear();
+		}
+	}
+
+	private void makeAssembly() {
+		FileDialog selector = new FileDialog(new Frame());
+		selector.setVisible(true);
+		XMLReader reader = new XMLReader("src/springies/" + selector.getFile());
+		massMaps.add(reader.makeMasses());
+		springArrays.add(reader.makeSprings());
+		springArrays.add(reader.makeMuscles());
+	}
+
 	public void centerOfMass() {
 		float topX = 0;
 		float topY = 0;
 		float totalMass = 500;
-		for(Mass m : massList.values()){
-			topX += (float) (m.getMyMass()*m.x);
-			System.out.println(topX);
-			topY += (float) (m.getMyMass()*m.y);
+		// TODO: where are you using cmMag and cmExp?
+		for (HashMap<String, Mass> massList : massMaps) {
+			for (Mass m : massList.values()) {
+				topX += (float) (m.getMyMass() * m.x);
+				// System.out.println(topX);
+				topY += (float) (m.getMyMass() * m.y);
+			}
 		}
-		
-		float xCoord = (float) (topX/totalMass);
-		float yCoord = (float) (topY/totalMass);
+
+		float xCoord = (float) (topX / totalMass);
+		float yCoord = (float) (topY / totalMass);
 		new Mass(xCoord, yCoord, 1);
 	}
 
 	@Override
 	public void paintFrame() {
-		// nothing to do
-		// the objects paint themselves
+
 	}
 }
