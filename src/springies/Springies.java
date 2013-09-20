@@ -16,6 +16,7 @@ import jgame.JGColor;
 import jgame.platform.JGEngine;
 import org.jbox2d.common.Vec2;
 import springies.XMLReader;
+import springies.Controls;
 
 @SuppressWarnings("serial")
 public class Springies extends JGEngine {
@@ -36,6 +37,10 @@ public class Springies extends JGEngine {
 	double cmExp;
 	double[] wallMag = new double[4];
 	double[] wallExp = new double[4];
+
+	int initialArea = 10; //Initial wall margin
+	int toggleGravity = 0; //Gravity on/off
+
 
 	public Springies() {
 		// set the window size
@@ -59,28 +64,39 @@ public class Springies extends JGEngine {
 	@Override
 	public void initGame() {
 		setFrameRate(60, 2);
-
 		WorldManager.initWorld(this);
-
-		final double WALL_MARGIN = 10;
-		final double WALL_THICKNESS = 10;
-		final double WALL_WIDTH = displayWidth() - WALL_MARGIN * 2
-				+ WALL_THICKNESS;
-		final double WALL_HEIGHT = displayHeight() - WALL_MARGIN * 2
-				+ WALL_THICKNESS;
-
-		PhysicalObject wall = new Wall("wall", 2, JGColor.green, WALL_WIDTH,
-				WALL_THICKNESS);
-		wall.setPos(displayWidth() / 2, WALL_MARGIN);
-		wall = new Wall("wall", 2, JGColor.green, WALL_WIDTH, WALL_THICKNESS);
-		wall.setPos(displayWidth() / 2, displayHeight() - WALL_MARGIN);
-		wall = new Wall("wall", 2, JGColor.green, WALL_THICKNESS, WALL_HEIGHT);
-		wall.setPos(WALL_MARGIN, displayHeight() / 2);
-		wall = new Wall("wall", 2, JGColor.green, WALL_THICKNESS, WALL_HEIGHT);
-		wall.setPos(displayWidth() - WALL_MARGIN, displayHeight() / 2);
-
+		setWalls(initialArea);
 		makeAssembly();
 		fileIn();
+	}
+	
+	ArrayList<Wall> wallList = new ArrayList<Wall>();
+	public void setWalls(int area) {
+		double wall_margin = area;
+		
+		final double WALL_THICKNESS = 10;
+		final double WALL_WIDTH = displayWidth() - wall_margin * 2
+				+ WALL_THICKNESS;
+		final double WALL_HEIGHT = displayHeight() - wall_margin * 2
+				+ WALL_THICKNESS;
+
+		Wall wall = new Wall("wall", 2, JGColor.green, WALL_WIDTH,
+				WALL_THICKNESS);
+		wall.setPos(displayWidth() / 2, wall_margin);
+		wallList.add(wall);
+		
+		wall = new Wall("wall", 2, JGColor.green, WALL_WIDTH, WALL_THICKNESS);
+		wall.setPos(displayWidth() / 2, displayHeight() - wall_margin);
+		wallList.add(wall);
+		
+		wall = new Wall("wall", 2, JGColor.green, WALL_THICKNESS, WALL_HEIGHT);
+		wall.setPos(wall_margin, displayHeight() / 2);
+		wallList.add(wall);
+
+		wall = new Wall("wall", 2, JGColor.green, WALL_THICKNESS, WALL_HEIGHT);
+		wallList.add(wall);
+		wall.setPos(displayWidth() - wall_margin, displayHeight() / 2);
+		
 	}
 	
 	public void fileIn() {
@@ -107,10 +123,9 @@ public class Springies extends JGEngine {
 		}
 	}
 	
-	//Lets remove this global
-	int toggleGravity = 0;
 	public void calculateGravitationalForce() {
 		if(toggleGravity==0){
+			//We need to take into account the case where gravDir > 90 degrees
 			WorldManager.getWorld().setGravity(new Vec2( (float) (gravMag*Math.cos(Math.toRadians(gravDir)) ),
 					(float) (gravMag*Math.cos(Math.toRadians(gravDir))) ) );
 		}
@@ -118,10 +133,12 @@ public class Springies extends JGEngine {
 			WorldManager.getWorld().setGravity(new Vec2(0f, 0f));
 		}
 	}
-
+	
+	Controls controller = new Controls(this, massMaps, springArrays, wallList);
 	@Override
 	public void doFrame() {
-		checkUserInput();
+
+		controller.checkUserInput();
 
 		calculateGravitationalForce();
 		
@@ -160,41 +177,7 @@ public class Springies extends JGEngine {
 		}
 	}
 
-	private void checkUserInput() {
-		//Object is made out of bounds if made
-		//after the first object
-		//Read new item toggle
-		if (getKey('N')) {
-			clearKey('N');
-			makeAssembly();
-		}
-		//Clear toggle
-		if (getKey('C')) {
-			clearKey('C');
-
-			for (ArrayList<Spring> springArray : springArrays) {
-				for (Spring s : springArray) {
-					s.remove();
-				}
-			}
-			
-			for (HashMap<String, Mass> massList : massMaps) {
-				for (Mass m : massList.values()) {
-					m.remove();
-				}
-			}
-
-			massMaps.clear();
-			springArrays.clear();
-		}
-		
-		//Gravity toggle
-		if (getKey('G')) {
-			toggleGravity = 1;
-		}
-	}
-
-	private void makeAssembly() {
+	public void makeAssembly() {
 		FileDialog selector = new FileDialog(new Frame());
 		selector.setVisible(true);
 		XMLReader reader = new XMLReader("src/springies/" + selector.getFile());
