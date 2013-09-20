@@ -51,27 +51,4 @@ public class EnvironmentForces {
 		float yCoord = (float) (topY / totalMass);
 		new Mass(xCoord, yCoord, 1);
 	}
-	
-	public void wallForce(ArrayList<HashMap<String, Mass>> massMaps) {
-		for (HashMap<String, Mass> massList : massMaps) {
-			for (Mass m : massList.values()) {
-				// walls repel
-				for (int i = 0; i < 4; i++) {
-					// 0 is top wall, 1 is right etc.
-					m.applyForce(new Vec2(0, (float) (wallMag[0] / Math.pow(
-							m.y, wallExp[0]))));
-					m.applyForce(new Vec2((float) (wallMag[1] / Math.pow(
-							-springies.pfWidth() - m.x, wallExp[1])), 0));
-					m.applyForce(new Vec2(0, (float) (wallMag[2] / Math.pow(
-							-springies.pfHeight() - m.y, wallExp[2]))));
-					m.applyForce(new Vec2((float) (wallMag[3] / Math.pow(m.x,
-							wallExp[3])), 0));
-				}
-				// viscosity - resistive force on masses proportional to their
-				m.yspeed = m.yspeed * viscosity;
-				m.xspeed = m.xspeed * viscosity;
-			}
-		}
-	}
-	
 }

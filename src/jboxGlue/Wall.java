@@ -76,22 +76,17 @@ public class Wall extends PhysicalObject {
 	
 	@Override
 	public void move() {
-
-
 		// copy the position and rotation from the JBox world to the JGame world
 		Vec2 position = myBody.getPosition();
 		x = position.x;
 		y = position.y;
 		myRotation = -myBody.getAngle();
 
-		System.out.println(x + " | " + y);
 		for(HashMap<String, Mass> massMap: mySpringies.getMassMaps()){
 			for(Mass m: massMap.values()){
 				m.applyForce(new Vec2( (float) (myWallMag / Math.pow(m.x,
 						myWallExp)), 0)); 
 			}
 		}
-		// System.out.println( String.format( "move() (%.1f,%.1f) mass=%.1f", x,
-		// y, myBody.m_mass ) );
 	}
 }

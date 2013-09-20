@@ -19,7 +19,6 @@ public class BoardSetup {
 	double[] wallMag = new double[4];
 	double[] wallExp = new double[4];
 	
-	
 	private ArrayList<Wall> wallList;
 	public Springies springies;
 	
@@ -27,7 +26,6 @@ public class BoardSetup {
 		this.springies = springies;
 		this.wallList = wallList;
 	}
-	
 	
 	//Read in an XML file
 	public void fileIn() {
@@ -55,30 +53,28 @@ public class BoardSetup {
 	}
 	
 	public void setWalls(int wall_margin) {
-		
 		final double WALL_THICKNESS = 10;
 		final double WALL_WIDTH = springies.displayWidth() - wall_margin * 2
 				+ WALL_THICKNESS;
 		final double WALL_HEIGHT = springies.displayHeight() - wall_margin * 2
 				+ WALL_THICKNESS;
 
-		Wall wall = new Wall("wall", 2, JGColor.green, WALL_WIDTH,
-				WALL_THICKNESS);
+		Wall wall = new Wall(springies, "wall", 2, JGColor.green, WALL_WIDTH,
+				WALL_THICKNESS, wallMag[0], wallExp[0]);
 		wall.setPos(springies.displayWidth() / 2, wall_margin);
 		wallList.add(wall);
 		
-		wall = new Wall("wall", 2, JGColor.green, WALL_WIDTH, WALL_THICKNESS);
+		wall = new Wall(springies, "wall", 2, JGColor.green, WALL_WIDTH, WALL_THICKNESS, wallMag[2], wallExp[2]);
 		wall.setPos(springies.displayWidth() / 2, springies.displayHeight() - wall_margin);
 		wallList.add(wall);
 		
-		wall = new Wall("wall", 2, JGColor.green, WALL_THICKNESS, WALL_HEIGHT);
+		wall = new Wall(springies, "wall", 2, JGColor.green, WALL_THICKNESS, WALL_HEIGHT, wallMag[3], wallExp[3]);
 		wall.setPos(wall_margin, springies.displayHeight() / 2);
 		wallList.add(wall);
 
-		wall = new Wall("wall", 2, JGColor.green, WALL_THICKNESS, WALL_HEIGHT);
+		wall = new Wall(springies, "wall", 2, JGColor.green, WALL_THICKNESS, WALL_HEIGHT, wallMag[1], wallExp[1]);
 		wallList.add(wall);
 		wall.setPos(springies.displayWidth() - wall_margin,springies.displayHeight() / 2);
-		
 	}
 	
 	public void makeAssembly(ArrayList<HashMap<String, Mass>> massMaps, ArrayList<ArrayList<Spring>> springArrays) {

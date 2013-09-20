@@ -20,12 +20,13 @@ public class Springies extends JGEngine {
 	ArrayList<ArrayList<Spring>> springArrays = new ArrayList<ArrayList<Spring>>();
 	ArrayList<Wall> wallList = new ArrayList<Wall>();
 
-	int initialArea = 10; //Initial wall margin
-	int toggleGravity = 0; //Gravity on/off
+	int initialArea = 10; // Initial wall margin
+	int toggleGravity = 0; // Gravity on/off
 
 	BoardSetup boardSet = new BoardSetup(this, wallList);
 	EnvironmentForces envForce = new EnvironmentForces(this);
-	Controls controller = new Controls(this, boardSet, massMaps, springArrays, wallList);
+	Controls controller = new Controls(this, boardSet, massMaps, springArrays,
+			wallList);
 
 	public Springies() {
 		// set the window size
@@ -52,9 +53,9 @@ public class Springies extends JGEngine {
 		WorldManager.initWorld(this);
 
 		boardSet.setWalls(initialArea);
-		//setWalls(initialArea);
+		// setWalls(initialArea);
 		boardSet.makeAssembly(massMaps, springArrays);
-		//fileIn();
+		// fileIn();
 		boardSet.fileIn();
 	}
 
@@ -66,62 +67,13 @@ public class Springies extends JGEngine {
 		WorldManager.getWorld().step(1f, 1);
 		moveObjects();
 		checkCollision(2, 1);
-		envForce.wallForce(massMaps);
-	}
-	
-	private void checkUserInput() {
-		if (getKey('N')){
-			clearKey('N');
-			makeAssembly();
-		}
-		if (getKey('C')){
-			clearKey('C');
-/*			for(HashMap<String, Mass> massList : massLists){
-				for(Mass m : massList.values()){
-					m.remove();
-				}
-			}
-			massLists.clear();
-		//	removeObjects(null, 1);
-		//	MovableMass m = new MovableMass(100,100,1);
-		//	m.remove();
-			System.out.println("Moving on.");*/		
-			for (ArrayList<Spring> springArray : springArrays) {
-				for (Spring s : springArray) {
-					s.remove();
-				}
-			}
-			
-			for (HashMap<String, Mass> massList : massMaps) {
-				for (Mass m : massList.values()) {
-					m.remove();
-				}
-			}
-
-			massMaps.clear();
-			springArrays.clear();
-
-		}
-	}
-
-	private void makeAssembly() {
-		FileDialog selector = new FileDialog(new Frame());
-		selector.setVisible(true);
-		XMLReader reader = new XMLReader("src/springies/" + selector.getFile());
-		massMaps.add(reader.makeMasses());
-		for(HashMap<String, Mass> massList: massMaps){
-			for (Mass m : massList.values()) {
-				System.out.println(m.y);
-			}
-		}
-		reader.makeSprings();
-		reader.makeMuscles();
 	}
 
 	@Override
-	public void paintFrame() {}
-	
-	public ArrayList<HashMap<String, Mass>> getMassMaps(){
+	public void paintFrame() {
+	}
+
+	public ArrayList<HashMap<String, Mass>> getMassMaps() {
 		return massMaps;
 	}
 }
