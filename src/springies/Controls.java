@@ -1,5 +1,6 @@
 package springies;
 
+import jboxGlue.Wall;
 import jgame.platform.JGEngine;
 
 public class Controls {
@@ -38,14 +39,17 @@ public class Controls {
 			}
 		}
 
+		// Press up and down arrows to change wall thickness
 		if (springies.getKey(JGEngine.KeyUp)) {
-			springies.removeObjects("Wall", 0);
-			boardSetup.setWalls(initialArea -= 10);
+			for(Wall w: boardSetup.getWalls()){
+				w.setThickness(10);
+			}
 		}
 
 		if (springies.getKey(JGEngine.KeyDown)) {
-			springies.removeObjects("Wall", 0);
-			boardSetup.setWalls(initialArea += 10);
+			for(Wall w: boardSetup.getWalls()){
+				w.setThickness(-10);
+			}
 		}
 	}
 }

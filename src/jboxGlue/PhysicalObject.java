@@ -26,7 +26,6 @@ public abstract class PhysicalObject extends JGObject {
 	}
 
 	protected void init() {
-		// init defaults... leaving this here now just in case
 		myEngine = eng;
 	}
 
@@ -78,9 +77,6 @@ public abstract class PhysicalObject extends JGObject {
 		x = position.x;
 		y = position.y;
 		myRotation = -myBody.getAngle();
-
-		// System.out.println( String.format( "move() (%.1f,%.1f) mass=%.1f", x,
-		// y, myBody.m_mass ) );
 	}
 
 	@Override
@@ -109,8 +105,6 @@ public abstract class PhysicalObject extends JGObject {
 
 	@Override
 	public void paint() {
-		// only paint something if we need to draw a shape. Images are already
-		// drawn
 		if (!myHasImage) {
 			paintShape();
 		}

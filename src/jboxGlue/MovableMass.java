@@ -52,6 +52,5 @@ public class MovableMass extends Mass {
 		if (and(other.colid, 2) && (myBody.getPosition().x < MARGIN || myBody.getPosition().x > pfwidth-MARGIN)) {
 			myBody.m_linearVelocity = (new Vec2(-myBody.m_linearVelocity.x, myBody.m_linearVelocity.y));
 		}
-
 	}
 }

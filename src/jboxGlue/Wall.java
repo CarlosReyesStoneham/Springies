@@ -9,43 +9,31 @@ import org.jbox2d.common.Vec2;
 
 import springies.Springies;
 
-public class Wall extends PhysicalObject {
-	private double myWidth;
-	private double myHeight;
-	private double[] myPolyx;
-	private double[] myPolyy;
+public abstract class Wall extends PhysicalObject {
+	protected double myWidth;
+	protected double myHeight;
+	private double[] myPolyx = null;
+	private double[] myPolyy = null;
 	private Springies mySpringies;
 	private double myWallMag;
 	private double myWallExp;
 
 	public Wall(Springies s, double width, double height, double wallMag, double wallExp) {
-		this(s, width, height, wallMag, wallExp, 0);
-	}
-
-	// TODO: Do walls ever have mass? This might be a useless constructor
-	public Wall(Springies s, double width, double height, double wallMag, double wallExp, double mass) {
 		super("Wall", 2, JGColor.green);
-		init(width, height, mass);
+		myWidth = width;
+		myHeight = height;
+		initWall();
 		mySpringies = s;
 		myWallMag = wallMag;
 		myWallExp = wallExp;
 	}
 
-	public void init(double width, double height, double mass) {
-		// save arguments
-		myWidth = width;
-		myHeight = height;
-
-		// init defaults
-		myPolyx = null;
-		myPolyy = null;
-
+	public void initWall() {
 		// make it a rect
 		PolygonDef shape = new PolygonDef();
-		shape.density = (float) mass;
-		shape.setAsBox((float) width, (float) height);
+		shape.setAsBox((float) myWidth, (float) myHeight);
 		createBody(shape);
-		setBBox(-(int) width / 2, -(int) height / 2, (int) width, (int) height);
+		setBBox(-(int) myWidth / 2, -(int) myHeight / 2, (int) myWidth, (int) myHeight);
 	}
 
 	@Override
@@ -56,21 +44,23 @@ public class Wall extends PhysicalObject {
 			myPolyy = new double[4];
 		}
 
-		// draw a rotated polygon
-		myEngine.setColor(myColor);
-		double cos = Math.cos(myRotation);
-		double sin = Math.sin(myRotation);
-		double halfWidth = myWidth / 2;
-		double halfHeight = myHeight / 2;
-		myPolyx[0] = (int) (x - halfWidth * cos - halfHeight * sin);
-		myPolyy[0] = (int) (y + halfWidth * sin - halfHeight * cos);
-		myPolyx[1] = (int) (x + halfWidth * cos - halfHeight * sin);
-		myPolyy[1] = (int) (y - halfWidth * sin - halfHeight * cos);
-		myPolyx[2] = (int) (x + halfWidth * cos + halfHeight * sin);
-		myPolyy[2] = (int) (y - halfWidth * sin + halfHeight * cos);
-		myPolyx[3] = (int) (x - halfWidth * cos + halfHeight * sin);
-		myPolyy[3] = (int) (y + halfWidth * sin + halfHeight * cos);
-		myEngine.drawPolygon(myPolyx, myPolyy, null, 4, true, true);
+		if(myWidth > 0 && myHeight > 0){
+			// draw a rotated polygon
+			myEngine.setColor(myColor);
+			double cos = Math.cos(myRotation);
+			double sin = Math.sin(myRotation);
+			double halfWidth = myWidth / 2;
+			double halfHeight = myHeight / 2;
+			myPolyx[0] = (int) (x - halfWidth * cos - halfHeight * sin);
+			myPolyy[0] = (int) (y + halfWidth * sin - halfHeight * cos);
+			myPolyx[1] = (int) (x + halfWidth * cos - halfHeight * sin);
+			myPolyy[1] = (int) (y - halfWidth * sin - halfHeight * cos);
+			myPolyx[2] = (int) (x + halfWidth * cos + halfHeight * sin);
+			myPolyy[2] = (int) (y - halfWidth * sin + halfHeight * cos);
+			myPolyx[3] = (int) (x - halfWidth * cos + halfHeight * sin);
+			myPolyy[3] = (int) (y + halfWidth * sin + halfHeight * cos);
+			myEngine.drawPolygon(myPolyx, myPolyy, null, 4, true, true);
+		}
 	}
 	
 	@Override
@@ -79,7 +69,7 @@ public class Wall extends PhysicalObject {
 		Vec2 position = myBody.getPosition();
 		x = position.x;
 		y = position.y;
-		myRotation = -myBody.getAngle();
+	//	myRotation = -myBody.getAngle();
 
 		for(HashMap<String, Mass> massMap: mySpringies.getMassMaps()){
 			for(Mass m: massMap.values()){
@@ -88,4 +78,6 @@ public class Wall extends PhysicalObject {
 			}
 		}
 	}
+	
+	public abstract void setThickness(int delta);
 }
