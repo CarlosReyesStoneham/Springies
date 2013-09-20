@@ -80,13 +80,17 @@ public class Springies extends JGEngine {
 		wall.setPos(displayWidth() - WALL_MARGIN, displayHeight() / 2);
 
 		makeAssembly();
-
+		fileIn();
+	}
+	
+	public void fileIn() {
 		File f = new File("src/springies/environment.xml");
 		if (f.exists()) {
 			XMLReader env = new XMLReader("src/springies/environment.xml");
 
 			gravDir = env.readGravity()[0];
-			gravMag = env.readGravity()[1] * .00001; // Adjusting gravity
+			gravMag = env.readGravity()[1] * 0.00005; // Adjusting gravity
+			//Should we make a new vector here?
 			viscosity = env.readViscosity();
 			cmMag = env.readcm()[0];
 			cmExp = env.readcm()[1];
@@ -102,17 +106,25 @@ public class Springies extends JGEngine {
 			wallExp = new double[4];
 		}
 	}
+	
+	//Lets remove this global
+	int toggleGravity = 0;
+	public void calculateGravitationalForce() {
+		if(toggleGravity==0){
+			WorldManager.getWorld().setGravity(new Vec2( (float) (gravMag*Math.cos(Math.toRadians(gravDir)) ),
+					(float) (gravMag*Math.cos(Math.toRadians(gravDir))) ) );
+		}
+		else {
+			WorldManager.getWorld().setGravity(new Vec2(0f, 0f));
+		}
+	}
 
 	@Override
 	public void doFrame() {
 		checkUserInput();
-		// set gravity... I'm going to assume that 0 is normal and that it goes
-		// clockwise
 
-		WorldManager.getWorld().setGravity(
-				new Vec2((float) (gravMag * Math.cos(90)),
-						(float) (gravMag * Math.sin(gravDir))));
-
+		calculateGravitationalForce();
+		
 		// update game objects
 		WorldManager.getWorld().step(1f, 1);
 		moveObjects();
@@ -149,13 +161,15 @@ public class Springies extends JGEngine {
 	}
 
 	private void checkUserInput() {
+		//Object is made out of bounds if made
+		//after the first object
+		//Read new item toggle
 		if (getKey('N')) {
 			clearKey('N');
 			makeAssembly();
 		}
+		//Clear toggle
 		if (getKey('C')) {
-			// removeObjects doesn't work for some reason (use debugger to find
-			// out later?)
 			clearKey('C');
 
 			for (ArrayList<Spring> springArray : springArrays) {
@@ -172,6 +186,11 @@ public class Springies extends JGEngine {
 
 			massMaps.clear();
 			springArrays.clear();
+		}
+		
+		//Gravity toggle
+		if (getKey('G')) {
+			toggleGravity = 1;
 		}
 	}
 
