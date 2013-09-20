@@ -65,39 +65,14 @@ public class Springies extends JGEngine {
 	public void initGame() {
 		setFrameRate(60, 2);
 		WorldManager.initWorld(this);
-		setWalls(initialArea);
+		boardSet.setWalls(initialArea);
+
+		//setWalls(initialArea);
 		makeAssembly();
 		fileIn();
 	}
 	
 	ArrayList<Wall> wallList = new ArrayList<Wall>();
-	public void setWalls(int area) {
-		double wall_margin = area;
-		
-		final double WALL_THICKNESS = 10;
-		final double WALL_WIDTH = displayWidth() - wall_margin * 2
-				+ WALL_THICKNESS;
-		final double WALL_HEIGHT = displayHeight() - wall_margin * 2
-				+ WALL_THICKNESS;
-
-		Wall wall = new Wall("wall", 2, JGColor.green, WALL_WIDTH,
-				WALL_THICKNESS);
-		wall.setPos(displayWidth() / 2, wall_margin);
-		wallList.add(wall);
-		
-		wall = new Wall("wall", 2, JGColor.green, WALL_WIDTH, WALL_THICKNESS);
-		wall.setPos(displayWidth() / 2, displayHeight() - wall_margin);
-		wallList.add(wall);
-		
-		wall = new Wall("wall", 2, JGColor.green, WALL_THICKNESS, WALL_HEIGHT);
-		wall.setPos(wall_margin, displayHeight() / 2);
-		wallList.add(wall);
-
-		wall = new Wall("wall", 2, JGColor.green, WALL_THICKNESS, WALL_HEIGHT);
-		wallList.add(wall);
-		wall.setPos(displayWidth() - wall_margin, displayHeight() / 2);
-		
-	}
 	
 	public void fileIn() {
 		File f = new File("src/springies/environment.xml");
@@ -133,13 +108,13 @@ public class Springies extends JGEngine {
 			WorldManager.getWorld().setGravity(new Vec2(0f, 0f));
 		}
 	}
-	
-	Controls controller = new Controls(this, massMaps, springArrays, wallList);
+	BoardSetup boardSet = new BoardSetup(this, wallList);
+
+	Controls controller = new Controls(this, boardSet, massMaps, springArrays, wallList);
 	@Override
 	public void doFrame() {
 
 		controller.checkUserInput();
-
 		calculateGravitationalForce();
 		
 		// update game objects

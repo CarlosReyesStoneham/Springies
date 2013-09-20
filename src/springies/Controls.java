@@ -18,13 +18,14 @@ public class Controls {
 	private ArrayList<Wall> wallList;
 
 	private Springies springies;
-	
-	public Controls(Springies springies, ArrayList<HashMap<String, Mass>> massMaps,
+	private BoardSetup boardSetup;
+	public Controls(Springies springies, BoardSetup boardSetup, ArrayList<HashMap<String, Mass>> massMaps,
 			ArrayList<ArrayList<Spring>> springArrays, ArrayList<Wall> wallList) {
 		this.springArrays = springArrays;
 		this.massMaps = massMaps;
 		this.springies = springies;
 		this.wallList = wallList;
+		this.boardSetup = boardSetup;
 	}
 	
 	public void checkUserInput() {
@@ -63,13 +64,13 @@ public class Controls {
 			for(Wall wall : wallList){
 				wall.remove();
 			}
-			springies.setWalls(initialArea-=10);
+			boardSetup.setWalls(initialArea-=10);
 		}
 		if (springies.getKey(JGEngine.KeyDown)){
 			for(Wall wall : wallList){
 				wall.remove();
 			}
-			springies.setWalls(initialArea+=10);
+			boardSetup.setWalls(initialArea+=10);
 		}
 	}
 }
