@@ -6,12 +6,11 @@ import java.util.HashMap;
 import jboxGlue.Mass;
 import jboxGlue.Spring;
 import jboxGlue.Wall;
-import jgame.impl.JGEngineInterface;
 import jgame.platform.JGEngine;
 
 public class Controls {
 	int initialArea = 10; //Initial wall margin
-	int toggleGravity = 0; //Gravity on/off
+	//int toggleGravity = 0; //Gravity on/off
 	
 	private ArrayList<HashMap<String, Mass>> massMaps;
 	private ArrayList<ArrayList<Spring>> springArrays;
@@ -34,7 +33,7 @@ public class Controls {
 		//Read new item toggle
 		if (springies.getKey('N')) {
 			springies.clearKey('N');
-			springies.makeAssembly();
+			boardSetup.makeAssembly(massMaps, springArrays);
 		}
 		//Clear toggle
 		if (springies.getKey('C')) {
@@ -58,7 +57,12 @@ public class Controls {
 		
 		//Gravity toggle
 		if (springies.getKey('G')) {
-			toggleGravity = 1;
+			if(springies.toggleGravity==1){
+				springies.toggleGravity = 0;
+			}
+			else{
+				springies.toggleGravity = 1;
+			}
 		}
 		if (springies.getKey(JGEngine.KeyUp)){
 			for(Wall wall : wallList){
