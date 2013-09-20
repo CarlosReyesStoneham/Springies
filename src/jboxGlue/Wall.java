@@ -1,24 +1,35 @@
 package jboxGlue;
 
+import java.util.HashMap;
+
 import jgame.JGColor;
 
 import org.jbox2d.collision.PolygonDef;
+import org.jbox2d.common.Vec2;
+
+import springies.Springies;
 
 public class Wall extends PhysicalObject {
 	private double myWidth;
 	private double myHeight;
 	private double[] myPolyx;
 	private double[] myPolyy;
+	private Springies mySpringies;
+	private double myWallMag;
+	private double myWallExp;
 
-	public Wall(String id, int collisionId, JGColor color,
-			double width, double height) {
-		this(id, collisionId, color, width, height, 0);
+	public Wall(Springies s, String id, int collisionId, JGColor color,
+			double width, double height, double wallMag, double wallExp) {
+		this(s, id, collisionId, color, width, height, wallMag, wallExp, 0);
 	}
 
-	public Wall(String id, int collisionId, JGColor color,
-			double width, double height, double mass) {
+	public Wall(Springies s, String id, int collisionId, JGColor color,
+			double width, double height, double wallMag, double wallExp, double mass) {
 		super(id, collisionId, color);
 		init(width, height, mass);
+		mySpringies = s;
+		myWallMag = wallMag;
+		myWallExp = wallExp;
 	}
 
 	public void init(double width, double height, double mass) {
@@ -61,5 +72,26 @@ public class Wall extends PhysicalObject {
 		myPolyx[3] = (int) (x - halfWidth * cos + halfHeight * sin);
 		myPolyy[3] = (int) (y + halfWidth * sin + halfHeight * cos);
 		myEngine.drawPolygon(myPolyx, myPolyy, null, 4, true, true);
+	}
+	
+	@Override
+	public void move() {
+
+
+		// copy the position and rotation from the JBox world to the JGame world
+		Vec2 position = myBody.getPosition();
+		x = position.x;
+		y = position.y;
+		myRotation = -myBody.getAngle();
+
+		System.out.println(x + " | " + y);
+		for(HashMap<String, Mass> massMap: mySpringies.getMassMaps()){
+			for(Mass m: massMap.values()){
+				m.applyForce(new Vec2( (float) (myWallMag / Math.pow(m.x,
+						myWallExp)), 0)); 
+			}
+		}
+		// System.out.println( String.format( "move() (%.1f,%.1f) mass=%.1f", x,
+		// y, myBody.m_mass ) );
 	}
 }

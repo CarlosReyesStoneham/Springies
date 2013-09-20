@@ -21,6 +21,7 @@ public class MovableMass extends Mass {
 	public void applyForce(Vec2 force){
 		myBody.applyForce(force, myBody.getLocalCenter());
 	}
+	
 	public void applyForce(Vec2 force, Vec2 force2){
 		myBody.applyForce(force, force2);
 	}

@@ -1,6 +1,5 @@
 package jboxGlue;
 
-import org.jbox2d.collision.CircleDef;
 import org.jbox2d.collision.PolygonDef;
 import org.jbox2d.common.Vec2;
 import jgame.JGColor;
