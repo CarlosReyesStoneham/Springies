@@ -1,80 +1,51 @@
 package springies;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import jboxGlue.Mass;
-import jboxGlue.Spring;
-import jboxGlue.Wall;
 import jgame.platform.JGEngine;
 
 public class Controls {
-	int initialArea = 10; //Initial wall margin
-	//int toggleGravity = 0; //Gravity on/off
-	
-	private ArrayList<HashMap<String, Mass>> massMaps;
-	private ArrayList<ArrayList<Spring>> springArrays;
-	private ArrayList<Wall> wallList;
+	int initialArea = 10; // Initial wall margin
 
 	private Springies springies;
 	private BoardSetup boardSetup;
-	public Controls(Springies springies, BoardSetup boardSetup, ArrayList<HashMap<String, Mass>> massMaps,
-			ArrayList<ArrayList<Spring>> springArrays, ArrayList<Wall> wallList) {
-		this.springArrays = springArrays;
-		this.massMaps = massMaps;
+
+	public Controls(Springies springies, BoardSetup boardSetup) {
 		this.springies = springies;
-		this.wallList = wallList;
 		this.boardSetup = boardSetup;
 	}
-	
+
 	public void checkUserInput() {
-		//Object is made out of bounds if made
-		//after the first object
-		//Read new item toggle
+		// Press 'N' to load new assembly
 		if (springies.getKey('N')) {
 			springies.clearKey('N');
-			boardSetup.makeAssembly(massMaps, springArrays);
+			boardSetup.makeAssembly();
 		}
-		//Clear toggle
+		// Press 'C' to clear assemblies
 		if (springies.getKey('C')) {
 			springies.clearKey('C');
 
-			for (ArrayList<Spring> springArray : springArrays) {
-				for (Spring s : springArray) {
-					s.remove();
-				}
-			}
-			
-			for (HashMap<String, Mass> massList : massMaps) {
-				for (Mass m : massList.values()) {
-					m.remove();
-				}
-			}
+			springies.removeObjects("Spring", 0);
+			springies.removeObjects("Mass", 0);
 
-			massMaps.clear();
-			springArrays.clear();
+			springies.clearMassMaps();
 		}
-		
-		//Gravity toggle
+
+		// Press 'G' to toggle gravity
 		if (springies.getKey('G')) {
-			if(springies.toggleGravity==1){
+			if (springies.toggleGravity == 1) {
 				springies.toggleGravity = 0;
-			}
-			else{
+			} else {
 				springies.toggleGravity = 1;
 			}
 		}
-		if (springies.getKey(JGEngine.KeyUp)){
-			for(Wall wall : wallList){
-				wall.remove();
-			}
-			boardSetup.setWalls(initialArea-=10);
+
+		if (springies.getKey(JGEngine.KeyUp)) {
+			springies.removeObjects("Wall", 0);
+			boardSetup.setWalls(initialArea -= 10);
 		}
-		if (springies.getKey(JGEngine.KeyDown)){
-			for(Wall wall : wallList){
-				wall.remove();
-			}
-			boardSetup.setWalls(initialArea+=10);
+
+		if (springies.getKey(JGEngine.KeyDown)) {
+			springies.removeObjects("Wall", 0);
+			boardSetup.setWalls(initialArea += 10);
 		}
 	}
 }

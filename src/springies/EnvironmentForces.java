@@ -16,24 +16,26 @@ public class EnvironmentForces {
 	double cmExp;
 	double[] wallMag = new double[4];
 	double[] wallExp = new double[4];
-		
+
 	public Springies springies;
-		
+
 	public EnvironmentForces(Springies springies) {
 		this.springies = springies;
 	}
-	
+
 	public void calculateGravitationalForce(int toggleGravity) {
-		if(toggleGravity==0){
-			//We need to take into account the case where gravDir > 90 degrees
-			WorldManager.getWorld().setGravity(new Vec2( (float) (gravMag*Math.cos(Math.toRadians(gravDir)) ),
-					(float) (gravMag*Math.cos(Math.toRadians(gravDir))) ) );
-		}
-		else {
+		if (toggleGravity == 0) {
+			// We need to take into account the case where gravDir > 90 degrees
+			// This does take that into account...?
+			WorldManager.getWorld().setGravity(
+					new Vec2((float) (gravMag * Math.cos(Math
+							.toRadians(gravDir))), (float) (gravMag * Math
+							.cos(Math.toRadians(gravDir)))));
+		} else {
 			WorldManager.getWorld().setGravity(new Vec2(0f, 0f));
 		}
 	}
-	
+
 	public void centerOfMass(ArrayList<HashMap<String, Mass>> massMaps) {
 		float topX = 0;
 		float topY = 0;
@@ -42,7 +44,6 @@ public class EnvironmentForces {
 		for (HashMap<String, Mass> massList : massMaps) {
 			for (Mass m : massList.values()) {
 				topX += (float) (m.getMyMass() * m.x);
-				// System.out.println(topX);
 				topY += (float) (m.getMyMass() * m.y);
 			}
 		}

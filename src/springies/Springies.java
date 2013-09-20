@@ -1,12 +1,8 @@
 package springies;
 
-import java.awt.FileDialog;
-import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.HashMap;
 import jboxGlue.Mass;
-import jboxGlue.Spring;
-import jboxGlue.Wall;
 import jboxGlue.WorldManager;
 import jgame.platform.JGEngine;
 import springies.Controls;
@@ -14,22 +10,17 @@ import springies.Controls;
 @SuppressWarnings("serial")
 public class Springies extends JGEngine {
 
-	// Array of massLists
+	// Master Array of massLists
 	ArrayList<HashMap<String, Mass>> massMaps = new ArrayList<HashMap<String, Mass>>();
-	// Array of Springs... only used for clearing :\
-	ArrayList<ArrayList<Spring>> springArrays = new ArrayList<ArrayList<Spring>>();
-	ArrayList<Wall> wallList = new ArrayList<Wall>();
 
 	int initialArea = 10; // Initial wall margin
-	int toggleGravity = 0; // Gravity on/off
+	int toggleGravity = 0; // Gravity on/off (TODO: Set this in BoardSetup?)
 
-	BoardSetup boardSet = new BoardSetup(this, wallList);
+	BoardSetup boardSet = new BoardSetup(this);
 	EnvironmentForces envForce = new EnvironmentForces(this);
-	Controls controller = new Controls(this, boardSet, massMaps, springArrays,
-			wallList);
+	Controls controller = new Controls(this, boardSet);
 
 	public Springies() {
-		// set the window size
 		int height = 600;
 		double aspect = 16.0 / 9.0;
 		initEngine((int) (height * aspect), height);
@@ -53,9 +44,7 @@ public class Springies extends JGEngine {
 		WorldManager.initWorld(this);
 
 		boardSet.setWalls(initialArea);
-		// setWalls(initialArea);
-		boardSet.makeAssembly(massMaps, springArrays);
-		// fileIn();
+		boardSet.makeAssembly();
 		boardSet.fileIn();
 	}
 
@@ -75,5 +64,13 @@ public class Springies extends JGEngine {
 
 	public ArrayList<HashMap<String, Mass>> getMassMaps() {
 		return massMaps;
+	}
+
+	public void addMassMap(HashMap<String, Mass> map) {
+		massMaps.add(map);
+	}
+
+	public void clearMassMaps() {
+		massMaps.clear();
 	}
 }

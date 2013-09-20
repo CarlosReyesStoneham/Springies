@@ -18,14 +18,13 @@ public class Wall extends PhysicalObject {
 	private double myWallMag;
 	private double myWallExp;
 
-	public Wall(Springies s, String id, int collisionId, JGColor color,
-			double width, double height, double wallMag, double wallExp) {
-		this(s, id, collisionId, color, width, height, wallMag, wallExp, 0);
+	public Wall(Springies s, double width, double height, double wallMag, double wallExp) {
+		this(s, width, height, wallMag, wallExp, 0);
 	}
 
-	public Wall(Springies s, String id, int collisionId, JGColor color,
-			double width, double height, double wallMag, double wallExp, double mass) {
-		super(id, collisionId, color);
+	// TODO: Do walls ever have mass? This might be a useless constructor
+	public Wall(Springies s, double width, double height, double wallMag, double wallExp, double mass) {
+		super("Wall", 2, JGColor.green);
 		init(width, height, mass);
 		mySpringies = s;
 		myWallMag = wallMag;

@@ -16,6 +16,7 @@ import jboxGlue.Muscle;
 import jboxGlue.Spring;
 
 public class XMLReader {
+	// TODO: Once sure that removeObjects works, remove the ArrayList return for springs and muscles
 	private final static int WALLMAG =4;
 	HashMap<String, Mass> myMassMap = new HashMap<String, Mass>();
 	
@@ -39,8 +40,6 @@ public class XMLReader {
 		}
 	}
 
-	// really we don't need to return the whole hashmap, because right now the springs are in the same function
-	// maybe we'll split them up later so I'll leave it like this.
 	public HashMap<String, Mass> makeMasses(){
 		float x;
 		float y;
