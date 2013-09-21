@@ -12,6 +12,8 @@ public class Controls {
 
 	private Springies springies;
 	private BoardSetup boardSetup;
+	private PointMass mouse;
+	private Spring mouseSpring;
 
 	public Controls(Springies springies, BoardSetup boardSetup) {
 		this.springies = springies;
@@ -55,31 +57,36 @@ public class Controls {
 			}
 		}
 
+		// Click to make temporary spring
 		if (springies.getMouseButton(1)){
-			double shortestPath = 999999;
-			Mass closestMass = null;
-			int x = springies.getMouseX();
-			int y = springies.getMouseY();
-			PointMass mouse = new PointMass(springies.pfWidth()-x, springies.pfHeight()-y, 1);
-			mouse.x = x;
-			mouse.y = y;
-			
-			for (HashMap<String, Mass> massList : springies.getMassMaps()) {
-				for (Mass mass : massList.values()) {
-
-					double len = calculateLength(mass, mouse);
-					if (len < shortestPath) {
-						System.out.println(mass.x);
-						System.out.println(mouse.x);
-						shortestPath = len;
-						closestMass = mass;
+			if(mouse == null){
+				double shortestPath = 999999;
+				Mass closestMass = null;
+				int x = springies.getMouseX();
+				int y = springies.getMouseY();
+				mouse = new PointMass(springies, springies.pfWidth()-x, springies.pfHeight()-y, 1);
+				mouse.x = x;
+				mouse.y = y;
+				
+				for (HashMap<String, Mass> massList : springies.getMassMaps()) {
+					for (Mass mass : massList.values()) {
+						double len = calculateLength(mass, mouse);
+						if (len < shortestPath) {
+							shortestPath = len;
+							closestMass = mass;
+						}
 					}
 				}
-			
+				
+				mouseSpring = new Spring(mouse, closestMass);
 			}
-			
-			new Spring(mouse, closestMass, shortestPath, 1);
-			springies.clearMouseButton(1);
+		}
+		else{
+			if(mouse != null){
+				mouse.remove();
+				mouseSpring.remove();
+				mouse = null;
+			}
 		}
 		
 	}
