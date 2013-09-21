@@ -1,13 +1,11 @@
 package springies;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import jboxGlue.Mass;
-import jboxGlue.MovableMass;
+import jboxGlue.PointMass;
 import jboxGlue.Spring;
 import jboxGlue.Wall;
-import jgame.JGObject;
 import jgame.platform.JGEngine;
 
 public class Controls {
@@ -63,7 +61,7 @@ public class Controls {
 			Mass closestMass = null;
 			int x = springies.getMouseX();
 			int y = springies.getMouseY();
-			MovableMass mouse = new MovableMass(springies.pfWidth()-x, springies.pfHeight()-y, 1);
+			PointMass mouse = new PointMass(springies.pfWidth()-x, springies.pfHeight()-y, 1);
 			mouse.x = x;
 			mouse.y = y;
 			
@@ -81,7 +79,7 @@ public class Controls {
 			
 			}
 			
-			new Spring(mouse, closestMass, 10, 1);
+			new Spring(mouse, closestMass, shortestPath, 1);
 			springies.clearMouseButton(1);
 		}
 		

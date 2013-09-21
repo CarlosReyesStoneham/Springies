@@ -7,7 +7,7 @@ import org.jbox2d.common.Vec2;
 import jgame.JGColor;
 
 public class Mass extends PhysicalObject {
-	private static final int RADIUS = 10;
+	protected static final int RADIUS = 10;
 
 	protected ArrayList<Spring> mySprings = new ArrayList<Spring>();
 	private float mass;
