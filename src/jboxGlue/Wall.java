@@ -72,17 +72,18 @@ public abstract class Wall extends PhysicalObject {
 		y = position.y;
 
 		// Wall repulsion force
-		for(HashMap<String, Mass> massMap: mySpringies.getMassMaps()){
-			for(Mass m: massMap.values()){
-				m.applyForce(new Vec2( (float) (myWallMag / Math.pow(m.x,
-						myWallExp)), 0)); 
+		if(wallForceOn){
+			for(HashMap<String, Mass> massMap: mySpringies.getMassMaps()){
+				for(Mass m: massMap.values()){
+					m.applyForce(new Vec2( (float) (myWallMag / Math.pow(m.x,
+							myWallExp)), 0)); 
+				}
 			}
 		}
 	}
 	
 	public void toggleWallForce(){
 		wallForceOn = wallForceOn ^ true;
-		System.out.println(wallForceOn);
 	}
 	
 	public abstract void setThickness(int delta);

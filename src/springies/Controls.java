@@ -10,50 +10,56 @@ import jgame.platform.JGEngine;
 
 public class Controls {
 
-	private Springies springies;
-	private BoardSetup boardSetup;
-	private PointMass mouse;
-	private Spring mouseSpring;
+	private Springies mySpringies;
+	private EnvironmentForces myEnvForces;
+	private BoardSetup myBoardSetup;
+	private PointMass myMouseMass;
+	private Spring myMouseSpring;
 
-	public Controls(Springies springies, BoardSetup boardSetup) {
-		this.springies = springies;
-		this.boardSetup = boardSetup;
+	public Controls(Springies springies, BoardSetup boardSetup, EnvironmentForces envForces) {
+		this.mySpringies = springies;
+		this.myBoardSetup = boardSetup;
+		this.myEnvForces = envForces;
 	}
 	public void checkUserInput() {
 		// Press 'N' to load new assembly
-		if (springies.getKey('N')) {
-			springies.clearKey('N');
-			boardSetup.makeAssembly();
+		if (mySpringies.getKey('N')) {
+			mySpringies.clearKey('N');
+			myBoardSetup.makeAssembly();
 		}
+		
 		// Press 'C' to clear assemblies
-		if (springies.getKey('C')) {
-			springies.clearKey('C');
+		if (mySpringies.getKey('C')) {
+			mySpringies.clearKey('C');
 
-			springies.removeObjects("Spring", 0);
-			springies.removeObjects("Mass", 0);
+			mySpringies.removeObjects("Spring", 0);
+			mySpringies.removeObjects("Mass", 0);
 
-			springies.clearMassMaps();
+			mySpringies.clearMassMaps();
 		}
 
-		// Press 'G' to toggle gravity
-		if (springies.getKey('G')) {
-			springies.clearKey('G');
-			if (springies.toggleGravity == 1) {
-				springies.toggleGravity = 0;
-			} else {
-				springies.toggleGravity = 1;
+		// Press G, V, or M to toggle Gravity, Viscosity or CenterOfMass forces
+		HashMap<Character, String> forces = new HashMap<Character, String>();
+		forces.put('G', "Gravity");
+		forces.put('V', "Viscosity");
+		forces.put('M', "COM");
+		
+		for(char c: forces.keySet()){
+			if(mySpringies.getKey(c)){
+				mySpringies.clearKey(c);
+				myEnvForces.toggle(forces.get(c));
 			}
 		}
 
 		// Press up and down arrows to change wall thickness
-		if (springies.getKey(JGEngine.KeyUp)) {
-			for(Wall w: boardSetup.getWalls()){
+		if (mySpringies.getKey(JGEngine.KeyUp)) {
+			for(Wall w: myBoardSetup.getWalls()){
 				w.setThickness(10);
 			}
 		}
 
-		if (springies.getKey(JGEngine.KeyDown)) {
-			for(Wall w: boardSetup.getWalls()){
+		if (mySpringies.getKey(JGEngine.KeyDown)) {
+			for(Wall w: myBoardSetup.getWalls()){
 				w.setThickness(-10);
 			}
 		}
@@ -61,27 +67,26 @@ public class Controls {
 		// Press 1, 2, 3, 4 (not on numpad) to toggle wall forces
 		char[] possibleWalls = {'1', '2', '3', '4'};
 		for(int i = 0; i< 4; i++){
-			if (springies.getKey(possibleWalls[i])) {
-				springies.clearKey(possibleWalls[i]);
-				boardSetup.getWalls()[i].toggleWallForce();
+			if (mySpringies.getKey(possibleWalls[i])) {
+				mySpringies.clearKey(possibleWalls[i]);
+				myBoardSetup.getWalls()[i].toggleWallForce();
 			}
 		}
-
 		
 		// Click to make temporary spring
-		if (springies.getMouseButton(1)){
-			if(mouse == null){
+		if (mySpringies.getMouseButton(1)){
+			if(myMouseMass == null){
 				double shortestPath = 999999;
 				Mass closestMass = null;
-				int x = springies.getMouseX();
-				int y = springies.getMouseY();
-				mouse = new PointMass(springies, springies.pfWidth()-x, springies.pfHeight()-y, 1);
-				mouse.x = x;
-				mouse.y = y;
+				int x = mySpringies.getMouseX();
+				int y = mySpringies.getMouseY();
+				myMouseMass = new PointMass(mySpringies, mySpringies.pfWidth()-x, mySpringies.pfHeight()-y, 1);
+				myMouseMass.x = x;
+				myMouseMass.y = y;
 				
-				for (HashMap<String, Mass> massList : springies.getMassMaps()) {
+				for (HashMap<String, Mass> massList : mySpringies.getMassMaps()) {
 					for (Mass mass : massList.values()) {
-						double len = calculateLength(mass, mouse);
+						double len = calculateLength(mass, myMouseMass);
 						if (len < shortestPath) {
 							shortestPath = len;
 							closestMass = mass;
@@ -89,14 +94,14 @@ public class Controls {
 					}
 				}
 				
-				mouseSpring = new Spring(mouse, closestMass);
+				myMouseSpring = new Spring(myMouseMass, closestMass);
 			}
 		}
 		else{
-			if(mouse != null){
-				mouse.remove();
-				mouseSpring.remove();
-				mouse = null;
+			if(myMouseMass != null){
+				myMouseMass.remove();
+				myMouseSpring.remove();
+				myMouseMass = null;
 			}
 		}
 		

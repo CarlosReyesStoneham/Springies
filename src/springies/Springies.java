@@ -14,11 +14,10 @@ public class Springies extends JGEngine {
 	ArrayList<HashMap<String, Mass>> massMaps = new ArrayList<HashMap<String, Mass>>();
 
 	int initialArea = 10; // Initial wall margin
-	int toggleGravity = 0; // Gravity on/off (TODO: Set this in BoardSetup?)
 
 	BoardSetup boardSet = new BoardSetup(this);
 	EnvironmentForces envForce = new EnvironmentForces(this);
-	Controls controller = new Controls(this, boardSet);
+	Controls controller = new Controls(this, boardSet, envForce);
 
 	public Springies() {
 		int height = 600;
@@ -51,7 +50,7 @@ public class Springies extends JGEngine {
 	@Override
 	public void doFrame() {
 		controller.checkUserInput();
-		envForce.calculateGravitationalForce(toggleGravity);
+		envForce.doForces();
 		// update game objects
 		WorldManager.getWorld().step(1f, 1);
 		moveObjects();
