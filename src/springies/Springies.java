@@ -13,11 +13,8 @@ public class Springies extends JGEngine {
 	// Master Array of massLists
 	ArrayList<HashMap<String, Mass>> massMaps = new ArrayList<HashMap<String, Mass>>();
 
-	int initialArea = 10; // Initial wall margin
-
-	BoardSetup boardSet = new BoardSetup(this);
-	EnvironmentForces envForce = new EnvironmentForces(this);
-	Controls controller = new Controls(this, boardSet, envForce);
+	EnvironmentForces myEnvForce;
+	Controls myController;
 
 	public Springies() {
 		int height = 600;
@@ -41,21 +38,17 @@ public class Springies extends JGEngine {
 	public void initGame() {
 		setFrameRate(60, 2);
 		WorldManager.initWorld(this);
-
-		boardSet.setWalls(initialArea);
-		boardSet.makeAssembly();
-		boardSet.fileIn();
+		myEnvForce = new EnvironmentForces(this);
+		myController = new Controls(this, myEnvForce);
 	}
 
 	@Override
 	public void doFrame() {
-		controller.checkUserInput();
-		envForce.doForces();
+		myController.checkUserInput();
+		myEnvForce.doForces();
 		// update game objects
 		WorldManager.getWorld().step(1f, 1);
 		moveObjects();
-	// 	Uncomment this out if you want wall sticking issues again...
-	//	checkCollision(2, 1);
 	}
 
 	@Override

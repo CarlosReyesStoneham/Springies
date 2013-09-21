@@ -17,9 +17,10 @@ public abstract class Wall extends PhysicalObject {
 	private Springies mySpringies;
 	private double myWallMag;
 	private double myWallExp;
-	private boolean wallForceOn = true;
+	private boolean myWallForceOn = true;
 
-	public Wall(Springies s, double width, double height, double wallMag, double wallExp) {
+	public Wall(Springies s, double width, double height, double wallMag,
+			double wallExp) {
 		super("Wall", 2, JGColor.green);
 		myWidth = width;
 		myHeight = height;
@@ -34,7 +35,8 @@ public abstract class Wall extends PhysicalObject {
 		PolygonDef shape = new PolygonDef();
 		shape.setAsBox((float) myWidth, (float) myHeight);
 		createBody(shape);
-		setBBox(-(int) myWidth / 2, -(int) myHeight / 2, (int) myWidth, (int) myHeight);
+		setBBox(-(int) myWidth / 2, -(int) myHeight / 2, (int) myWidth,
+				(int) myHeight);
 	}
 
 	@Override
@@ -45,7 +47,7 @@ public abstract class Wall extends PhysicalObject {
 			myPolyy = new double[4];
 		}
 
-		if(myWidth > 0 && myHeight > 0){
+		if (myWidth > 0 && myHeight > 0) {
 			// draw a rotated polygon
 			myEngine.setColor(myColor);
 			double cos = Math.cos(myRotation);
@@ -63,7 +65,7 @@ public abstract class Wall extends PhysicalObject {
 			myEngine.drawPolygon(myPolyx, myPolyy, null, 4, true, true);
 		}
 	}
-	
+
 	@Override
 	public void move() {
 		// copy the position and rotation from the JBox world to the JGame world
@@ -72,19 +74,19 @@ public abstract class Wall extends PhysicalObject {
 		y = position.y;
 
 		// Wall repulsion force
-		if(wallForceOn){
-			for(HashMap<String, Mass> massMap: mySpringies.getMassMaps()){
-				for(Mass m: massMap.values()){
-					m.applyForce(new Vec2( (float) (myWallMag / Math.pow(m.x,
-							myWallExp)), 0)); 
+		if (myWallForceOn) {
+			for (HashMap<String, Mass> massMap : mySpringies.getMassMaps()) {
+				for (Mass m : massMap.values()) {
+					m.applyForce(new Vec2((float) (myWallMag / Math.pow(m.x,
+							myWallExp)), 0));
 				}
 			}
 		}
 	}
-	
-	public void toggleWallForce(){
-		wallForceOn = wallForceOn ^ true;
+
+	public void toggleWallForce() {
+		myWallForceOn = myWallForceOn ^ true;
 	}
-	
+
 	public abstract void setThickness(int delta);
 }

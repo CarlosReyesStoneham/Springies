@@ -18,7 +18,6 @@ public abstract class PhysicalObject extends JGObject {
 
 	protected PhysicalObject(String name, int collisionId, JGColor color) {
 		super(name, true, 0, 0, collisionId, null);
-
 		myColor = color;
 		myHasImage = false;
 
