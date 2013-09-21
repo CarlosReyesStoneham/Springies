@@ -13,11 +13,11 @@ public class Spring extends PhysicalObject {
 	private double myK;
 
 	public Spring(Mass first, Mass second) {
-		this(first, second, getLength(first, second), DEFAULT_K);
+		this(first, second, calculateLength(first, second), DEFAULT_K);
 	}
 
 	public Spring(Mass first, Mass second, double k) {
-		this(first, second, getLength(first, second), k);
+		this(first, second, calculateLength(first, second), k);
 	}
 
 	public Spring(Mass first, Mass second, double length, double k) {
@@ -43,7 +43,7 @@ public class Spring extends PhysicalObject {
 		if (this.getLength() > 60) {
 
 		}
-		float magnitude = (float) (myK * (myLength - getLength(myFirst,
+		float magnitude = (float) (myK * (myLength - calculateLength(myFirst,
 				mySecond)));
 		// either the myFirst or mySecond coordinates should be equivalent and
 		// so have no effect
@@ -55,7 +55,7 @@ public class Spring extends PhysicalObject {
 		return direction;
 	}
 
-	private static double getLength(Mass one, Mass two) {
+	private static double calculateLength(Mass one, Mass two) {
 		return Math.sqrt(Math.pow(one.x - two.x, 2)
 				+ Math.pow(one.y - two.y, 2));
 	}

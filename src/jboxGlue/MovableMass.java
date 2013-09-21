@@ -40,8 +40,8 @@ public class MovableMass extends Mass {
 			Vec2 force = s.getForce(x, y);
 			this.setForce(force.x, force.y);
 		}
-	}	
-	
+	}
+
 	@Override
 	public void hit(JGObject other) {		
 		//if hits top or bottom
