@@ -17,6 +17,7 @@ public abstract class Wall extends PhysicalObject {
 	private Springies mySpringies;
 	private double myWallMag;
 	private double myWallExp;
+	private boolean wallForceOn = true;
 
 	public Wall(Springies s, double width, double height, double wallMag, double wallExp) {
 		super("Wall", 2, JGColor.green);
@@ -69,14 +70,19 @@ public abstract class Wall extends PhysicalObject {
 		Vec2 position = myBody.getPosition();
 		x = position.x;
 		y = position.y;
-	//	myRotation = -myBody.getAngle();
 
+		// Wall repulsion force
 		for(HashMap<String, Mass> massMap: mySpringies.getMassMaps()){
 			for(Mass m: massMap.values()){
 				m.applyForce(new Vec2( (float) (myWallMag / Math.pow(m.x,
 						myWallExp)), 0)); 
 			}
 		}
+	}
+	
+	public void toggleWallForce(){
+		wallForceOn = wallForceOn ^ true;
+		System.out.println(wallForceOn);
 	}
 	
 	public abstract void setThickness(int delta);

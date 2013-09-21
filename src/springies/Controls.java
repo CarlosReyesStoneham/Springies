@@ -37,6 +37,7 @@ public class Controls {
 
 		// Press 'G' to toggle gravity
 		if (springies.getKey('G')) {
+			springies.clearKey('G');
 			if (springies.toggleGravity == 1) {
 				springies.toggleGravity = 0;
 			} else {
@@ -57,6 +58,16 @@ public class Controls {
 			}
 		}
 
+		// Press 1, 2, 3, 4 (not on numpad) to toggle wall forces
+		char[] possibleWalls = {'1', '2', '3', '4'};
+		for(int i = 0; i< 4; i++){
+			if (springies.getKey(possibleWalls[i])) {
+				springies.clearKey(possibleWalls[i]);
+				boardSetup.getWalls()[i].toggleWallForce();
+			}
+		}
+
+		
 		// Click to make temporary spring
 		if (springies.getMouseButton(1)){
 			if(mouse == null){

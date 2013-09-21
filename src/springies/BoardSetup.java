@@ -50,6 +50,7 @@ public class BoardSetup {
 	}
 
 	public void setWalls(int wall_margin) {
+		// 0 is the top wall and then it goes clockwise
 		final double WALL_THICKNESS = 10;
 		final double WALL_WIDTH = springies.displayWidth() - wall_margin * 2
 				+ WALL_THICKNESS;
