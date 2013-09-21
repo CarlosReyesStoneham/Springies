@@ -55,7 +55,8 @@ public class Springies extends JGEngine {
 		// update game objects
 		WorldManager.getWorld().step(1f, 1);
 		moveObjects();
-		checkCollision(2, 1);
+	// 	Uncomment this out if you want wall sticking issues again...
+	//	checkCollision(2, 1);
 	}
 
 	@Override

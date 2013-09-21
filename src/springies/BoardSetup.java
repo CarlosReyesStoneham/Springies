@@ -78,11 +78,13 @@ public class BoardSetup {
 	public void makeAssembly() {
 		FileDialog selector = new FileDialog(new Frame());
 		selector.setVisible(true);
-		XMLReader reader = new XMLReader("src/springies/" + selector.getFile());
-
-		springies.addMassMap(reader.makeMasses());
-		reader.makeSprings();
-		reader.makeMuscles();
+		if(selector.getFile() != null){
+			XMLReader reader = new XMLReader("src/springies/" + selector.getFile());
+	
+			springies.addMassMap(reader.makeMasses());
+			reader.makeSprings();
+			reader.makeMuscles();
+		}
 	}
 	
 	public Wall[] getWalls(){
