@@ -4,7 +4,6 @@ import jboxGlue.Wall;
 import jgame.platform.JGEngine;
 
 public class Controls {
-	int initialArea = 10; // Initial wall margin
 
 	private Springies springies;
 	private BoardSetup boardSetup;
