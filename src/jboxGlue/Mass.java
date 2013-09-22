@@ -8,11 +8,11 @@ import jgame.JGColor;
 
 public class Mass extends PhysicalObject {
 	protected static final int RADIUS = 10;
-
+	private static final String MASS = "Mass";
 	protected ArrayList<Spring> mySprings = new ArrayList<Spring>();
 	private float mass;
 	public Mass(float x, float y, float mass) {
-		super("Mass", 1, JGColor.blue);
+		super(MASS, 1, JGColor.blue);
 		init(mass);
 		this.setPos(pfwidth-20-x, pfheight-20-y);
 		myBody.m_type = 0;

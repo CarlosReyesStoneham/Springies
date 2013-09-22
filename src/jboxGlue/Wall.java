@@ -74,7 +74,17 @@ public abstract class Wall extends PhysicalObject {
 		Vec2 position = myBody.getPosition();
 		x = position.x;
 		y = position.y;
+		wallRepulse();
+		
+		for (HashMap<String, Mass> massMap : mySpringies.getMassMaps()) {
+			for (Mass m : massMap.values()) {
+				//hw.bounce(m);
+			}
+		}
 
+	}
+	
+	public void wallRepulse() {
 		// Wall repulsion force
 		if (myWallForceOn) {
 			for (HashMap<String, Mass> massMap : mySpringies.getMassMaps()) {
@@ -84,13 +94,8 @@ public abstract class Wall extends PhysicalObject {
 				}
 			}
 		}
-		for (HashMap<String, Mass> massMap : mySpringies.getMassMaps()) {
-			for (Mass m : massMap.values()) {
-				//hw.bounce(m);
-			}
-		}
-
 	}
+	
 	public void toggleWallForce() {
 		myWallForceOn = myWallForceOn ^ true;
 	}

@@ -6,7 +6,7 @@ import jgame.JGColor;
 
 public class Spring extends PhysicalObject {
 	private static final int DEFAULT_K = 1;
-	private static final double kAdjust = 0.7;
+	private static final double kAdjust = 1;
 	private Mass myFirst;
 	private Mass mySecond;
 	private double myLength;
@@ -37,12 +37,13 @@ public class Spring extends PhysicalObject {
 		myEngine.setColor(myColor);
 		myEngine.drawLine(myFirst.x, myFirst.y, mySecond.x, mySecond.y);
 	}
-
+	//springs need to apply forces to masses
 	public Vec2 getForce(double x, double y) {
 		// force is -k*x
 		if (this.getLength() > 60) {
 
 		}
+		
 		float magnitude = (float) (myK * (myLength - calculateLength(myFirst,
 				mySecond)));
 		// either the myFirst or mySecond coordinates should be equivalent and

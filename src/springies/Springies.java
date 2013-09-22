@@ -2,10 +2,11 @@ package springies;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import control.Controls;
 import jboxGlue.Mass;
 import jboxGlue.WorldManager;
 import jgame.platform.JGEngine;
-import springies.Controls;
 
 @SuppressWarnings("serial")
 public class Springies extends JGEngine {
