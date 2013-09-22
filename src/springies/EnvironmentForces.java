@@ -5,6 +5,8 @@ import java.util.HashMap;
 
 import org.jbox2d.common.Vec2;
 
+import xml.XMLReader;
+
 import jboxGlue.Mass;
 import jboxGlue.WorldManager;
 

@@ -3,6 +3,8 @@ package springies;
 import java.awt.FileDialog;
 import java.awt.Frame;
 
+import xml.XMLReader;
+
 import jboxGlue.HorizontalWall;
 import jboxGlue.VerticalWall;
 import jboxGlue.Wall;
@@ -51,7 +53,7 @@ public class BoardSetup {
 		FileDialog selector = new FileDialog(new Frame());
 		selector.setVisible(true);
 		if (selector.getFile() != null) {
-			XMLReader reader = new XMLReader("src/springies/"
+			XMLReader reader = new XMLReader("src/xmlfiles/"
 					+ selector.getFile());
 
 			mySpringies.addMassMap(reader.makeMasses());
