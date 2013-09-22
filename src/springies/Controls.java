@@ -12,10 +12,10 @@ import jboxGlue.WorldManager;
 import jgame.platform.JGEngine;
 
 public class Controls {
-	private Springies mySpringies;
+	protected Springies mySpringies;
 	private EnvironmentForces myEnvForces;
 	private BoardSetup myBoardSetup;
-	private PointMass myMouseMass;
+	protected PointMass myMouseMass;
 	private Spring myMouseSpring;
 
 	public Controls(Springies springies, EnvironmentForces envForces) {
@@ -24,6 +24,8 @@ public class Controls {
 				envForces.getWallMags());
 		this.myEnvForces = envForces;
 	}
+	
+	//MouseClick mClick = new MouseClick(mySpringies, myMouseMass, myMouseSpring);
 
 	public void checkUserInput() {
 		// Press 'N' to load new assembly
@@ -86,6 +88,7 @@ public class Controls {
 		}
 
 		// Click to make temporary spring
+		
 		if (mySpringies.getMouseButton(1)) {
 			if (myMouseMass == null) {
 				double shortestPath = 999999;
@@ -119,7 +122,7 @@ public class Controls {
 
 	}
 
-	private double calculateLength(Mass one, Mass two) {
+	protected double calculateLength(Mass one, Mass two) {
 		return Math.sqrt(Math.pow(one.x - two.x, 2)
 				+ Math.pow(one.y - two.y, 2));
 	}

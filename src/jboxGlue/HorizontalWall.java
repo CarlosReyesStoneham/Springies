@@ -13,7 +13,6 @@ public class HorizontalWall extends Wall {
 	public void setThickness(int delta) {
 		myHeight += delta;
 		setBBox((int)(this.x - this.myWidth/2), (int)(this.y - this.myHeight /2), (int)this.myWidth, (int)this.myHeight);
-	//	initWall();
 	}
 
 }

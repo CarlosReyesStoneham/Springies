@@ -45,7 +45,6 @@ public class Springies extends JGEngine {
 	@Override
 	public void doFrame() {
 		dbgShowBoundingBox(true);
-
 		myController.checkUserInput();
 		myEnvForce.doForces();
 		// update game objects
@@ -54,8 +53,7 @@ public class Springies extends JGEngine {
 	}
 
 	@Override
-	public void paintFrame() {
-	}
+	public void paintFrame() {}
 
 	public ArrayList<HashMap<String, Mass>> getMassMaps() {
 		return massMaps;

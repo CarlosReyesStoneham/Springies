@@ -20,6 +20,8 @@ public abstract class Wall extends PhysicalObject {
 	private double myWallMag;
 	private double myWallExp;
 	private boolean myWallForceOn = true;
+	
+	HitsWall hw = new HitsWall(this);
 
 	public Wall(Springies s, double width, double height, double wallMag,
 			double wallExp) {
@@ -58,10 +60,13 @@ public abstract class Wall extends PhysicalObject {
 			double halfHeight = myHeight / 2;
 			myPolyx[0] = (int) (x - halfWidth * cos - halfHeight * sin);
 			myPolyy[0] = (int) (y + halfWidth * sin - halfHeight * cos);
+			
 			myPolyx[1] = (int) (x + halfWidth * cos - halfHeight * sin);
 			myPolyy[1] = (int) (y - halfWidth * sin - halfHeight * cos);
+			
 			myPolyx[2] = (int) (x + halfWidth * cos + halfHeight * sin);
 			myPolyy[2] = (int) (y - halfWidth * sin + halfHeight * cos);
+			
 			myPolyx[3] = (int) (x - halfWidth * cos + halfHeight * sin);
 			myPolyy[3] = (int) (y + halfWidth * sin + halfHeight * cos);
 			myEngine.drawPolygon(myPolyx, myPolyy, null, 4, true, true);
@@ -86,32 +91,10 @@ public abstract class Wall extends PhysicalObject {
 		}
 		for (HashMap<String, Mass> massMap : mySpringies.getMassMaps()) {
 			for (Mass m : massMap.values()) {
-				//ballHitsWall(m);
+				//hw.bounce(m);
 			}
 		}
 
-	}
-	
-	public void ballHitsWall(Mass m) {
-		//right
-		if(this.checkCollision(1, 0, 0) == 1  && myBody.getPosition().x >= myWidth-10) {
-			//System.out.println("hits wall");
-			m.myBody.m_linearVelocity = (new Vec2(-1f,0));
-		}
-		//left
-		if(this.checkCollision(1, 0, 0) == 1  && (myBody.getPosition().x <= 10+BoardSetup.wall_margin)) {
-			//System.out.println("hits wall");
-			m.myBody.m_linearVelocity = (new Vec2(1f, 0));
-		}
-		//bottom
-		if(this.checkCollision(1, 0, 0) == 1  && (myBody.getPosition().y >= myHeight-10)) {
-			m.myBody.m_linearVelocity = (new Vec2(0, -1f));
-		}
-		//top
-		if(this.checkCollision(1, 0, 0) == 1  && (myBody.getPosition().y <= 10+BoardSetup.wall_margin)) {
-			//System.out.println("hits wall");
-			m.myBody.m_linearVelocity = (new Vec2(0, 1f));
-		}
 	}
 	public void toggleWallForce() {
 		myWallForceOn = myWallForceOn ^ true;

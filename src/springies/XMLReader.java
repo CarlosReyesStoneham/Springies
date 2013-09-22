@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import jboxGlue.Mass;
-import jboxGlue.MovableMass;
 import jboxGlue.Muscle;
 import jboxGlue.Spring;
 
@@ -19,13 +18,15 @@ public class XMLReader {
 	// TODO: Once sure that removeObjects works, remove the ArrayList return for springs and muscles
 	private final static int WALLMAG =4;
 	HashMap<String, Mass> myMassMap = new HashMap<String, Mass>();
-	
-	private String xmlFile;
+	protected Document myDoc;
+	String xmlFile;
+
 	public XMLReader(String xmlFile){
-		this.xmlFile= xmlFile;
+		myDoc = XMLReader.docIn(xmlFile);
+		this.xmlFile = xmlFile;
 	}
-	
-	public Document docIn() {
+
+	public static Document docIn(String xmlFile) {
 		File file = new File(xmlFile);
 
 		try {
@@ -39,48 +40,12 @@ public class XMLReader {
 			return null;
 		}
 	}
-
+	/*
+	 * Create a hashmap with each unique mass object
+	 */
 	public HashMap<String, Mass> makeMasses(){
-		float x;
-		float y;
-		float mass;
-		double vx;
-		double vy;
-		
-		Document doc = docIn();
-		NodeList nodes = doc.getElementsByTagName("mass");
-		for (int i = 0; i < nodes.getLength(); i++) {
-			vx = 0;
-			vy = 0;
-			mass = 5f;
-			Node massItem = nodes.item(i);
-			NamedNodeMap nodeMap = massItem.getAttributes();
-			
-			x = Float.parseFloat(nodeMap.getNamedItem("x").getNodeValue());
-			y = Float.parseFloat(nodeMap.getNamedItem("y").getNodeValue());
-			try{mass = Float.parseFloat(nodeMap.getNamedItem("mass").getNodeValue());}
-			catch(Exception e){}
-
-			try{vx = Double.parseDouble(nodeMap.getNamedItem("vx").getNodeValue());}
-			catch(Exception e){}
-			
-			try{vy = Double.parseDouble(nodeMap.getNamedItem("vy").getNodeValue());}
-			catch(Exception e){}
-			
-			myMassMap.put(nodeMap.getNamedItem("id").getNodeValue(), new MovableMass(x, y, vx, vy, mass));
-		}
-		
-		nodes = doc.getElementsByTagName("fixed");
-		for (int i = 0; i < nodes.getLength(); i++) {
-			Node massItem = nodes.item(i);
-			NamedNodeMap nodeMap = massItem.getAttributes();
-			
-			x = Float.parseFloat(nodeMap.getNamedItem("x").getNodeValue());
-			y = Float.parseFloat(nodeMap.getNamedItem("y").getNodeValue());
-			
-			myMassMap.put(nodeMap.getNamedItem("id").getNodeValue(), new Mass(x, y, 0));
-		}
-		return myMassMap;
+		XMLMassMaker xmlmassmaker = new XMLMassMaker(xmlFile, myMassMap, myDoc);
+		return xmlmassmaker.makeMassObjects();
 	}
 	
 	public ArrayList<Spring> makeSprings(){
@@ -90,8 +55,8 @@ public class XMLReader {
 		double constant;
 		ArrayList<Spring> springs = new ArrayList<Spring>();
 		
-		Document doc = docIn();
-		NodeList nodes = doc.getElementsByTagName("spring");
+		//Document doc = docIn();
+		NodeList nodes = myDoc.getElementsByTagName("spring");
 		for (int i = 0; i < nodes.getLength(); i++) {
 			restLength = -1;
 			constant = 1;
@@ -126,8 +91,8 @@ public class XMLReader {
 		double amplitude;
 		ArrayList<Spring> muscles = new ArrayList<Spring>();
 		
-		Document doc = docIn();
-		NodeList nodes = doc.getElementsByTagName("muscle");
+		//myDocument doc = docIn();
+		NodeList nodes = myDoc.getElementsByTagName("muscle");
 		for (int i = 0; i < nodes.getLength(); i++) {
 			restLength = -1;
 			constant = 1;
@@ -157,8 +122,8 @@ public class XMLReader {
 	}
 	
 	public double[] readGravity(){
-		Document doc = docIn();
-		NodeList nodes = doc.getElementsByTagName("gravity");
+		//Document doc = docIn();
+		NodeList nodes = myDoc.getElementsByTagName("gravity");
 		
 		Node item = nodes.item(0);
 		NamedNodeMap nodeMap = item.getAttributes();
@@ -170,8 +135,8 @@ public class XMLReader {
 	}
 		
 	public double readViscosity(){
-		Document doc = docIn();
-		NodeList nodes = doc.getElementsByTagName("viscosity");
+		//Document doc = docIn();
+		NodeList nodes = myDoc.getElementsByTagName("viscosity");
 		
 		Node item = nodes.item(0);
 		NamedNodeMap nodeMap = item.getAttributes();
@@ -180,8 +145,8 @@ public class XMLReader {
 	}
 	
 	public double[] readcm(){
-		Document doc = docIn();
-		NodeList nodes = doc.getElementsByTagName("centermass");
+		//Document doc = docIn();
+		NodeList nodes = myDoc.getElementsByTagName("centermass");
 		
 		Node item = nodes.item(0);
 		NamedNodeMap nodeMap = item.getAttributes();
@@ -192,8 +157,8 @@ public class XMLReader {
 	}
 	
 	public double[] readWallMag(){
-		Document doc = docIn();
-		NodeList nodes = doc.getElementsByTagName("wall");
+		//Document doc = docIn();
+		NodeList nodes = myDoc.getElementsByTagName("wall");
 		double ret[] = new double[WALLMAG];
 		
 		for (int i = 0; i < nodes.getLength(); i++) {
@@ -205,8 +170,8 @@ public class XMLReader {
 	}
 	
 	public double[] readWallExp(){
-		Document doc = docIn();
-		NodeList nodes = doc.getElementsByTagName("wall");
+		//Document doc = docIn();
+		NodeList nodes = myDoc.getElementsByTagName("wall");
 		double ret[] = new double[4];
 		
 		for (int i = 0; i < nodes.getLength(); i++) {
