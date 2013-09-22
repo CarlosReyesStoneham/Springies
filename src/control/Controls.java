@@ -5,12 +5,12 @@ import java.util.HashMap;
 import springies.BoardSetup;
 import springies.EnvironmentForces;
 import springies.Springies;
+import walls.Wall;
 
 
 import jboxGlue.Mass;
 import jboxGlue.PointMass;
 import jboxGlue.Spring;
-import jboxGlue.Wall;
 import jgame.platform.JGEngine;
 
 public class Controls {

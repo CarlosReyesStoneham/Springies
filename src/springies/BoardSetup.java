@@ -3,11 +3,11 @@ package springies;
 import java.awt.FileDialog;
 import java.awt.Frame;
 
+import walls.HorizontalWall;
+import walls.VerticalWall;
+import walls.Wall;
 import xml.XMLReader;
 
-import jboxGlue.HorizontalWall;
-import jboxGlue.VerticalWall;
-import jboxGlue.Wall;
 
 public class BoardSetup {
 	

@@ -6,7 +6,7 @@ import jgame.JGColor;
 
 public class Spring extends PhysicalObject {
 	private static final int DEFAULT_K = 1;
-	private static final double kAdjust = 1;
+	private static final double kAdjust = 4;
 	private Mass myFirst;
 	private Mass mySecond;
 	private double myLength;
@@ -41,7 +41,6 @@ public class Spring extends PhysicalObject {
 	public Vec2 getForce(double x, double y) {
 		// force is -k*x
 		if (this.getLength() > 60) {
-
 		}
 		
 		float magnitude = (float) (myK * (myLength - calculateLength(myFirst,
@@ -55,7 +54,7 @@ public class Spring extends PhysicalObject {
 		direction = direction.mul(magnitude);
 		return direction;
 	}
-
+	
 	private static double calculateLength(Mass one, Mass two) {
 		return Math.sqrt(Math.pow(one.x - two.x, 2)
 				+ Math.pow(one.y - two.y, 2));

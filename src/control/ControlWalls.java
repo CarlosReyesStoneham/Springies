@@ -1,10 +1,10 @@
 package control;
 
-import jboxGlue.Wall;
 import jgame.platform.JGEngine;
 import springies.BoardSetup;
 import springies.EnvironmentForces;
 import springies.Springies;
+import walls.Wall;
 
 /*
  * Press up and down arrows to change wall thickness

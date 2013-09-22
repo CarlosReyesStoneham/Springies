@@ -28,7 +28,7 @@ public class Mass extends PhysicalObject {
 	}
 	
 	public void applyForce(Vec2 force){}
-
+	
 	protected void init(double mass) {
 		CircleDef shape = new CircleDef();
 		shape.radius = (float) RADIUS;

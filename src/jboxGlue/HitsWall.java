@@ -3,6 +3,7 @@ package jboxGlue;
 import org.jbox2d.common.Vec2;
 
 import springies.BoardSetup;
+import walls.Wall;
 
 public class HitsWall {
 	private static final int HITMARGIN = 10;
