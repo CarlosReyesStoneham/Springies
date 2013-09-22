@@ -6,7 +6,7 @@ import springies.BoardSetup;
 import walls.Wall;
 
 public class HitsWall {
-	private static final int HITMARGIN = 10;
+	private static final int HITMARGIN = 15;
 
 	Wall w;
 	public HitsWall(Wall w) {
