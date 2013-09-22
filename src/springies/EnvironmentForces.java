@@ -58,7 +58,7 @@ public class EnvironmentForces {
 	public void doForces() {
 		gravForce();
 		viscosityForce();
-		// COMForce();
+		COMForce();
 	}
 
 	public void toggle(String force) {
@@ -91,20 +91,27 @@ public class EnvironmentForces {
 
 	public void COMForce() {
 		if (myToggles.get("COM")) {
-			float topX = 0;
-			float topY = 0;
-			float totalMass = 500;
-			// TODO: where are you using cmMag and cmExp?
 			for (HashMap<String, Mass> massList : springies.getMassMaps()) {
+				int xTotal = 0;
+				int yTotal = 0;
 				for (Mass m : massList.values()) {
-					topX += (float) (m.getMyMass() * m.x);
-					topY += (float) (m.getMyMass() * m.y);
+					xTotal += m.x;
+					yTotal += m.y;
+				}
+				int xCOM = xTotal/massList.size();
+				int yCOM = yTotal/massList.size();
+				
+				for (Mass m : massList.values()) {
+
+					// TODO: add in myCMExp
+					Vec2 force = new Vec2((float) (xCOM - m.x),
+							(float) (yCOM - m.y));
+					force.normalize();
+					force = force.mul((float) myCMMag);
+					
+					m.applyForce(force);
 				}
 			}
-
-			float xCoord = (float) (topX / totalMass);
-			float yCoord = (float) (topY / totalMass);
-			new Mass(xCoord, yCoord, 1);
 		}
 	}
 
