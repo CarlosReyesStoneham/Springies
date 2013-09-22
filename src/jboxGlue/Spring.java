@@ -6,18 +6,18 @@ import jgame.JGColor;
 
 public class Spring extends PhysicalObject {
 	private static final int DEFAULT_K = 1;
-	private static final double kAdjust = 4;
+	private static final double kAdjust = 1;
 	private Mass myFirst;
 	private Mass mySecond;
 	private double myLength;
 	private double myK;
 
 	public Spring(Mass first, Mass second) {
-		this(first, second, calculateLength(first, second), DEFAULT_K*kAdjust);
+		this(first, second, calculateLength(first, second), DEFAULT_K);
 	}
 
 	public Spring(Mass first, Mass second, double k) {
-		this(first, second, calculateLength(first, second), k*kAdjust);
+		this(first, second, calculateLength(first, second), k);
 	}
 
 	public Spring(Mass first, Mass second, double length, double k) {
