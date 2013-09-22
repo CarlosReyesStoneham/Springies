@@ -9,6 +9,13 @@ import springies.Controls;
 
 @SuppressWarnings("serial")
 public class Springies extends JGEngine {
+	
+	private static final double ASPECTW = 16.0;
+	private static final double ASPECTH = 9.0;
+	private static final int HEIGHT = 600;
+	private static final int FRAMERATE = 60;
+	private static final int FRAMESKIP = 2;
+
 
 	// Master Array of massLists
 	ArrayList<HashMap<String, Mass>> massMaps = new ArrayList<HashMap<String, Mass>>();
@@ -17,8 +24,8 @@ public class Springies extends JGEngine {
 	Controls myController;
 
 	public Springies() {
-		int height = 600;
-		double aspect = 16.0 / 9.0;
+		int height = HEIGHT;
+		double aspect = ASPECTW / ASPECTH;
 		initEngine((int) (height * aspect), height);
 	}
 
@@ -36,7 +43,7 @@ public class Springies extends JGEngine {
 
 	@Override
 	public void initGame() {
-		setFrameRate(60, 2);
+		setFrameRate(FRAMERATE, FRAMESKIP);
 		WorldManager.initWorld(this);
 		myEnvForce = new EnvironmentForces(this);
 		myController = new Controls(this, myEnvForce);

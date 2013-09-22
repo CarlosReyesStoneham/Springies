@@ -1,14 +1,9 @@
 package jboxGlue;
 
 import java.util.HashMap;
-
 import jgame.JGColor;
-import jgame.JGObject;
-
 import org.jbox2d.collision.PolygonDef;
 import org.jbox2d.common.Vec2;
-
-import springies.BoardSetup;
 import springies.Springies;
 
 public abstract class Wall extends PhysicalObject {

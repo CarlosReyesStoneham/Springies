@@ -1,17 +1,29 @@
 package springies;
 
 import java.util.HashMap;
-
-import org.jbox2d.dynamics.World;
-
 import jboxGlue.Mass;
 import jboxGlue.PointMass;
 import jboxGlue.Spring;
 import jboxGlue.Wall;
-import jboxGlue.WorldManager;
 import jgame.platform.JGEngine;
 
 public class Controls {
+	
+	private static final int WALLCHANGE = 10;
+	private static final int LARGENUM = 9999;
+	private static final int NUMKEYS = 4;
+	
+	private static final String COM = "COM";
+	private static final String GRAV = "Gravity";
+	private static final String VISC = "Viscosity";
+	
+	private static final char N = 'N';
+	private static final char C = 'C';
+	private static final char G = 'G';
+	private static final char V = 'V';
+	private static final char M = 'M';
+
+	
 	protected Springies mySpringies;
 	private EnvironmentForces myEnvForces;
 	private BoardSetup myBoardSetup;
@@ -29,14 +41,14 @@ public class Controls {
 
 	public void checkUserInput() {
 		// Press 'N' to load new assembly
-		if (mySpringies.getKey('N')) {
-			mySpringies.clearKey('N');
+		if (mySpringies.getKey(N)) {
+			mySpringies.clearKey(N);
 			myBoardSetup.makeAssembly();
 		}
 
 		// Press 'C' to clear assemblies
-		if (mySpringies.getKey('C')) {
-			mySpringies.clearKey('C');
+		if (mySpringies.getKey(C)) {
+			mySpringies.clearKey(C);
 
 			mySpringies.removeObjects("Spring", 0);
 			mySpringies.removeObjects("Mass", 0);
@@ -46,9 +58,9 @@ public class Controls {
 
 		// Press G, V, or M to toggle Gravity, Viscosity or CenterOfMass forces
 		HashMap<Character, String> forces = new HashMap<Character, String>();
-		forces.put('G', "Gravity");
-		forces.put('V', "Viscosity");
-		forces.put('M', "COM");
+		forces.put(G, GRAV);
+		forces.put(V, VISC);
+		forces.put(M, COM);
 
 		for (char c : forces.keySet()) {
 			if (mySpringies.getKey(c)) {
@@ -61,9 +73,9 @@ public class Controls {
 		if (mySpringies.getKey(JGEngine.KeyUp)) {
 			for (Wall w : myBoardSetup.getWalls()) {
 				w.remove();
-				w.setThickness(10);
+				w.setThickness(WALLCHANGE);
 			}
-			myBoardSetup.wall_margin += 10;
+			BoardSetup.wall_margin += WALLCHANGE;
 			myBoardSetup.setWalls(myEnvForces.getWallMags(), myEnvForces.getWallMags());
 			mySpringies.clearKey(JGEngine.KeyUp);
 		}
@@ -71,16 +83,16 @@ public class Controls {
 		if (mySpringies.getKey(JGEngine.KeyDown)) {
 			for (Wall w : myBoardSetup.getWalls()) {
 				w.remove();
-				w.setThickness(-10);
+				w.setThickness(-WALLCHANGE);
 			}
-			myBoardSetup.wall_margin -= 10;
+			BoardSetup.wall_margin -= WALLCHANGE;
 			myBoardSetup.setWalls(myEnvForces.getWallMags(), myEnvForces.getWallMags());
 			mySpringies.clearKey(JGEngine.KeyDown);
 		}
 
 		// Press 1, 2, 3, 4 (not on numpad) to toggle wall forces
 		char[] possibleWalls = { '1', '2', '3', '4' };
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < NUMKEYS; i++) {
 			if (mySpringies.getKey(possibleWalls[i])) {
 				mySpringies.clearKey(possibleWalls[i]);
 				myBoardSetup.getWalls()[i].toggleWallForce();
@@ -91,7 +103,7 @@ public class Controls {
 		
 		if (mySpringies.getMouseButton(1)) {
 			if (myMouseMass == null) {
-				double shortestPath = 999999;
+				double shortestPath = LARGENUM;
 				Mass closestMass = null;
 				int x = mySpringies.getMouseX();
 				int y = mySpringies.getMouseY();

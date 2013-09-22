@@ -11,6 +11,13 @@ import jboxGlue.Mass;
 import jboxGlue.WorldManager;
 
 public class EnvironmentForces {
+	private static final double GRAVADJ = 0.00005;
+	private static final int TOTALMASS = 500;
+	private static final String COM = "COM";
+	private static final String ENV = "src/springies/environment.xml";
+	private static final String GRAV = "Gravity";
+	private static final String VISC = "Viscosity";
+	
 	double myGravDir;
 	double myGravMag;
 	double myViscosity;
@@ -25,19 +32,19 @@ public class EnvironmentForces {
 	public EnvironmentForces(Springies springies) {
 		this.springies = springies;
 		readForces();
-		myToggles.put("Gravity", true);
-		myToggles.put("Viscosity", true);
-		myToggles.put("COM", true);
+		myToggles.put(GRAV, true);
+		myToggles.put(VISC, true);
+		myToggles.put(COM, true);
 	}
 
 	private void readForces() {
 		// Read in an XML file
-		File f = new File("src/springies/environment.xml");
+		File f = new File(ENV);
 		if (f.exists()) {
-			XMLReader env = new XMLReader("src/springies/environment.xml");
+			XMLReader env = new XMLReader(ENV);
 
 			myGravDir = env.readGravity()[0];
-			myGravMag = env.readGravity()[1] * 0.00005; // Adjusting gravity
+			myGravMag = env.readGravity()[1] * GRAVADJ; // Adjusting gravity
 			// Should we make a new vector here?
 			myViscosity = env.readViscosity();
 			myCMMag = env.readcm()[0];
@@ -66,7 +73,7 @@ public class EnvironmentForces {
 	}
 
 	public void gravForce() {
-		if (myToggles.get("Gravity")) {
+		if (myToggles.get(GRAV)) {
 			// We need to take into account the case where gravDir > 90 degrees
 			// This does take that into account...?
 			WorldManager.getWorld().setGravity(
@@ -79,7 +86,7 @@ public class EnvironmentForces {
 	}
 
 	private void viscosityForce() {
-		if (myToggles.get("Viscosity")) {
+		if (myToggles.get(VISC)) {
 			for (HashMap<String, Mass> massList : springies.getMassMaps()) {
 				for (Mass m : massList.values()) {
 					m.xspeed = m.xspeed * myViscosity;
@@ -90,10 +97,10 @@ public class EnvironmentForces {
 	}
 
 	public void COMForce() {
-		if (myToggles.get("COM")) {
+		if (myToggles.get(COM)) {
 			float topX = 0;
 			float topY = 0;
-			float totalMass = 500;
+			float totalMass = TOTALMASS;
 			// TODO: where are you using cmMag and cmExp?
 			for (HashMap<String, Mass> massList : springies.getMassMaps()) {
 				for (Mass m : massList.values()) {

@@ -3,9 +3,6 @@ package xml;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,7 +36,7 @@ public class XMLReader {
 		}
 	}
 	
-	public HashMap<String, Mass> makeMasses(){
+	public HashMap<String, Mass> makeMasses() {
 		XMLMassMaker xmlmassmaker = new XMLMassMaker(xmlFile, myMassMap, myDoc);
 		return xmlmassmaker.makeMassObjects();
 	}

@@ -14,7 +14,7 @@ public class HitsWall {
 	public void bounce(Mass m) {
 		//right
 		if(w.checkCollision(1, 0, 0) == 1  && w.myBody.getPosition().x >= w.myWidth-10) {
-			m.myBody.m_linearVelocity = (new Vec2(-1f,0));
+			m.myBody.m_linearVelocity = (new Vec2(-1f, 0));
 		}
 		//left
 		if(w.checkCollision(1, 0, 0) == 1  && (w.myBody.getPosition().x <= 10+BoardSetup.wall_margin)) {

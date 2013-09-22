@@ -11,6 +11,15 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class XMLMassMaker extends XMLReader{
+	
+	private static final String FIXED = "fixed";
+	private static final String ID = "id";
+	private static final String MASS = "mass";
+	private static final String VX = "vx";
+	private static final String VY = "vy";
+	private static final String X = "x";
+	private static final String Y = "y";
+
 	HashMap<String, Mass> myMassMap;
 
 	Document doc;
@@ -26,7 +35,7 @@ public class XMLMassMaker extends XMLReader{
 		double vx;
 		double vy;
 		
-		NodeList nodes = doc.getElementsByTagName("mass");
+		NodeList nodes = doc.getElementsByTagName(MASS);
 		for (int i = 0; i < nodes.getLength(); i++) {
 			vx = 0;
 			vy = 0;
@@ -34,29 +43,29 @@ public class XMLMassMaker extends XMLReader{
 			Node massItem = nodes.item(i);
 			NamedNodeMap nodeMap = massItem.getAttributes();
 			
-			x = Float.parseFloat(nodeMap.getNamedItem("x").getNodeValue());
-			y = Float.parseFloat(nodeMap.getNamedItem("y").getNodeValue());
-			try{mass = Float.parseFloat(nodeMap.getNamedItem("mass").getNodeValue());}
+			x = Float.parseFloat(nodeMap.getNamedItem(X).getNodeValue());
+			y = Float.parseFloat(nodeMap.getNamedItem(Y).getNodeValue());
+			try{mass = Float.parseFloat(nodeMap.getNamedItem(MASS).getNodeValue());}
 			catch(Exception e){}
 
-			try{vx = Double.parseDouble(nodeMap.getNamedItem("vx").getNodeValue());}
+			try{vx = Double.parseDouble(nodeMap.getNamedItem(VX).getNodeValue());}
 			catch(Exception e){}
 			
-			try{vy = Double.parseDouble(nodeMap.getNamedItem("vy").getNodeValue());}
+			try{vy = Double.parseDouble(nodeMap.getNamedItem(VY).getNodeValue());}
 			catch(Exception e){}
 			
-			myMassMap.put(nodeMap.getNamedItem("id").getNodeValue(), new MovableMass(x, y, vx, vy, mass));
+			myMassMap.put(nodeMap.getNamedItem(ID).getNodeValue(), new MovableMass(x, y, vx, vy, mass));
 		}
 		
-		nodes = doc.getElementsByTagName("fixed");
+		nodes = doc.getElementsByTagName(FIXED);
 		for (int i = 0; i < nodes.getLength(); i++) {
 			Node massItem = nodes.item(i);
 			NamedNodeMap nodeMap = massItem.getAttributes();
 			
-			x = Float.parseFloat(nodeMap.getNamedItem("x").getNodeValue());
-			y = Float.parseFloat(nodeMap.getNamedItem("y").getNodeValue());
+			x = Float.parseFloat(nodeMap.getNamedItem(X).getNodeValue());
+			y = Float.parseFloat(nodeMap.getNamedItem(Y).getNodeValue());
 			
-			myMassMap.put(nodeMap.getNamedItem("id").getNodeValue(), new Mass(x, y, 0));
+			myMassMap.put(nodeMap.getNamedItem(ID).getNodeValue(), new Mass(x, y, 0));
 		}
 		return myMassMap;
 	}

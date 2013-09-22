@@ -2,10 +2,8 @@ package jboxGlue;
 
 import org.jbox2d.common.Vec2;
 
-import jgame.JGObject;
-
 public class MovableMass extends Mass {
-	private final static int MARGIN = 25;
+	//private final static int MARGIN = 25;
 	
 	public MovableMass(float x, float y, float mass) {
 		this(x, y, 0, 0, mass);

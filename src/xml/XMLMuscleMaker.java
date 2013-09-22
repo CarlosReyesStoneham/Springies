@@ -13,6 +13,14 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class XMLMuscleMaker extends XMLReader{
+	private static final String A = "a";
+	private static final String AMP = "amplitude";
+	private static final String CONST = "constant";
+	private static final String MUSC = "muscle";
+	private static final String REST = "restlength";
+
+
+
 
 	HashMap<String, Mass> myMassMap;
 
@@ -31,7 +39,7 @@ public class XMLMuscleMaker extends XMLReader{
 		ArrayList<Spring> muscles = new ArrayList<Spring>();
 		
 		//myDocument doc = docIn();
-		NodeList nodes = myDoc.getElementsByTagName("muscle");
+		NodeList nodes = myDoc.getElementsByTagName(MUSC);
 		for (int i = 0; i < nodes.getLength(); i++) {
 			restLength = -1;
 			constant = 1;
@@ -39,15 +47,15 @@ public class XMLMuscleMaker extends XMLReader{
 			Node springItem = nodes.item(i);
 			NamedNodeMap nodeMap = springItem.getAttributes();
 			
-			one = myMassMap.get(nodeMap.getNamedItem("a").getNodeValue());
-			two = myMassMap.get(nodeMap.getNamedItem("b").getNodeValue());
+			one = myMassMap.get(nodeMap.getNamedItem(A).getNodeValue());
+			two = myMassMap.get(nodeMap.getNamedItem(A).getNodeValue());
 			
-			amplitude = Double.parseDouble(nodeMap.getNamedItem("amplitude").getNodeValue());
+			amplitude = Double.parseDouble(nodeMap.getNamedItem(AMP).getNodeValue());
 			
-			try{restLength = Double.parseDouble(nodeMap.getNamedItem("restlength").getNodeValue());}
+			try{restLength = Double.parseDouble(nodeMap.getNamedItem(REST).getNodeValue());}
 			catch(Exception e){}
 
-			try{constant = Double.parseDouble(nodeMap.getNamedItem("constant").getNodeValue());}
+			try{constant = Double.parseDouble(nodeMap.getNamedItem(CONST).getNodeValue());}
 			catch(Exception e){}
 			
 			if(restLength == -1){

@@ -8,11 +8,18 @@ import xml.XMLReader;
 import jboxGlue.HorizontalWall;
 import jboxGlue.VerticalWall;
 import jboxGlue.Wall;
-import jgame.platform.JGEngine;
 
 public class BoardSetup {
+	
+	private static final int WALLZERO = 0;
+	private static final int WALLONE = 1;
+	private static final int WALLTWO = 2;
+	private static final int WALLTHREE = 3;
+	private static final int WALLFOUR = 4;
+	private static final String SRC = "src/xmlfiles/";
+
 	public Springies mySpringies;
-	public Wall[] myWalls = new Wall[4];
+	public Wall[] myWalls = new Wall[WALLFOUR];
 
 	public BoardSetup(Springies springies, double[] wallMags, double[] wallExps) {
 		this.mySpringies = springies;
@@ -30,30 +37,30 @@ public class BoardSetup {
 		final double WALL_HEIGHT = mySpringies.displayHeight() - wall_margin
 				* 2 + WALL_THICKNESS;
 
-		myWalls[0] = new HorizontalWall(mySpringies, WALL_WIDTH,
+		myWalls[WALLZERO] = new HorizontalWall(mySpringies, WALL_WIDTH,
 				WALL_THICKNESS, wallMag[0], wallExp[0]);
-		myWalls[0].setPos(mySpringies.displayWidth() / 2, wall_margin);
+		myWalls[WALLZERO].setPos(mySpringies.displayWidth() / 2, wall_margin);
 
-		myWalls[1] = new VerticalWall(mySpringies, WALL_THICKNESS, WALL_HEIGHT,
+		myWalls[WALLONE] = new VerticalWall(mySpringies, WALL_THICKNESS, WALL_HEIGHT,
 				wallMag[1], wallExp[1]);
-		myWalls[1].setPos(mySpringies.displayWidth() - wall_margin,
+		myWalls[WALLONE].setPos(mySpringies.displayWidth() - wall_margin,
 				mySpringies.displayHeight() / 2);
 
-		myWalls[2] = new HorizontalWall(mySpringies, WALL_WIDTH,
+		myWalls[WALLTWO] = new HorizontalWall(mySpringies, WALL_WIDTH,
 				WALL_THICKNESS, wallMag[2], wallExp[2]);
-		myWalls[2].setPos(mySpringies.displayWidth() / 2,
+		myWalls[WALLTWO].setPos(mySpringies.displayWidth() / 2,
 				mySpringies.displayHeight() - wall_margin);
 
-		myWalls[3] = new VerticalWall(mySpringies, WALL_THICKNESS, WALL_HEIGHT,
-				wallMag[3], wallExp[3]);
-		myWalls[3].setPos(wall_margin, mySpringies.displayHeight() / 2);
+		myWalls[WALLTHREE] = new VerticalWall(mySpringies, WALL_THICKNESS, WALL_HEIGHT,
+				wallMag[WALLTHREE], wallExp[WALLTHREE]);
+		myWalls[WALLTHREE].setPos(wall_margin, mySpringies.displayHeight() / 2);
 	}
 
 	public void makeAssembly() {
 		FileDialog selector = new FileDialog(new Frame());
 		selector.setVisible(true);
 		if (selector.getFile() != null) {
-			XMLReader reader = new XMLReader("src/xmlfiles/"
+			XMLReader reader = new XMLReader(SRC
 					+ selector.getFile());
 
 			mySpringies.addMassMap(reader.makeMasses());

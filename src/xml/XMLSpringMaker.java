@@ -12,6 +12,11 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class XMLSpringMaker extends XMLReader{
+	private static final String A = "a";
+	private static final String B = "b";
+	private static final String CONST = "constant";
+	private static final String REST = "restlength";
+	private static final String SPRING = "spring";
 
 	HashMap<String, Mass> myMassMap;
 
@@ -29,7 +34,7 @@ public class XMLSpringMaker extends XMLReader{
 		ArrayList<Spring> springs = new ArrayList<Spring>();
 		
 		//Document doc = docIn();
-		NodeList nodes = myDoc.getElementsByTagName("spring");
+		NodeList nodes = myDoc.getElementsByTagName(SPRING);
 		for (int i = 0; i < nodes.getLength(); i++) {
 			restLength = -1;
 			constant = 1;
@@ -37,13 +42,13 @@ public class XMLSpringMaker extends XMLReader{
 			Node springItem = nodes.item(i);
 			NamedNodeMap nodeMap = springItem.getAttributes();
 			
-			one = myMassMap.get(nodeMap.getNamedItem("a").getNodeValue());
-			two = myMassMap.get(nodeMap.getNamedItem("b").getNodeValue());
+			one = myMassMap.get(nodeMap.getNamedItem(A).getNodeValue());
+			two = myMassMap.get(nodeMap.getNamedItem(B).getNodeValue());
 
-			try{restLength = Double.parseDouble(nodeMap.getNamedItem("restlength").getNodeValue());}
+			try{restLength = Double.parseDouble(nodeMap.getNamedItem(REST).getNodeValue());}
 			catch(Exception e){}
 
-			try{constant = Double.parseDouble(nodeMap.getNamedItem("constant").getNodeValue());}
+			try{constant = Double.parseDouble(nodeMap.getNamedItem(CONST).getNodeValue());}
 			catch(Exception e){}
 			
 			if(restLength == -1){
