@@ -14,6 +14,7 @@ import org.w3c.dom.NodeList;
 
 public class XMLMuscleMaker extends XMLReader{
 	private static final String A = "a";
+	private static final String B = "b";
 	private static final String AMP = "amplitude";
 	private static final String CONST = "constant";
 	private static final String MUSC = "muscle";
@@ -48,7 +49,7 @@ public class XMLMuscleMaker extends XMLReader{
 			NamedNodeMap nodeMap = springItem.getAttributes();
 			
 			one = myMassMap.get(nodeMap.getNamedItem(A).getNodeValue());
-			two = myMassMap.get(nodeMap.getNamedItem(A).getNodeValue());
+			two = myMassMap.get(nodeMap.getNamedItem(B).getNodeValue());
 			
 			amplitude = Double.parseDouble(nodeMap.getNamedItem(AMP).getNodeValue());
 			
