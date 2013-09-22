@@ -52,12 +52,13 @@ public class Springies extends JGEngine {
 
 	@Override
 	public void doFrame() {
-		//dbgShowBoundingBox(true);
+		dbgShowBoundingBox(true);
 		myController.checkUserInput();
 		myEnvForce.doForces();
 		// update game objects
 		WorldManager.getWorld().step(1f, 1);
 		moveObjects();
+		checkCollision(2,1);
 	}
 
 	@Override

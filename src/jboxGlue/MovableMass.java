@@ -1,9 +1,14 @@
 package jboxGlue;
 
+import jgame.JGObject;
+
 import org.jbox2d.common.Vec2;
 
+import walls.HorizontalWall;
+import walls.VerticalWall;
+
 public class MovableMass extends Mass {
-	//private final static int MARGIN = 25;
+	private final static int MARGIN = 25;
 	
 	public MovableMass(float x, float y, float mass) {
 		this(x, y, 0, 0, mass);
@@ -40,14 +45,30 @@ public class MovableMass extends Mass {
 	}
 
 //	@Override
-//	public void hit(JGObject other) {		
-//		//if hits top or bottom
-//		if (and(other.colid, 2) && (myBody.getPosition().y < MARGIN || myBody.getPosition().y > pfheight-MARGIN)) {
-//			myBody.m_linearVelocity = (new Vec2(myBody.m_linearVelocity.x, -myBody.m_linearVelocity.y));
-//		}
-//		//if hits left or right
-//		if (and(other.colid, 2) && (myBody.getPosition().x < MARGIN || myBody.getPosition().x > pfwidth-MARGIN)) {
-//			myBody.m_linearVelocity = (new Vec2(-myBody.m_linearVelocity.x, myBody.m_linearVelocity.y));
-//		}
-//	}
+	public void hit(JGObject other) {	
+		System.out.println(other.x);
+		System.out.println(other.xspeed);
+		//if hits top or bottom
+		if (other instanceof HorizontalWall) {
+			if(myBody.m_linearVelocity.length() <= 4) {
+				if(other.x < pfheight/2){
+					myBody.m_linearVelocity = new Vec2(0, 2f);
+				}
+				else
+					myBody.m_linearVelocity = new Vec2(0, -2f);
+			}
+			myBody.m_linearVelocity = (new Vec2(myBody.m_linearVelocity.x, -myBody.m_linearVelocity.y));
+		}
+		//if hits left or right
+		if (other instanceof VerticalWall) {
+			if(myBody.m_linearVelocity.length() <= 4) {
+				if(other.x < pfwidth/2){
+					myBody.m_linearVelocity = new Vec2(-2f,0);
+				}
+				else
+					myBody.m_linearVelocity = new Vec2(2f,0);
+			}
+			myBody.m_linearVelocity = (new Vec2(-myBody.m_linearVelocity.x, myBody.m_linearVelocity.y));
+		}
+	}
 }
