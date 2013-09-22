@@ -46,8 +46,6 @@ public class MovableMass extends Mass {
 
 //	@Override
 	public void hit(JGObject other) {	
-		System.out.println(other.x);
-		System.out.println(other.xspeed);
 		//if hits top or bottom
 		if (other instanceof HorizontalWall) {
 			if(myBody.m_linearVelocity.length() <= 4) {
