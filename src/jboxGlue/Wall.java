@@ -3,15 +3,17 @@ package jboxGlue;
 import java.util.HashMap;
 
 import jgame.JGColor;
+import jgame.JGObject;
 
 import org.jbox2d.collision.PolygonDef;
 import org.jbox2d.common.Vec2;
 
+import springies.BoardSetup;
 import springies.Springies;
 
 public abstract class Wall extends PhysicalObject {
-	protected double myWidth;
-	protected double myHeight;
+	public double myWidth;
+	public double myHeight;
 	private double[] myPolyx = null;
 	private double[] myPolyy = null;
 	private Springies mySpringies;
@@ -35,8 +37,8 @@ public abstract class Wall extends PhysicalObject {
 		PolygonDef shape = new PolygonDef();
 		shape.setAsBox((float) myWidth, (float) myHeight);
 		createBody(shape);
-		setBBox(-(int) myWidth / 2, -(int) myHeight / 2, (int) myWidth,
-				(int) myHeight);
+		setBBox(-(int) myWidth/2, -(int) myHeight / 2, (int) myWidth,
+				(int) myHeight);		
 	}
 
 	@Override
@@ -82,11 +84,39 @@ public abstract class Wall extends PhysicalObject {
 				}
 			}
 		}
-	}
+		for (HashMap<String, Mass> massMap : mySpringies.getMassMaps()) {
+			for (Mass m : massMap.values()) {
+				//ballHitsWall(m);
+			}
+		}
 
+	}
+	
+	public void ballHitsWall(Mass m) {
+		//right
+		if(this.checkCollision(1, 0, 0) == 1  && myBody.getPosition().x >= myWidth-10) {
+			//System.out.println("hits wall");
+			m.myBody.m_linearVelocity = (new Vec2(-1f,0));
+		}
+		//left
+		if(this.checkCollision(1, 0, 0) == 1  && (myBody.getPosition().x <= 10+BoardSetup.wall_margin)) {
+			//System.out.println("hits wall");
+			m.myBody.m_linearVelocity = (new Vec2(1f, 0));
+		}
+		//bottom
+		if(this.checkCollision(1, 0, 0) == 1  && (myBody.getPosition().y >= myHeight-10)) {
+			m.myBody.m_linearVelocity = (new Vec2(0, -1f));
+		}
+		//top
+		if(this.checkCollision(1, 0, 0) == 1  && (myBody.getPosition().y <= 10+BoardSetup.wall_margin)) {
+			//System.out.println("hits wall");
+			m.myBody.m_linearVelocity = (new Vec2(0, 1f));
+		}
+	}
 	public void toggleWallForce() {
 		myWallForceOn = myWallForceOn ^ true;
 	}
 
 	public abstract void setThickness(int delta);
+
 }

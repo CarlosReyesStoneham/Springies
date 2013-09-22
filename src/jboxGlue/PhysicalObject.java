@@ -80,6 +80,7 @@ public abstract class PhysicalObject extends JGObject {
 
 	@Override
 	public void setPos(double x, double y) {
+		
 		// there's no body yet while the game object is initializing
 		if (myBody == null) {
 			return;

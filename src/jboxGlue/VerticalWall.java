@@ -16,4 +16,5 @@ public class VerticalWall extends Wall {
 		clearBBox();
 		setBBox(-(int) myWidth / 2, -(int) myHeight / 2, (int) myWidth, (int) myHeight);
 	}
+
 }

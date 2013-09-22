@@ -14,7 +14,7 @@ public class Mass extends PhysicalObject {
 	public Mass(float x, float y, float mass) {
 		super("Mass", 1, JGColor.blue);
 		init(mass);
-		this.setPos(pfwidth-10-x, pfheight-10-y);
+		this.setPos(pfwidth-20-x, pfheight-20-y);
 		myBody.m_type = 0;
 		this.mass = mass;
 	}

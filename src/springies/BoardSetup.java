@@ -6,6 +6,7 @@ import java.awt.Frame;
 import jboxGlue.HorizontalWall;
 import jboxGlue.VerticalWall;
 import jboxGlue.Wall;
+import jgame.platform.JGEngine;
 
 public class BoardSetup {
 	public Springies mySpringies;
@@ -16,9 +17,10 @@ public class BoardSetup {
 		this.setWalls(wallMags, wallExps);
 		makeAssembly();
 	}
-
+	
+	public static int wall_margin = 10;
 	public void setWalls(double[] wallMag, double wallExp[]) {
-		int wall_margin = 10;
+
 		// 0 is the top wall and then it goes clockwise
 		final double WALL_THICKNESS = 10;
 		final double WALL_WIDTH = mySpringies.displayWidth() - wall_margin * 2

@@ -2,10 +2,13 @@ package springies;
 
 import java.util.HashMap;
 
+import org.jbox2d.dynamics.World;
+
 import jboxGlue.Mass;
 import jboxGlue.PointMass;
 import jboxGlue.Spring;
 import jboxGlue.Wall;
+import jboxGlue.WorldManager;
 import jgame.platform.JGEngine;
 
 public class Controls {
@@ -55,14 +58,22 @@ public class Controls {
 		// Press up and down arrows to change wall thickness
 		if (mySpringies.getKey(JGEngine.KeyUp)) {
 			for (Wall w : myBoardSetup.getWalls()) {
+				w.remove();
 				w.setThickness(10);
 			}
+			myBoardSetup.wall_margin += 10;
+			myBoardSetup.setWalls(myEnvForces.getWallMags(), myEnvForces.getWallMags());
+			mySpringies.clearKey(JGEngine.KeyUp);
 		}
 
 		if (mySpringies.getKey(JGEngine.KeyDown)) {
 			for (Wall w : myBoardSetup.getWalls()) {
+				w.remove();
 				w.setThickness(-10);
 			}
+			myBoardSetup.wall_margin -= 10;
+			myBoardSetup.setWalls(myEnvForces.getWallMags(), myEnvForces.getWallMags());
+			mySpringies.clearKey(JGEngine.KeyDown);
 		}
 
 		// Press 1, 2, 3, 4 (not on numpad) to toggle wall forces
