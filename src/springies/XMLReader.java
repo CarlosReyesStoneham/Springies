@@ -49,38 +49,8 @@ public class XMLReader {
 	}
 	
 	public ArrayList<Spring> makeSprings(){
-		Mass one;
-		Mass two;
-		double restLength;
-		double constant;
-		ArrayList<Spring> springs = new ArrayList<Spring>();
-		
-		//Document doc = docIn();
-		NodeList nodes = myDoc.getElementsByTagName("spring");
-		for (int i = 0; i < nodes.getLength(); i++) {
-			restLength = -1;
-			constant = 1;
-					
-			Node springItem = nodes.item(i);
-			NamedNodeMap nodeMap = springItem.getAttributes();
-			
-			one = myMassMap.get(nodeMap.getNamedItem("a").getNodeValue());
-			two = myMassMap.get(nodeMap.getNamedItem("b").getNodeValue());
-
-			try{restLength = Double.parseDouble(nodeMap.getNamedItem("restlength").getNodeValue());}
-			catch(Exception e){}
-
-			try{constant = Double.parseDouble(nodeMap.getNamedItem("constant").getNodeValue());}
-			catch(Exception e){}
-			
-			if(restLength == -1){
-				springs.add(new Spring(one, two, constant));
-			}
-			else{
-				springs.add(new Spring(one, two, restLength, constant));
-			}
-		}
-		return springs;
+		XMLSpringMaker springmaker = new XMLSpringMaker(xmlFile, myMassMap, myDoc);
+		return springmaker.makeSpringObjects();
 	}
 	
 	public ArrayList<Spring> makeMuscles(){
