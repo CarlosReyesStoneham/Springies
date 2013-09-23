@@ -22,22 +22,22 @@ public class ControlWalls {
 	}
 	
 	public void wallIn() {
-		if (mySpringies.getKey(JGEngine.KeyUp)) {
+		if (mySpringies.getKey(JGEngine.KeyUp) & BoardSetup.wall_margin < mySpringies.pfHeight()/2) {
 			for (Wall w : myBoardSetup.getWalls()) {
 				w.remove();
 			}
-			BoardSetup.wall_margin += WALLCHANGE;
+			BoardSetup.changeMargin(WALLCHANGE);
 			myBoardSetup.setWalls(myEnvForces.getWallMags(), myEnvForces.getWallMags());
 			mySpringies.clearKey(JGEngine.KeyUp);
 		}
 	}
 	
 	public void wallOut() {
-		if (mySpringies.getKey(JGEngine.KeyDown)) {
+		if (mySpringies.getKey(JGEngine.KeyDown) & BoardSetup.wall_margin > 0) {
 			for (Wall w : myBoardSetup.getWalls()) {
 				w.remove();
 			}
-			BoardSetup.wall_margin -= WALLCHANGE;
+			BoardSetup.changeMargin(-1* WALLCHANGE);
 			myBoardSetup.setWalls(myEnvForces.getWallMags(), myEnvForces.getWallMags());
 			mySpringies.clearKey(JGEngine.KeyDown);
 		}

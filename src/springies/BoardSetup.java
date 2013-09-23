@@ -73,4 +73,8 @@ public class BoardSetup {
 	public Wall[] getWalls() {
 		return myWalls;
 	}
+	
+	public static void changeMargin(int delta){
+		wall_margin += delta;
+	}
 }
