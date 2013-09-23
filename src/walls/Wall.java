@@ -2,7 +2,6 @@ package walls;
 
 import java.util.HashMap;
 
-import jboxGlue.HitsWall;
 import jboxGlue.Mass;
 import jboxGlue.PhysicalObject;
 import jgame.JGColor;
@@ -19,8 +18,6 @@ public abstract class Wall extends PhysicalObject {
 	private double myWallMag;
 	private double myWallExp;
 	private boolean myWallForceOn = true;
-	
-	HitsWall hw = new HitsWall(this);
 
 	public Wall(Springies s, double width, double height, double wallMag,
 			double wallExp) {
@@ -79,13 +76,6 @@ public abstract class Wall extends PhysicalObject {
 		x = position.x;
 		y = position.y;
 		wallRepulse();
-		
-		for (HashMap<String, Mass> massMap : mySpringies.getMassMaps()) {
-			for (Mass m : massMap.values()) {
-				//hw.bounce(m);
-			}
-		}
-
 	}
 	
 	public void wallRepulse() {
@@ -93,7 +83,7 @@ public abstract class Wall extends PhysicalObject {
 		if (myWallForceOn) {
 			for (HashMap<String, Mass> massMap : mySpringies.getMassMaps()) {
 				for (Mass m : massMap.values()) {
-					m.applyForce(new Vec2((float) (myWallMag / Math.pow(m.x,
+					m.applyForce(new Vec2((float) (myWallMag / Math.pow(m.myX,
 							myWallExp)), 0));
 				}
 			}

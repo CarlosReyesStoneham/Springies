@@ -5,30 +5,23 @@ import java.util.HashMap;
 import springies.BoardSetup;
 import springies.EnvironmentForces;
 import springies.Springies;
-import walls.Wall;
-
 
 import jboxGlue.Mass;
 import jboxGlue.PointMass;
 import jboxGlue.Spring;
-import jgame.platform.JGEngine;
 
 public class Controls {
 	
 	protected static final int WALLCHANGE = 10;
-	private static final int LARGENUM = 9999;
 	private static final int NUMKEYS = 4;
 	
 	private static final String COM = "COM";
 	private static final String GRAV = "Gravity";
 	private static final String VISC = "Viscosity";
 	
-	private static final char N = 'N';
-	private static final char C = 'C';
 	private static final char G = 'G';
 	private static final char V = 'V';
 	private static final char M = 'M';
-
 	
 	protected Springies mySpringies;
 	protected EnvironmentForces myEnvForces;
@@ -42,7 +35,6 @@ public class Controls {
 				envForces.getWallMags());
 		this.myEnvForces = envForces;
 		mClick = new MouseClick(mySpringies, myMouseMass, myMouseSpring);
-
 	}
 	
 	private MouseClick mClick;

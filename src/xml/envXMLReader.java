@@ -7,7 +7,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class XMLReadEnvironment extends XMLReader{
+public class envXMLReader extends XMLReader{
 	
 	private static final String CENTER = "centermass";
 	private static final String DIR = "direction";
@@ -21,7 +21,7 @@ public class XMLReadEnvironment extends XMLReader{
 	HashMap<String, Mass> myMassMap;
 
 	Document doc;
-	public XMLReadEnvironment(String xmlFile, HashMap<String, Mass> myMassMap, Document doc) {
+	public envXMLReader(String xmlFile, HashMap<String, Mass> myMassMap, Document doc) {
 		super(xmlFile);
 		this.myMassMap = myMassMap;
 		this.doc = doc;

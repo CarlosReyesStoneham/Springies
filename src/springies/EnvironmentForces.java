@@ -6,15 +6,15 @@ import java.util.HashMap;
 import org.jbox2d.common.Vec2;
 
 import xml.XMLReader;
+import xml.envXMLReader;
 
 import jboxGlue.Mass;
 import jboxGlue.WorldManager;
 
 public class EnvironmentForces {
-	private static final double GRAVADJ = 0.00005;
-	private static final int TOTALMASS = 500;
+	private static final double GRAVADJ = 0.0000005;
 	private static final String COM = "COM";
-	private static final String ENV = "src/springies/environment.xml";
+	private static final String ENV = "src/xmlfiles/environment.xml";
 	private static final String GRAV = "Gravity";
 	private static final String VISC = "Viscosity";
 	
@@ -38,27 +38,25 @@ public class EnvironmentForces {
 	}
 
 	private void readForces() {
-		// Read in an XML file
 		File f = new File(ENV);
 		if (f.exists()) {
 			XMLReader env = new XMLReader(ENV);
 
 			myGravDir = env.readGravity()[0];
-			myGravMag = env.readGravity()[1] * GRAVADJ; // Adjusting gravity
-			// Should we make a new vector here?
+			myGravMag = env.readGravity()[1] * GRAVADJ;
 			myViscosity = env.readViscosity();
 			myCMMag = env.readcm()[0];
 			myCMExp = env.readcm()[1];
 			myWallMag = env.readWallMag();
 			myWallExp = env.readWallExp();
-		} else {
+			} else {
 			myGravDir = 0;
 			myGravMag = 0;
 			myViscosity = 1;
 			myCMMag = 0;
 			myCMExp = 0;
 			myWallMag = new double[4];
-			myWallExp = new double[4];
+			myWallExp = new double[4];				
 		}
 	}
 
@@ -74,8 +72,6 @@ public class EnvironmentForces {
 
 	public void gravForce() {
 		if (myToggles.get(GRAV)) {
-			// We need to take into account the case where gravDir > 90 degrees
-			// This does take that into account...?
 			WorldManager.getWorld().setGravity(
 					new Vec2((float) (myGravMag * Math.cos(Math
 							.toRadians(myGravDir))), (float) (myGravMag * Math
@@ -109,12 +105,10 @@ public class EnvironmentForces {
 				int yCOM = yTotal/massList.size();
 				
 				for (Mass m : massList.values()) {
-
-					// TODO: add in myCMExp
 					Vec2 force = new Vec2((float) (xCOM - m.x),
 							(float) (yCOM - m.y));
 					force.normalize();
-					force = force.mul((float) myCMMag);
+					force = force.mul((float) (myCMMag/Math.pow(Math.sqrt(Math.pow(xCOM-m.myX, 2) + Math.pow(yCOM-m.y, 2)), myCMExp)));
 					
 					m.applyForce(force);
 				}

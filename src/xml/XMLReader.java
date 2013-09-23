@@ -52,27 +52,27 @@ public class XMLReader {
 	}
 		
 	public double[] readGravity(){
-		XMLReadEnvironment readenvironment = new XMLReadEnvironment(xmlFile, myMassMap, myDoc);
+		envXMLReader readenvironment = new envXMLReader(xmlFile, myMassMap, myDoc);
 		return readenvironment.readGravity();
 	}
 		
 	public double readViscosity(){
-		XMLReadEnvironment readenvironment = new XMLReadEnvironment(xmlFile, myMassMap, myDoc);
+		envXMLReader readenvironment = new envXMLReader(xmlFile, myMassMap, myDoc);
 		return readenvironment.readViscosity();
 	}
 	
 	public double[] readcm(){
-		XMLReadEnvironment readenvironment = new XMLReadEnvironment(xmlFile, myMassMap, myDoc);
+		envXMLReader readenvironment = new envXMLReader(xmlFile, myMassMap, myDoc);
 		return readenvironment.readcm();
 	}
 	
 	public double[] readWallMag(){
-		XMLReadEnvironment readenvironment = new XMLReadEnvironment(xmlFile, myMassMap, myDoc);
+		envXMLReader readenvironment = new envXMLReader(xmlFile, myMassMap, myDoc);
 		return readenvironment.readWallMag();
 	}
 	
 	public double[] readWallExp(){
-		XMLReadEnvironment readenvironment = new XMLReadEnvironment(xmlFile, myMassMap, myDoc);
+		envXMLReader readenvironment = new envXMLReader(xmlFile, myMassMap, myDoc);
 		return readenvironment.readWallExp();
 	}	
 }

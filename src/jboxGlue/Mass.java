@@ -8,6 +8,7 @@ import jgame.JGColor;
 
 public class Mass extends PhysicalObject {
 	protected static final int RADIUS = 10;
+	public float myX;
 	private static final String MASS = "Mass";
 	protected ArrayList<Spring> mySprings = new ArrayList<Spring>();
 	private float mass;
