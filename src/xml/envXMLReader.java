@@ -5,6 +5,9 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+/**
+ * @author carlosreyes and leevianagray
+ */
 public class envXMLReader extends XMLReader {
 
 	private static final String CENTER = "centermass";

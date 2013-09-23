@@ -7,7 +7,13 @@ import org.jbox2d.common.Vec2;
 import xml.envXMLReader;
 import jboxGlue.Mass;
 import jboxGlue.WorldManager;
-
+/**
+ * Sets the environment forces based on 
+ * either what was read from the XML file or sets
+ * default forces if no environment xmlfile exists.
+ * @author carlosreyes and leevianagray
+ *
+ */
 public class EnvironmentForces {
 	private static final double GRAVADJ = 0.0000005;
 	private static final String COM = "COM";
@@ -26,7 +32,8 @@ public class EnvironmentForces {
 
 	HashMap<String, Boolean> myToggles = new HashMap<String, Boolean>();
 	private Springies springies;
-
+	
+	/** Default Constructor.*/
 	public EnvironmentForces(Springies springies) {
 		this.springies = springies;
 		readForces();
@@ -34,7 +41,12 @@ public class EnvironmentForces {
 		myToggles.put(VISC, true);
 		myToggles.put(COM, true);
 	}
-
+	
+	/**
+	 * Reads in the forces from an xml file
+	 * if none exists, defaults are set.
+	 * Returns void.
+	 */
 	private void readForces() {
 		File f = new File(ENV);
 		if (f.exists()) {
@@ -57,17 +69,30 @@ public class EnvironmentForces {
 			myWallExp = new double[4];
 		}
 	}
-
+	
+	/**
+	 * Sets the forces.
+	 * Returns void.
+	 */
 	public void doForces() {
 		gravForce();
 		viscosityForce();
 		COMForce();
 	}
-
+	
+	/**
+	 * Toggles forces on and off.
+	 * Returns void.
+	 * @param force
+	 */
 	public void toggle(String force) {
 		myToggles.put(force, myToggles.get(force) ^ true);
 	}
-
+	
+	/**
+	 * Sets the force for gravity.
+	 * Returns void.
+	 */
 	public void gravForce() {
 		if (myToggles.get(GRAV)) {
 			WorldManager.getWorld().setGravity(
@@ -79,6 +104,10 @@ public class EnvironmentForces {
 		}
 	}
 
+	/**
+	 * Sets the force for visocity.
+	 * Returns void.
+	 */
 	private void viscosityForce() {
 		if (myToggles.get(VISC)) {
 			for (HashMap<String, Mass> massList : springies.getMassMaps()) {
@@ -89,7 +118,11 @@ public class EnvironmentForces {
 			}
 		}
 	}
-
+	
+	/**
+	 * Sets the force for center of mass.
+	 * Returns void.
+	 */
 	public void COMForce() {
 		if (myToggles.get(COM)) {
 			for (HashMap<String, Mass> massList : springies.getMassMaps()) {
@@ -115,11 +148,12 @@ public class EnvironmentForces {
 			}
 		}
 	}
-
+	/**Getter*/
 	public double[] getWallMags() {
 		return myWallMag;
 	}
-
+	
+	/**Getter*/
 	public double[] getWallExps() {
 		return myWallExp;
 	}

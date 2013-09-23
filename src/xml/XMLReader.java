@@ -5,6 +5,12 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import java.io.*;
 
+/**
+ * Read in XML files and puts appropriate information
+ * about masses into arrays.
+ * @author carlosreyes and leevianagray
+ *
+ */
 public class XMLReader {
 	static String xmlFile;
 
@@ -12,6 +18,7 @@ public class XMLReader {
 		XMLReader.xmlFile = xmlFile;
 	}
 
+	/**Reads in doc*/
 	public static Document docIn() {
 		File file = new File(xmlFile);
 

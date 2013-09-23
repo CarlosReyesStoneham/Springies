@@ -12,6 +12,9 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+/**
+ * @author carlosreyes and leevianagray
+ */
 public class objectXMLReader extends XMLReader {
 	private static final String FIXED = "fixed";
 	private static final String ID = "id";

@@ -9,6 +9,9 @@ import org.jbox2d.collision.PolygonDef;
 import org.jbox2d.common.Vec2;
 import springies.Springies;
 
+/**
+ * @author carlosreyes and leevianagray
+ */
 public class Wall extends PhysicalObject {
 	public double myWidth;
 	public double myHeight;

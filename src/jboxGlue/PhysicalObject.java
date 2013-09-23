@@ -9,6 +9,7 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 
+
 public abstract class PhysicalObject extends JGObject {
 	protected JGEngineInterface myEngine;
 	protected boolean myHasImage;

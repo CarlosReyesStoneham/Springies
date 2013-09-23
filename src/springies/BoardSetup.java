@@ -19,7 +19,8 @@ public class BoardSetup {
 
 	public Springies mySpringies;
 	public Wall[] myWalls = new Wall[WALLFOUR];
-
+	
+	/** Default Constructor. */
 	public BoardSetup(Springies springies, double[] wallMags, double[] wallExps) {
 		this.mySpringies = springies;
 		this.setWalls(wallMags, wallExps);
@@ -27,7 +28,9 @@ public class BoardSetup {
 	}
 
 	public static int wall_margin = 10;
-
+	/**
+	 * Sets up the wall objects on the playing field. Returns void.
+	 */
 	public void setWalls(double[] wallMag, double wallExp[]) {
 
 		// 0 is the top wall and then it goes clockwise
@@ -55,7 +58,11 @@ public class BoardSetup {
 				WALL_HEIGHT, wallMag[WALLTHREE], wallExp[WALLTHREE]);
 		myWalls[WALLTHREE].setPos(wall_margin, mySpringies.displayHeight() / 2);
 	}
-
+	
+	/**
+	 * Puts all of the objects created and put in ArrayLists
+	 * onto the playing field. Returns void.
+	 */
 	public void makeAssembly() {
 		FileDialog selector = new FileDialog(new Frame());
 		selector.setVisible(true);
@@ -69,11 +76,18 @@ public class BoardSetup {
 			reader.makeMuscles();
 		}
 	}
-
+	/**
+	 * Getter for the array of walls.
+	 * Returns Wall array.
+	 */
 	public Wall[] getWalls() {
 		return myWalls;
 	}
 	
+	/**
+	 * Changes the offset of the walls from the sides of
+	 * playing field. Returns void.
+	 */
 	public static void changeMargin(int delta){
 		wall_margin += delta;
 	}

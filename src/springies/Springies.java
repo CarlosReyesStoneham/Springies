@@ -8,6 +8,9 @@ import jboxGlue.Mass;
 import jboxGlue.WorldManager;
 import jgame.platform.JGEngine;
 
+/**
+ * @author carlosreyes and leevianagray
+ */
 @SuppressWarnings("serial")
 public class Springies extends JGEngine {
 
