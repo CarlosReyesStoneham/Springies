@@ -49,10 +49,11 @@ public class MovableMass extends Mass {
 	public void hit(JGObject other) {
 		// if hits top or bottom
 		if (other instanceof HorizontalWall) {
-			if (myBody.m_linearVelocity.length() <= 1) {
-				if (other.x < pfheight / 2) {
+			if(myBody.m_linearVelocity.length() <= 1) {
+				if(other.x < pfheight/2){
 					myBody.m_linearVelocity = new Vec2(0, -1f);
-				} else
+				}
+				else
 					myBody.m_linearVelocity = new Vec2(0, 1f);
 			}
 			myBody.m_linearVelocity = (new Vec2(myBody.m_linearVelocity.x,
@@ -60,11 +61,12 @@ public class MovableMass extends Mass {
 		}
 		// if hits left or right
 		if (other instanceof VerticalWall) {
-			if (myBody.m_linearVelocity.length() <= 1) {
-				if (other.x < pfwidth / 2) {
-					myBody.m_linearVelocity = new Vec2(-1f, 0);
-				} else
-					myBody.m_linearVelocity = new Vec2(1f, 0);
+			if(myBody.m_linearVelocity.length() <= 1) {
+				if(other.x < pfwidth/2){
+					myBody.m_linearVelocity = new Vec2(-1f,0);
+				}
+				else
+					myBody.m_linearVelocity = new Vec2(1f,0);
 			}
 			myBody.m_linearVelocity = (new Vec2(-myBody.m_linearVelocity.x,
 					myBody.m_linearVelocity.y));
