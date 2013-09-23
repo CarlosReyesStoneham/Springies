@@ -1,0 +1,18 @@
+#Design Goals and Adding Features#
+This project has 4 fundamental pieces. The XML reader, the objects that
+interact with each other, the environment, and the controls. Each of these
+elements has a flagship class, that is, one class that is generally recommended
+to be the super class of most of the objects that are going to be added in. For
+example the class Controls is generally going to be the parent class of any child that
+requires some sort of user input. In the same light, XMLReader is generally going to be
+the parent class of anything that requires reading in XML, or asking for a user to select
+a file.
+
+#Resolving Ambiguity#
+To increase the ease of access to files and reduce the effort of
+searching for code, we have structured the source directory with
+many packages that split up the code. Thus if one needs to make a 
+change to the controls of the game they can simply go into the controls package.
+Each file has also been labeled very clearly, following with this example
+the controls package has a MouseClick class, which as it implies, controls what
+happens when the mouse is clicked.

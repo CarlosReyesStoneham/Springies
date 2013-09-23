@@ -16,7 +16,7 @@ Estimate of total time put into this project: 80
 #Roles#
 Carlos: XMLReader and subclasses, wall controls and bouncing, mouse controls, environment forces
 Leeviana: Walls and subclasses, springs, masses, muscles, environment controls
-Both: Refactoring eachothers code
+Both: Refactoring each others code
 
 #Description#
 Springies is a simple physics game. Springies imports
