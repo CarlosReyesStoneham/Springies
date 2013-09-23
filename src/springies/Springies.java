@@ -10,13 +10,12 @@ import jgame.platform.JGEngine;
 
 @SuppressWarnings("serial")
 public class Springies extends JGEngine {
-	
+
 	private static final double ASPECTW = 16.0;
 	private static final double ASPECTH = 9.0;
 	private static final int HEIGHT = 600;
 	private static final int FRAMERATE = 60;
 	private static final int FRAMESKIP = 2;
-
 
 	// Master Array of massLists
 	ArrayList<HashMap<String, Mass>> massMaps = new ArrayList<HashMap<String, Mass>>();
@@ -52,13 +51,13 @@ public class Springies extends JGEngine {
 
 	@Override
 	public void doFrame() {
-	//	dbgShowBoundingBox(true);
+		// dbgShowBoundingBox(true);
 		myController.checkUserInput();
 		myEnvForce.doForces();
 
 		WorldManager.getWorld().step(1f, 1);
 		moveObjects();
-		checkCollision(2,1);
+		checkCollision(2, 1);
 	}
 
 	public ArrayList<HashMap<String, Mass>> getMassMaps() {

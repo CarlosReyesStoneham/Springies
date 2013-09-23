@@ -23,26 +23,27 @@ public class Spring extends PhysicalObject {
 	public Spring(Mass first, Mass second, double length, double k) {
 		super("Spring", 3, JGColor.white);
 		myLength = length;
-		myK = k*kAdjust;
+		myK = k * kAdjust;
 		myFirst = first;
 		mySecond = second;
 		first.addSpring(this);
 		second.addSpring(this);
-		
+
 		this.createBody(new PolygonDef());
 	}
-	
+
 	@Override
 	public void paintShape() {
 		myEngine.setColor(myColor);
 		myEngine.drawLine(myFirst.x, myFirst.y, mySecond.x, mySecond.y);
 	}
-	//springs need to apply forces to masses
+
+	// springs need to apply forces to masses
 	public Vec2 getForce(double x, double y) {
 		// force is -k*x
 		if (this.getLength() > 60) {
 		}
-		
+
 		float magnitude = (float) (myK * (myLength - calculateLength(myFirst,
 				mySecond)));
 		// either the myFirst or mySecond coordinates should be equivalent and
@@ -54,7 +55,7 @@ public class Spring extends PhysicalObject {
 		direction = direction.mul(magnitude);
 		return direction;
 	}
-	
+
 	private static double calculateLength(Mass one, Mass two) {
 		return Math.sqrt(Math.pow(one.x - two.x, 2)
 				+ Math.pow(one.y - two.y, 2));

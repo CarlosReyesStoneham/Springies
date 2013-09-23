@@ -25,7 +25,6 @@ public class ControlWalls {
 		if (mySpringies.getKey(JGEngine.KeyUp)) {
 			for (Wall w : myBoardSetup.getWalls()) {
 				w.remove();
-				w.setThickness(WALLCHANGE);
 			}
 			BoardSetup.wall_margin += WALLCHANGE;
 			myBoardSetup.setWalls(myEnvForces.getWallMags(), myEnvForces.getWallMags());
@@ -37,7 +36,6 @@ public class ControlWalls {
 		if (mySpringies.getKey(JGEngine.KeyDown)) {
 			for (Wall w : myBoardSetup.getWalls()) {
 				w.remove();
-				w.setThickness(-WALLCHANGE);
 			}
 			BoardSetup.wall_margin -= WALLCHANGE;
 			myBoardSetup.setWalls(myEnvForces.getWallMags(), myEnvForces.getWallMags());

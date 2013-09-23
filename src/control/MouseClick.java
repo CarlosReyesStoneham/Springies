@@ -7,26 +7,22 @@ import jboxGlue.Mass;
 import jboxGlue.PointMass;
 import jboxGlue.Spring;
 
-import springies.BoardSetup;
-import springies.EnvironmentForces;
 import springies.Springies;
 
-public class MouseClick extends Control{
+public class MouseClick extends Control {
 	protected Springies mySpringies;
-	private EnvironmentForces myEnvForces;
-	private BoardSetup myBoardSetup;
 	protected PointMass myMouseMass;
 	private Spring myMouseSpring;
 
 	private static final int LARGENUM = 9999;
 
-	
-	public MouseClick(Springies springies, PointMass myMouseMass, Spring myMouseSpring) {
+	public MouseClick(Springies springies, PointMass myMouseMass,
+			Spring myMouseSpring) {
 		this.mySpringies = springies;
 		this.myMouseMass = myMouseMass;
 		this.myMouseSpring = myMouseSpring;
 	}
-	
+
 	public void click() {
 		if (mySpringies.getMouseButton(1)) {
 			if (myMouseMass == null) {
@@ -59,6 +55,7 @@ public class MouseClick extends Control{
 			}
 		}
 	}
+
 	protected double calculateLength(Mass one, Mass two) {
 		return Math.sqrt(Math.pow(one.x - two.x, 2)
 				+ Math.pow(one.y - two.y, 2));

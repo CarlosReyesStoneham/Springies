@@ -9,19 +9,19 @@ public class ControlLoading {
 	private static final char N = 'N';
 	private static final char C = 'C';
 
-	
 	public ControlLoading(Springies mySpringies, BoardSetup myBoardSetup) {
 		this.mySpringies = mySpringies;
 		this.myBoardSetup = myBoardSetup;
 	}
-	public void load(){
-	// Press 'N' to load new assembly
-			if (mySpringies.getKey(N)) {
-				mySpringies.clearKey(N);
-				myBoardSetup.makeAssembly();
-			}
+
+	public void load() {
+		// Press 'N' to load new assembly
+		if (mySpringies.getKey(N)) {
+			mySpringies.clearKey(N);
+			myBoardSetup.makeAssembly();
+		}
 	}
-	
+
 	public void clear() {
 		// Press 'C' to clear assemblies
 		if (mySpringies.getKey(C)) {
@@ -33,5 +33,4 @@ public class ControlLoading {
 			mySpringies.clearMassMaps();
 		}
 	}
-
 }

@@ -4,14 +4,14 @@ import jgame.JGColor;
 
 import springies.Springies;
 
-public class PointMass extends MovableMass{
+public class PointMass extends MovableMass {
 	Springies mySpringies;
-	
+
 	public PointMass(Springies s, float x, float y, float mass) {
 		super(x, y, mass);
 		mySpringies = s;
 	}
-	
+
 	@Override
 	public void move() {
 		x = mySpringies.getMouseX();

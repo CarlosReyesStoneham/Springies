@@ -6,11 +6,10 @@ import java.awt.Frame;
 import walls.HorizontalWall;
 import walls.VerticalWall;
 import walls.Wall;
-import xml.XMLReader;
-
+import xml.objectXMLReader;
 
 public class BoardSetup {
-	
+
 	private static final int WALLZERO = 0;
 	private static final int WALLONE = 1;
 	private static final int WALLTWO = 2;
@@ -26,8 +25,9 @@ public class BoardSetup {
 		this.setWalls(wallMags, wallExps);
 		makeAssembly();
 	}
-	
+
 	public static int wall_margin = 10;
+
 	public void setWalls(double[] wallMag, double wallExp[]) {
 
 		// 0 is the top wall and then it goes clockwise
@@ -41,8 +41,8 @@ public class BoardSetup {
 				WALL_THICKNESS, wallMag[0], wallExp[0]);
 		myWalls[WALLZERO].setPos(mySpringies.displayWidth() / 2, wall_margin);
 
-		myWalls[WALLONE] = new VerticalWall(mySpringies, WALL_THICKNESS, WALL_HEIGHT,
-				wallMag[1], wallExp[1]);
+		myWalls[WALLONE] = new VerticalWall(mySpringies, WALL_THICKNESS,
+				WALL_HEIGHT, wallMag[1], wallExp[1]);
 		myWalls[WALLONE].setPos(mySpringies.displayWidth() - wall_margin,
 				mySpringies.displayHeight() / 2);
 
@@ -51,16 +51,17 @@ public class BoardSetup {
 		myWalls[WALLTWO].setPos(mySpringies.displayWidth() / 2,
 				mySpringies.displayHeight() - wall_margin);
 
-		myWalls[WALLTHREE] = new VerticalWall(mySpringies, WALL_THICKNESS, WALL_HEIGHT,
-				wallMag[WALLTHREE], wallExp[WALLTHREE]);
+		myWalls[WALLTHREE] = new VerticalWall(mySpringies, WALL_THICKNESS,
+				WALL_HEIGHT, wallMag[WALLTHREE], wallExp[WALLTHREE]);
 		myWalls[WALLTHREE].setPos(wall_margin, mySpringies.displayHeight() / 2);
 	}
 
 	public void makeAssembly() {
 		FileDialog selector = new FileDialog(new Frame());
 		selector.setVisible(true);
-		if (selector.getFile() != null) {
-			XMLReader reader = new XMLReader(SRC
+		if (selector.getFile() != null
+				&& !selector.getFile().equals("environment.xml")) {
+			objectXMLReader reader = new objectXMLReader(SRC
 					+ selector.getFile());
 
 			mySpringies.addMassMap(reader.makeMasses());

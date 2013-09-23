@@ -8,14 +8,15 @@ import jgame.JGColor;
 
 public class Mass extends PhysicalObject {
 	protected static final int RADIUS = 10;
-	public float myX;
-	private static final String MASS = "Mass";
 	protected ArrayList<Spring> mySprings = new ArrayList<Spring>();
+	private static final String MASS = "Mass";
 	private float mass;
+	private float myX;
+
 	public Mass(float x, float y, float mass) {
 		super(MASS, 1, JGColor.blue);
 		init(mass);
-		this.setPos(pfwidth-20-x, pfheight-20-y);
+		this.setPos(pfwidth - 20 - x, pfheight - 20 - y);
 		myBody.m_type = 0;
 		this.mass = mass;
 	}
@@ -23,13 +24,14 @@ public class Mass extends PhysicalObject {
 	public void addSpring(Spring newSpring) {
 		mySprings.add(newSpring);
 	}
-	
+
 	public float getMyMass() {
 		return this.mass;
 	}
-	
-	public void applyForce(Vec2 force){}
-	
+
+	public void applyForce(Vec2 force) {
+	}
+
 	protected void init(double mass) {
 		CircleDef shape = new CircleDef();
 		shape.radius = (float) RADIUS;
@@ -43,5 +45,14 @@ public class Mass extends PhysicalObject {
 		myEngine.setColor(myColor);
 		myEngine.drawOval(x, y, (float) RADIUS * 2, (float) RADIUS * 2, true,
 				true);
+	}
+
+	// workaround for the strangest bug ever.
+	public float getX() {
+		return myX;
+	}
+
+	public void setX(float x) {
+		myX = x;
 	}
 }
