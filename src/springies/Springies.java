@@ -9,6 +9,8 @@ import jboxGlue.WorldManager;
 import jgame.platform.JGEngine;
 
 /**
+ * Springies is the object created that runs right
+ * below the main class.
  * @author carlosreyes and leevianagray
  */
 @SuppressWarnings("serial")
