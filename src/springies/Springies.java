@@ -23,7 +23,7 @@ public class Springies extends JGEngine {
 	private static final int FRAMESKIP = 2;
 
 	// Master Array of massLists
-	ArrayList<HashMap<String, Mass>> massMaps = new ArrayList<HashMap<String, Mass>>();
+	public ArrayList<HashMap<String, Mass>> massMaps = new ArrayList<HashMap<String, Mass>>();
 
 	EnvironmentForces myEnvForce;
 	Controls myController;

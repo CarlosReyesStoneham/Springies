@@ -8,6 +8,7 @@ import springies.Springies;
 
 import jboxGlue.PointMass;
 import jboxGlue.Spring;
+import jgame.platform.JGEngine;
 
 /**
  * Controls is the where methods that utilize any kind of user input are called.
@@ -30,9 +31,9 @@ public class Controls {
 	private static final char V = 'V';
 	private static final char M = 'M';
 
-	protected Springies mySpringies;
-	protected EnvironmentForces myEnvForces;
-	private BoardSetup myBoardSetup;
+	public Springies mySpringies;
+	public EnvironmentForces myEnvForces;
+	public BoardSetup myBoardSetup;
 	private PointMass myMouseMass;
 	private Spring myMouseSpring;
 	private MouseClick mClick;
@@ -53,9 +54,16 @@ public class Controls {
 	 */
 	public void checkUserInput() {
 		ControlLoading controlLoad = new ControlLoading(mySpringies, myBoardSetup);
-		ControlWalls controlWalls = new ControlWalls(mySpringies, myBoardSetup,
-				myEnvForces);
 
+		
+		if(mySpringies.getKey(JGEngine.KeyUp)){
+			ControlWallOut wallOut = new ControlWallOut(mySpringies, myBoardSetup, myEnvForces);
+			wallOut.moveWall();
+		}
+		if(mySpringies.getKey(JGEngine.KeyDown)){
+			ControlWallIn wallin = new ControlWallIn(mySpringies, myBoardSetup, myEnvForces);
+			wallin.moveWall();
+		}
 		// Press 'N' to load new assembly
 		controlLoad.load();
 		// Press 'C' to clear assemblies
@@ -65,8 +73,7 @@ public class Controls {
 		toggleGVM();
 
 		// Press up and down arrows to change wall thickness
-		controlWalls.wallIn();
-		controlWalls.wallOut();
+		//controlWallsm.moveWall();
 		
 		// Press 1, 2, 3, 4 (not on numpad) to toggle wall forces
 		char[] possibleWalls = { '1', '2', '3', '4' };

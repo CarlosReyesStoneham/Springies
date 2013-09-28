@@ -12,6 +12,9 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import xmlFactory.AssemblyFactory;
+import xmlFactory.AssemblyType;
+
 /**
  * @author carlosreyes and leevianagray
  */
@@ -23,7 +26,6 @@ public class objectXMLReader extends XMLReader {
 	private static final String VY = "vy";
 	private static final String X = "x";
 	private static final String Y = "y";
-
 	private static final String A = "a";
 	private static final String B = "b";
 	private static final String CONST = "constant";
@@ -40,7 +42,7 @@ public class objectXMLReader extends XMLReader {
 		this.myDoc = docIn();
 		myMassMap = new HashMap<String, Mass>();
 	}
-
+	
 	public HashMap<String, Mass> makeMasses() {
 		float x;
 		float y;

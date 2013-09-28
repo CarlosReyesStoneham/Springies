@@ -87,10 +87,10 @@ public class MovableMass extends Mass {
 		if (other instanceof HorizontalWall) {
 			if(myBody.m_linearVelocity.length() <= 1) {
 				if(other.x < pfheight/2){
-					myBody.m_linearVelocity = new Vec2(0, -2f);
+					myBody.m_linearVelocity = new Vec2(0, 2f);
 				}
 				else
-					myBody.m_linearVelocity = new Vec2(0, 2f);
+					myBody.m_linearVelocity = new Vec2(0, -2f);
 			}
 			myBody.m_linearVelocity = (new Vec2(myBody.m_linearVelocity.x,
 					-myBody.m_linearVelocity.y));
@@ -99,10 +99,10 @@ public class MovableMass extends Mass {
 		if (other instanceof VerticalWall) {
 			if(myBody.m_linearVelocity.length() <= 1) {
 				if(other.x < pfwidth/2){
-					myBody.m_linearVelocity = new Vec2(-2f,0);
+					myBody.m_linearVelocity = new Vec2(2f,0);
 				}
 				else
-					myBody.m_linearVelocity = new Vec2(2f,0);
+					myBody.m_linearVelocity = new Vec2(-2f,0);
 			}
 			myBody.m_linearVelocity = (new Vec2(-myBody.m_linearVelocity.x,
 					myBody.m_linearVelocity.y));
